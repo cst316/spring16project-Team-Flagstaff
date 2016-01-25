@@ -1,4 +1,5 @@
 //// ---- This is a test commit from Kevin Bryant - kjbryan1 ---- ////
+//// ---- This is the test commit from Thomas Johnson (tjjohn1) for testing ability to edit ---- ////
 
 # spring16project
 This is the initial dump for the cst316 spring 2016 project. It is a slightly modified version of the Memoranda project from memoranda.sf.net
