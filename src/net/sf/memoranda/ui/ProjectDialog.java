@@ -55,6 +55,10 @@ public class ProjectDialog extends JDialog {
     JButton edButton = new JButton();
     //public JCheckBox freezeChB = new JCheckBox();
     JPanel bottomPanel = new JPanel();
+    /*
+     * Added by ggoforth 12/27/16 for access dialog to edit the task template per project needs
+     */
+    JButton modTaskButton = new JButton();
     JButton okButton = new JButton();
     JButton cancelButton = new JButton();
     
@@ -214,6 +218,18 @@ public class ProjectDialog extends JDialog {
         centerPanel.add(edButton, gbc);
         
         bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        
+        // Modify task button
+        modTaskButton.setMaximumSize(new Dimension(100, 25));
+        modTaskButton.setMinimumSize(new Dimension(100, 25));
+        modTaskButton.setPreferredSize(new Dimension(100, 25));
+        modTaskButton.setText("Modify Task Template");
+        modTaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	modTaskButton_actionPerformed(e);
+            }
+        });
+        
         okButton.setMaximumSize(new Dimension(100, 25));
         okButton.setMinimumSize(new Dimension(100, 25));
         okButton.setPreferredSize(new Dimension(100, 25));
@@ -233,6 +249,7 @@ public class ProjectDialog extends JDialog {
                 cancelButton_actionPerformed(e);
             }
         });
+        bottomPanel.add(modTaskButton);
         bottomPanel.add(okButton);
         bottomPanel.add(cancelButton);
         
@@ -267,8 +284,13 @@ public class ProjectDialog extends JDialog {
             }
         });
     }
-    
-    void okButton_actionPerformed(ActionEvent e) {
+    // added to call the modify task dialog and then return the control to the current control
+    protected void modTaskButton_actionPerformed(ActionEvent e) {
+		
+		
+	}
+
+	void okButton_actionPerformed(ActionEvent e) {
         CANCELLED = false;
         this.dispose();
     }

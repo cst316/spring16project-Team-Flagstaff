@@ -3,6 +3,7 @@
  */
 package net.sf.memoranda;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -11,22 +12,21 @@ import java.util.Collection;
  */
 public class TaskTemplateImpl implements TaskTemplate {
 
+	private ArrayList<CustomField> fieldArray = new ArrayList<CustomField>();
 	/* (non-Javadoc)
 	 * @see net.sf.memoranda.TaskTemplate#GetCustomFields()
 	 */
+
 	@Override
-	public Collection GetCustomFields() {
+	public CustomField getCustomField(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sf.memoranda.TaskTemplate#setCustomFields(java.util.Collection)
-	 */
 	@Override
-	public void setCustomFields(Collection collection) {
+	public void setCustomFields(CustomField field, int i) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
