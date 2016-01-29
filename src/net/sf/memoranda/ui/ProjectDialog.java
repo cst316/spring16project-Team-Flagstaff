@@ -37,6 +37,7 @@ import net.sf.memoranda.util.Local;
 /*$Id: ProjectDialog.java,v 1.26 2004/10/18 19:09:10 ivanrise Exp $*/
 public class ProjectDialog extends JDialog {
     public boolean CANCELLED = true;
+    public static boolean taskTemplateMod = false;
     boolean ignoreStartChanged = false;
     boolean ignoreEndChanged = false;
     CalendarFrame endCalFrame = new CalendarFrame();
@@ -284,9 +285,13 @@ public class ProjectDialog extends JDialog {
             }
         });
     }
-    // added to call the modify task dialog and then return the control to the current control
-    protected void modTaskButton_actionPerformed(ActionEvent e) {
-		
+    /**
+     * Event handler for Modify Task Template button
+     * @param e
+     */
+    void modTaskButton_actionPerformed(ActionEvent e) {
+		this.setVisible(false);
+    	newTaskTemplate();
 		
 	}
 
@@ -326,6 +331,23 @@ public class ProjectDialog extends JDialog {
         this.getLayeredPane().add(endCalFrame);
         endCalFrame.setTitle(Local.getString("End date"));
         endCalFrame.show();
+    }
+    
+    /**
+     * Displays instance of dialog box for creating a task template
+     * @author ggofort 1/28/16
+     */
+    public static void newTaskTemplate(){
+    	
+    	TaskTemplateDialog ttd = new TaskTemplateDialog(null, Local.getString("Task Editor"));
+    	Dimension dlgSize = ttd.getSize();
+    	Dimension frmSize = App.getFrame().getSize();
+    	Point point = App.getFrame().getLocation();
+    	ttd.setLocation((frmSize.width-dlgSize.width)/2 +point.x,(frmSize.height - dlgSize.height) / 2 + point.y);
+    	// set the static variable to true to avoid any conflicting edits of the templates
+    	taskTemplateMod=true;
+    	ttd.setVisible(true);
+    	
     }
     
     public static void newProject() {
