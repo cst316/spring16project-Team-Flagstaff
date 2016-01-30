@@ -7,6 +7,7 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
@@ -19,7 +20,8 @@ public interface TaskList {
 	Project getProject();
     Task getTask(String id);
 
-    Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId);
+    <T extends Comparable<T>> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, 
+    		int priority, long effort, String description, String parentTaskId, ArrayList<CustomFieldInterface<T>> customFields);
 
     void removeTask(Task task);
 
@@ -27,10 +29,10 @@ public interface TaskList {
     
 	public boolean hasParentTask(String id);
 
-	public Collection getTopLevelTasks();
+	public Collection<?> getTopLevelTasks();
 	
-    public Collection getAllSubTasks(String taskId);
-    public Collection getActiveSubTasks(String taskId,CalendarDate date);
+    public Collection<?> getAllSubTasks(String taskId);
+    public Collection<?> getActiveSubTasks(String taskId,CalendarDate date);
     
 //    public void adjustParentTasks(Task t);
     

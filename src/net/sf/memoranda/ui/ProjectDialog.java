@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -337,22 +339,26 @@ public class ProjectDialog extends JDialog {
      * Displays instance of dialog box for creating a task template
      * @author ggofort 1/28/16
      */
-    public static void newTaskTemplate(){
+    public void newTaskTemplate(){
     	
-    	TaskTemplateDialog ttd = new TaskTemplateDialog(null, Local.getString("Task Editor"));
+    	TaskTemplateDialog ttd = new TaskTemplateDialog(null, "");
     	Dimension dlgSize = ttd.getSize();
     	Dimension frmSize = App.getFrame().getSize();
     	Point point = App.getFrame().getLocation();
     	ttd.setLocation((frmSize.width-dlgSize.width)/2 +point.x,(frmSize.height - dlgSize.height) / 2 + point.y);
     	// set the static variable to true to avoid any conflicting edits of the templates
     	taskTemplateMod=true;
+    	ttd.addWindowListener(new WindowAdapter(){
+    		public void windowClosed(WindowEvent e){
+    			ttd_windowClosed(e);
+    		}
+    	});
     	ttd.setVisible(true);
     	
     }
-    
-    public static void newProject() {
+
+	public static void newProject() {
         ProjectDialog dlg = new ProjectDialog(null, Local.getString("New project"));
-        
         Dimension dlgSize = dlg.getSize();
         //dlg.setSize(dlgSize);
         Dimension frmSize = App.getFrame().getSize();
@@ -371,4 +377,8 @@ public class ProjectDialog extends JDialog {
             prj.freeze();*/
         CurrentStorage.get().storeProjectManager();
     }
+	
+	protected void ttd_windowClosed(WindowEvent e) {
+		this.setVisible(true);
+	}
 }
