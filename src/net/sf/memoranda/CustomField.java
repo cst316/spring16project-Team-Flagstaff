@@ -1,39 +1,37 @@
 /**
+ * @author ggoforth
  * 
+ * Defines user defined fields from custom task templates
+ * 
+ * Created by: Galen Goforth
+ * Created on: 1/29/16
+ * Created for: CST316 Spring A, Arizona State University CDSE
  */
+
 package net.sf.memoranda;
 
-import java.util.HashMap;
-/**
- * @author ggoforth
- *
- */
-public class CustomField{
-	// Maps the string stored in the xml to an integer value that is used in a case statement to determine data type
-	private static final HashMap<Integer, String> typeMap = new HashMap<Integer, String>(){
-		{
-			put(1,"Integer");
-			put(2, "String");
-			put(3, "DateTime");
-			put(4, "US Dollars");
-		}
-	};
-	// Set the class level variables
-	private int id;
-	private String dataType;
+import net.sf.memoranda.date.CalendarDate;
+
+public class CustomField<T extends Comparable<T>> implements CustomFieldInterface<T> {
 	private String fieldName;
-	private Object fieldData;
-	
-	// Set the accessors and mutators
-	public String getDataType(){return dataType;}
-	public void setDataTyep(String dataType){this.dataType = dataType;}
+	private int id;
+	private Class<?> dataType;
+	private T data;
 	
 	public String getFieldName(){return fieldName;}
-	public void setFieldName(String fieldName){this.fieldName = fieldName;}
+	public void setFieldName(String fieldName) {this.fieldName=fieldName;}
 	
 	public int getId(){return id;}
 	public void setId(int id){this.id = id;}
 	
-	//private void <T> setField(<T> T fieldData){this.fieldData = fieldData;}
+	public Class<?> getDataType(){
+		if (dataType==CalendarDate.class)return String.class;
+		else if(dataType==Integer.class)return Integer.class;
+		else if(dataType==Double.class)return Double.class;
+		else return String.class;
+	}
+	public void setDataType(Class<?> dataType) {this.dataType = dataType;}
 	
+	public T getData() {return data;}
+	public void setData(T data){this.data = data;}
 }

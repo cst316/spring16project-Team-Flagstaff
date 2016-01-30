@@ -8,8 +8,6 @@
 
 package net.sf.memoranda;
 
-import java.util.Collection;
-
 public interface TaskTemplate{
 	
 	
@@ -17,7 +15,7 @@ public interface TaskTemplate{
 	 * Returns the some collection of custom fields
 	 * @return Collection
 	 */
-	public CustomField getCustomField(int i);
-	public void setCustomFields(CustomField field,int i);
+	public <T extends Comparable<T>> CustomField<T> getCustomField(int i);
+	public <T extends Comparable<T>> void setCustomField(CustomField<T> field,int i);
 }
 

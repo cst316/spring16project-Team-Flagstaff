@@ -8,6 +8,7 @@
  */
 package net.sf.memoranda;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -103,7 +104,8 @@ public class TaskListImpl implements TaskList {
         return filterActiveTasks(allTasks,date);
     }
 
-    public Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, String description, String parentTaskId) {
+    public <T extends Comparable <T>> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
+    		String description, String parentTaskId,ArrayList<CustomFieldInterface<T>> customFields) {
         Element el = new Element("task");
         el.addAttribute(new Attribute("startDate", startDate.toString()));
         el.addAttribute(new Attribute("endDate", endDate != null? endDate.toString():""));
@@ -128,6 +130,8 @@ public class TaskListImpl implements TaskList {
             Element parent = getTaskElement(parentTaskId);
             parent.appendChild(el);
         }
+        
+        // Add the custom template fields to the xml for saving
         
 		elements.put(id, el);
 		
