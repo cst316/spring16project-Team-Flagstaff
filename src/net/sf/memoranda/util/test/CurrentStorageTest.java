@@ -5,23 +5,35 @@ package net.sf.memoranda.util.test;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.FileStorage;
+import net.sf.memoranda.util.Storage;
+
 /**
- * @author Kevin
+ * @author Kevin Bryant - kjbryan1
  *
  */
 public class CurrentStorageTest {
+	
+	private static Storage testStorage;
+	private static Vector testActionListeners;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+	    testStorage = new FileStorage();
+	    testActionListeners = new Vector();
 	}
 
 	/**
@@ -47,18 +59,24 @@ public class CurrentStorageTest {
 
 	/**
 	 * Test method for {@link net.sf.memoranda.util.test.CurrentStorage#get()}.
+	 * Gets 'Storage' type
 	 */
 	@Test
 	public void testGet() {
-		fail("Not yet implemented");
+		Storage temp = new FileStorage();
+		assertTrue( temp == testStorage);
+		assertTrue( testStorage == CurrentStorage.get() );
 	}
 
 	/**
 	 * Test method for {@link net.sf.memoranda.util.test.CurrentStorage#set(net.sf.memoranda.util.test.Storage)}.
+	 * Sets 'Storage' type
 	 */
 	@Test
 	public void testSet() {
-		fail("Not yet implemented");
+		Storage temp = testStorage;
+		CurrentStorage.set(temp);
+		assertTrue(temp == testStorage);
 	}
 
 	/**
@@ -66,7 +84,8 @@ public class CurrentStorageTest {
 	 */
 	@Test
 	public void testAddChangeListener() {
-		fail("Not yet implemented");
+		//TODO: cannot instanciate an actionListener
+		fail("TODO: cannot instanciate an actionListener");
 	}
 
 	/**
@@ -74,7 +93,8 @@ public class CurrentStorageTest {
 	 */
 	@Test
 	public void testGetChangeListeners() {
-		fail("Not yet implemented");
+		//TODO: cannot instanciate an actionListener
+		fail("TODO: cannot instanciate an actionListener");
 	}
 
 	/**
