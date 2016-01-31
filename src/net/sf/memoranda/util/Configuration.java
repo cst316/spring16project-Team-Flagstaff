@@ -18,8 +18,8 @@ import net.sf.memoranda.ui.ExceptionDialog;
 /*$Id: Configuration.java,v 1.5 2004/10/11 08:48:21 alexeya Exp $*/
 public class Configuration {
 
-    private static LoadableProperties config  = new LoadableProperties();
-    private static String configPath = getConfigPath();
+    static LoadableProperties config  = new LoadableProperties();
+    static String configPath = getConfigPath();
 
     static {
     try {
