@@ -18,8 +18,8 @@ import net.sf.memoranda.ui.ExceptionDialog;
 /*$Id: Configuration.java,v 1.5 2004/10/11 08:48:21 alexeya Exp $*/
 public class Configuration {
 
-    static LoadableProperties config  = new LoadableProperties();
-    static String configPath = getConfigPath();
+    private static LoadableProperties config  = new LoadableProperties();
+    private static String configPath = getConfigPath();
 
     static {
     try {
@@ -41,7 +41,7 @@ public class Configuration {
     }
   }
   
-  static String getConfigPath() {
+  public static String getConfigPath() {
     String p = Util.getEnvDir()+"memoranda.properties";
     if (new File(p).exists()) 
         return p;
