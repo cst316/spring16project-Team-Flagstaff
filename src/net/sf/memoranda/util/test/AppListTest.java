@@ -11,8 +11,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.sf.memoranda.util.AppList;
+
 /**
- * @author Kevin
+ * @author Kevin Bryant - kjbryan1
  *
  */
 public class AppListTest {
@@ -50,7 +52,21 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetPlafCode() {
-		fail("Not yet implemented");
+		String windows;
+		String linux;
+		String solaris;
+		if (System.getProperty("os.name").contains("windows")){
+			windows = System.getProperty("os.name");
+			assertTrue(windows.equals(AppList.getPlafCode(System.getProperty("os.name"))));
+		}
+		if (System.getProperty("os.name").contains("linux")){
+			linux = System.getProperty("os.name");
+			assertTrue(linux.equals(AppList.getPlafCode(System.getProperty("os.name"))));
+		}
+		if (System.getProperty("os.name").contains("solaris")){
+			solaris = System.getProperty("os.name");
+			assertTrue(solaris.equals(AppList.getPlafCode(System.getProperty("os.name"))));
+		}
 	}
 
 	/**
@@ -58,6 +74,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testAppList() {
+		
 		fail("Not yet implemented");
 	}
 
