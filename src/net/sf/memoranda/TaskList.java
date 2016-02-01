@@ -20,8 +20,8 @@ public interface TaskList {
 	Project getProject();
     Task getTask(String id);
 
-    <T extends Comparable<T>> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, 
-    		int priority, long effort, String description, String parentTaskId, ArrayList<CustomFieldInterface<T>> customFields);
+    <T> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, 
+    		int priority, long effort, String description, String parentTaskId, ArrayList<CustomField<T>> customFields);
 
     void removeTask(Task task);
 

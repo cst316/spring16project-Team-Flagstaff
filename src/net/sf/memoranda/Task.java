@@ -4,10 +4,12 @@
  * Package: net.sf.memoranda
  * 
  * @author Alex V. Alishevskikh, alex@openmechanics.net
+ * Modified by Galen Goforth 1/30/16
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
@@ -67,7 +69,7 @@ public interface Task {
     
     void removeDependsFrom(Task task);*/
             
-    Collection getSubTasks();    
+    Collection<?> getSubTasks();    
     Task getSubTask(String id);
     
     boolean hasSubTasks(String id);
@@ -84,6 +86,13 @@ public interface Task {
     void freeze();
     void unfreeze();
 	long getRate();
-    
+	
+	<T> CustomField<T> getField(String index);
+	<T extends Comparable<T>> void setField(CustomField<T> field, String index);
+	<T extends Comparable<T>> void addField(CustomField<T> field);
+	<T extends Comparable<T>> void removeField(String index);
+	<T extends Comparable<T>> ArrayList<CustomField<T>> getFieldArray();
+	<T extends Comparable<T>> int getFieldCount();
+	
     nu.xom.Element getContent();
 }

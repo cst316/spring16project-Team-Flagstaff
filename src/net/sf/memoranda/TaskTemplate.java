@@ -1,21 +1,26 @@
 /**
- * TaskTemplate.java
- * Created 1.26.16 10:43pm MST
- * @author Galen Goforth - ghgofort@asu.edu
- * Arizona State University - CST 316 - online
  * 
  */
-
 package net.sf.memoranda;
 
-public interface TaskTemplate{
-	
-	
-	/**
-	 * Returns the some collection of custom fields
-	 * @return Collection
-	 */
-	public <T extends Comparable<T>> CustomField<T> getCustomField(int i);
-	public <T extends Comparable<T>> void setCustomField(CustomField<T> field,int i);
-}
+import java.util.ArrayList;
 
+/**
+ * @author ggoforth
+ * @param <T>
+ *
+ */
+public interface TaskTemplate<T> {
+	public String getId();
+	public void setId(String id);
+	
+	public String getName();
+	public void setName(String name);
+	
+	public ArrayList<CustomField<T>> getFields();
+	public void setFields(ArrayList<CustomField<T>> fields);
+	 
+	public void addField(CustomField<T> field);
+	public CustomField<T> getField(int index);
+	public void removeField(int index);
+}

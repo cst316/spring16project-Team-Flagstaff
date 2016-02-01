@@ -39,6 +39,7 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
+import java.awt.Panel;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -106,6 +107,7 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
+	private final JPanel pnlCustom = new JPanel();
     
     public TaskDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -120,7 +122,7 @@ public class TaskDialog extends JDialog {
     
     void jbInit() throws Exception {
 	this.setResizable(false);
-	this.setSize(new Dimension(430,300));
+	this.setSize(new Dimension(831, 442));
         border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         border2 = BorderFactory.createEtchedBorder(Color.white, 
             new Color(142, 142, 142));
@@ -134,15 +136,6 @@ public class TaskDialog extends JDialog {
 //        border7 = BorderFactory.createLineBorder(Color.white, 2);
         border8 = BorderFactory.createEtchedBorder(Color.white, 
             new Color(178, 178, 178));
-        cancelB.setMaximumSize(new Dimension(100, 26));
-        cancelB.setMinimumSize(new Dimension(100, 26));
-        cancelB.setPreferredSize(new Dimension(100, 26));
-        cancelB.setText(Local.getString("Cancel"));
-        cancelB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                cancelB_actionPerformed(e);
-            }
-        });
 
         startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
@@ -154,17 +147,6 @@ public class TaskDialog extends JDialog {
 				chkEndDate_actionPerformed(e);
 			}
 		});
-        okB.setMaximumSize(new Dimension(100, 26));
-        okB.setMinimumSize(new Dimension(100, 26));
-        okB.setPreferredSize(new Dimension(100, 26));
-        okB.setText(Local.getString("Ok"));
-        okB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                okB_actionPerformed(e);
-            }
-        });
-        
-        this.getRootPane().setDefaultButton(okB);
         mPanel.setBorder(border1);
         areaPanel.setBorder(border2);
         dialogTitlePanel.setBackground(Color.WHITE);
@@ -326,9 +308,6 @@ public class TaskDialog extends JDialog {
         jPanel4.add(jLabel7, null);
         getContentPane().add(mPanel);
         mPanel.add(areaPanel, BorderLayout.CENTER);
-        mPanel.add(buttonsPanel, BorderLayout.SOUTH);
-        buttonsPanel.add(okB, null);
-        buttonsPanel.add(cancelB, null);
         this.getContentPane().add(dialogTitlePanel, BorderLayout.NORTH);
         dialogTitlePanel.add(header, null);
         areaPanel.add(jPanel8, BorderLayout.NORTH);
@@ -362,6 +341,31 @@ public class TaskDialog extends JDialog {
         jPanel2.add(jPanelProgress);
         
         priorityCB.setSelectedItem(Local.getString("Normal"));
+        
+        getContentPane().add(pnlCustom, BorderLayout.SOUTH);
+        cancelB.setMaximumSize(new Dimension(100, 26));
+        cancelB.setMinimumSize(new Dimension(100, 26));
+        cancelB.setPreferredSize(new Dimension(100, 26));
+        cancelB.setText(Local.getString("Cancel"));
+        cancelB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cancelB_actionPerformed(e);
+            }
+        });
+        okB.setMaximumSize(new Dimension(100, 26));
+        okB.setMinimumSize(new Dimension(100, 26));
+        okB.setPreferredSize(new Dimension(100, 26));
+        okB.setText(Local.getString("Ok"));
+        okB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                okB_actionPerformed(e);
+            }
+        });
+        
+        this.getRootPane().setDefaultButton(okB);
+        pnlCustom.add(buttonsPanel);
+        buttonsPanel.add(okB, null);
+        buttonsPanel.add(cancelB, null);
         startCalFrame.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged)
