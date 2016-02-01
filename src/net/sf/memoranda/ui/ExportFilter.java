@@ -22,6 +22,8 @@ public class ExportFilter extends FileFilter {
     public static final String HTML = "HTML";
     public static final String XHTML = "XHTML";
     public static final String ZIP = "ZIP";
+    public static final String DOCX = "DOCX";
+    public static final String PDF = "PDF";
 
     String _type = "";
     /**
@@ -43,8 +45,12 @@ public class ExportFilter extends FileFilter {
             return ext.equals("rtf");
         else if (_type.equals(ZIP))
             return ext.equals("zip");
+        else if (_type.equals(DOCX))
+            return ext.equals("docx");
+        else if (_type.equals(PDF))
+            return ext.equals("pdf");     
         else if (_type.equals(XHTML))
-            return (ext.equals("xhtml") || ext.equals("xml")); 
+             return (ext.equals("xhtml") || ext.equals("xml")); 
         return ext.startsWith("htm");
     }
 
@@ -56,6 +62,10 @@ public class ExportFilter extends FileFilter {
             return "Rich Text Format (*.rtf)";
         else if (_type.equals(ZIP))
             return "ZIP archives (*.zip)";
+        else if (_type.equals(DOCX))
+            return "Word Documents (*.docx)";
+        else if (_type.equals(PDF))
+            return "PDF Documents (*.pdf)";
         else if (_type.equals(XHTML))
             return "XHTML files (*.xhtml, *.xml)";
         return "HTML files (*.html, *.htm)";

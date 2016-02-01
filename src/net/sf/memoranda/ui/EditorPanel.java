@@ -439,6 +439,9 @@ public class EditorPanel extends JPanel {
 		chooser
 				.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+      chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
+    	//chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
+      
 		// chooser.addChoosableFileFilter(new
 		// AllFilesFilter(AllFilesFilter.RTF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
@@ -479,6 +482,17 @@ public class EditorPanel extends JPanel {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
 		}
+    	int ti = dlg.xhtmlChB.getSelectedIndex();
+	   String type = "";
+	   if (ti == 0)
+		   type = "HTML";
+	   if (ti == 1)
+		   type = "XHTML";
+	   if (ti == 2)
+		   type = "DOCX";
+	   //if (ti == 3)
+		   //type = "PDF";
+
 		/*
 		 * if (chooser.getFileFilter().getDescription().equals("Rich Text
 		 * Format")) new RTFFileExport(chooser.getSelectedFile(),
@@ -486,12 +500,35 @@ public class EditorPanel extends JPanel {
 		 */
 		int ei = dlg.encCB.getSelectedIndex();
 		enc = null;
-		if (ei == 1)
+		if (ei == 1 && type.equals("HTML"))
+		{
 			enc = "UTF-8";
-		File f = chooser.getSelectedFile();
-		new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-				dlg.numentChB.isSelected(), template, dlg.xhtmlChB.isSelected());
-	}
+			File f = chooser.getSelectedFile();
+			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
+				dlg.numentChB.isSelected(), template, false);
+		}
+		if (ei == 1 && type.equals("XHTML"))
+		{
+			enc = "UTF-8";
+			File f = chooser.getSelectedFile();
+			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
+				dlg.numentChB.isSelected(), template, true);
+		}
+		if (type.equals("DOCX"))
+	   {
+		enc = "UTF-8";
+			File f = chooser.getSelectedFile();
+		new DOCXFileExport(f, editor.document, CurrentNote.get(), enc,
+			dlg.numentChB.isSelected(), template, false);
+	   }
+	   //if (type.equals("PDF"))
+	   //{
+	   //enc = "UTF-8";
+		   //File f = chooser.getSelectedFile();
+		   //new PDFFileExport(f, editor.document, CurrentNote.get(), enc,
+			//dlg.numentChB.isSelected(), template, false);
+	   //}
+   }
 
 	String initialTitle = "";
 
@@ -556,6 +593,7 @@ public class EditorPanel extends JPanel {
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+    	
 		chooser.setPreferredSize(new Dimension(550, 375));
 		String lastSel = (String) Context.get("LAST_SELECTED_IMPORT_FILE");
 		if (lastSel != null)

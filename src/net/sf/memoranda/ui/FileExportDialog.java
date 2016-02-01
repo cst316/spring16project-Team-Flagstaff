@@ -35,10 +35,12 @@ public class FileExportDialog extends javax.swing.JDialog {
         //fileChooser = new javax.swing.JFileChooser();
         optionsPanel = new javax.swing.JPanel();
         encPanel = new javax.swing.JPanel();
+        typePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         encCB = new JComboBox(new String[]{Local.getString("System default"), "UTF-8", "ANSI"});
         usetemplChB = new javax.swing.JCheckBox();
-        xhtmlChB = new javax.swing.JCheckBox();
+        xhtmlChB = new JComboBox(new String[]{Local.getString("HTML"), "XHTML", "DOCX"/*, "PDF"*/});
         templPanel = new javax.swing.JPanel();
         templF = new javax.swing.JTextField();
         templF.setEditable(false);
@@ -51,6 +53,16 @@ public class FileExportDialog extends javax.swing.JDialog {
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         okB.setText(Local.getString("Save"));
+        okB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+              okB_actionPerformed(e);
+               if (fileChooser.getUI() instanceof BasicFileChooserUI)	
+      	      {
+      		      BasicFileChooserUI ui = (BasicFileChooserUI)fileChooser.getUI();	
+      		      ui.getApproveSelectionAction().actionPerformed(e);			
+      	      }
+            }
+         });
         okB.setPreferredSize(new java.awt.Dimension(90, 25));
         okB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -80,6 +92,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 
             public void propertyChange(PropertyChangeEvent evt) {
                 chooserActionPerformed();
+                okB.setEnabled(true);
                 
             }
         
@@ -104,6 +117,16 @@ public class FileExportDialog extends javax.swing.JDialog {
 
         encCB.setMaximumSize(new java.awt.Dimension(32767, 19));
         encPanel.add(encCB);
+        
+        typePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jLabel3.setText(Local.getString("Save as")+":");
+        typePanel.add(jLabel3);
+        xhtmlChB.setMaximumSize(new java.awt.Dimension(32767, 19));
+        typePanel.add(xhtmlChB);
+
+        optionsPanel.add(encPanel);
+        optionsPanel.add(typePanel);
 
         optionsPanel.add(encPanel);
 
@@ -189,6 +212,8 @@ public class FileExportDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel typePanel;
+    private javax.swing.JLabel jLabel3;
     public javax.swing.JCheckBox numentChB;
     private javax.swing.JButton okB;
     private javax.swing.JPanel optionsPanel;

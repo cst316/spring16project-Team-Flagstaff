@@ -83,6 +83,10 @@
 		<copy todir="${build.classes.dir}/net/sf/memoranda/util/localmessages">
 			<fileset dir="${source.dir}/net/sf/memoranda/util/localmessages"/>
 		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${lib.dir}/resources"/>
+		</copy>	
+
 		<copy todir="${basedir}/build">
 			<fileset dir="." includes="tasklist.dtd"/>
 		</copy>
@@ -137,6 +141,10 @@
 		<copy todir="${dist.content.dir}">
 			<fileset dir="." includes="tasklist.dtd"/>
 		</copy>
+		<copy todir="${dist.content.dir}/lib/resources">
+			<fileset dir="${lib.dir}/resources"/>
+      </copy>
+
 		<zip zipfile="${dist.dir}/${name}${version}-${DSTAMP}.zip">
 			<fileset dir="${dist.dir}" includes="${name}${version}-${DSTAMP}/**"/>
 		</zip>

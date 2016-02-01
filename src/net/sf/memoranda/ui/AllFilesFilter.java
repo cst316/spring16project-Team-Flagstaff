@@ -21,6 +21,8 @@ import net.sf.memoranda.util.Local;
 public class AllFilesFilter extends FileFilter {
 
     public static final String RTF = "RTF";
+    public static final String DOCX = "DOCX";
+    public static final String PDF = "PDF";
     public static final String HTML = "HTML";
     public static final String HTM = "HTM";
     public static final String XHTML = "XHTML";
@@ -53,6 +55,10 @@ public class AllFilesFilter extends FileFilter {
             return ext.equals("rtf");
         else if (_type.equals(ZIP))
             return ext.equals("zip");
+        else if (_type.equals(DOCX))
+          	return ext.equals("docx");
+        else if (_type.equals(PDF))
+          	return ext.equals("pdf");
         else if (_type.equals(EXE))
             return (ext.equals("exe") || ext.equals("com") || ext.equals("bat"));
         else if (_type.equals(JAR))
@@ -74,6 +80,10 @@ public class AllFilesFilter extends FileFilter {
             return "Rich Text Format (*.rtf)";
         else if (_type.equals(ZIP))
             return "ZIP archives (*.zip)";
+        else if (_type.equals(DOCX))
+            return "Word Documents (*.docx)";
+        else if (_type.equals(PDF))
+            return "PDF Documents (*.pdf)";
         else if (_type.equals(EXE))
             return Local.getString("Executable Files") + " (*.exe, *.com, *.bat)";
         else if (_type.equals(JAR))
