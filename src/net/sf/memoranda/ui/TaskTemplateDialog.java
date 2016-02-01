@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.util.Local;
 import java.awt.Toolkit;
 import java.awt.Dimension;
@@ -37,6 +38,8 @@ import java.awt.event.ActionEvent;
  * Dialog box added for selection and editing of a template 
  */
 public class TaskTemplateDialog extends JDialog {
+	
+	private TaskTemplateImpl tti=null;
 
 	/**
 	 * 
@@ -65,17 +68,16 @@ public class TaskTemplateDialog extends JDialog {
 		super(frame,title,true);
 		setPreferredSize(new Dimension(600, 400));
 		setResizable(false);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setTitle("Edit Template For Project Tasks");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TaskTemplateDialog.class.getResource("/net/sf/memoranda/ui/resources/icons/task_active.png")));
 		try{
 			initDialog();
 			pack();
-
-
 		}catch(Exception ex){
 			new ExceptionDialog(ex);
 		}
+		//tti = (TaskTemplate.)
 	}
 
 	void initDialog() throws Exception{
@@ -234,7 +236,7 @@ public class TaskTemplateDialog extends JDialog {
 	}
 
 	protected void btnAddField_actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stu
 
 	}
 

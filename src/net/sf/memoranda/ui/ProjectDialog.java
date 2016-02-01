@@ -223,9 +223,9 @@ public class ProjectDialog extends JDialog {
         bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
         // Modify task button
-        modTaskButton.setMaximumSize(new Dimension(100, 25));
-        modTaskButton.setMinimumSize(new Dimension(100, 25));
-        modTaskButton.setPreferredSize(new Dimension(100, 25));
+        modTaskButton.setMaximumSize(new Dimension(150, 25));
+        modTaskButton.setMinimumSize(new Dimension(150, 25));
+        modTaskButton.setPreferredSize(new Dimension(150, 25));
         modTaskButton.setText("Modify Task Template");
         modTaskButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -336,11 +336,10 @@ public class ProjectDialog extends JDialog {
     }
     
     /**
-     * Displays instance of dialog box for creating a task template
-     * @author ggofort 1/28/16
+     * Displays an instance of the dialog box for creating a task template
+     * @author ggofort -> Galen Goforth 1/28/16
      */
     public void newTaskTemplate(){
-    	
     	TaskTemplateDialog ttd = new TaskTemplateDialog(null, "");
     	Dimension dlgSize = ttd.getSize();
     	Dimension frmSize = App.getFrame().getSize();
@@ -354,7 +353,6 @@ public class ProjectDialog extends JDialog {
     		}
     	});
     	ttd.setVisible(true);
-    	
     }
 
 	public static void newProject() {
@@ -379,6 +377,7 @@ public class ProjectDialog extends JDialog {
     }
 	
 	protected void ttd_windowClosed(WindowEvent e) {
+		
 		this.setVisible(true);
 	}
 }

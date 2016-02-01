@@ -1,37 +1,127 @@
 /**
  * @author ggoforth
  * 
- * Defines user defined fields from custom task templates
+ * Class for User defined fields from custom task templates. 
  * 
- * Created by: Galen Goforth
- * Created on: 1/29/16
- * Created for: CST316 Spring A, Arizona State University CDSE
  */
 
 package net.sf.memoranda;
 
-import net.sf.memoranda.date.CalendarDate;
+import java.util.IllegalFormatException;
 
-public class CustomField<T extends Comparable<T>> implements CustomFieldInterface<T> {
-	private String fieldName;
-	private int id;
-	private Class<?> dataType;
+import net.sf.memoranda.date.CalendarDate;
+/**
+ * CustomField class holds values that define custom fields that are added to a task template
+ * The variable names are the same as the names in the XML Schema for data storage
+ * 
+ * @author ggoforth -> Galen Goforth
+ *
+ * @param <T> Generic Type
+ */
+public class CustomField<T> implements CustomFieldInterface<T>{
+	private String fieldName;		
+	private int minValue;
+	private int maxValue;
+	private boolean isRequired;
+	private int index;
 	private T data;
-	
-	public String getFieldName(){return fieldName;}
-	public void setFieldName(String fieldName) {this.fieldName=fieldName;}
-	
-	public int getId(){return id;}
-	public void setId(int id){this.id = id;}
-	
-	public Class<?> getDataType(){
-		if (dataType==CalendarDate.class)return String.class;
-		else if(dataType==Integer.class)return Integer.class;
-		else if(dataType==Double.class)return Double.class;
-		else return String.class;
+
+	/**
+	 * Constructor
+	 * @param fieldName, String for the name of the custom field
+	 * @param isRequired, boolean -> is this a required field?
+	 * @param data, <T> -> is this a required field
+	 */
+	public CustomField(String fieldName, boolean isRequired, T data){
+		this.fieldName = fieldName;
+		this.isRequired=isRequired;
+		this.data=data;
+		this.minValue = 0;
+		this.maxValue = 0;
 	}
-	public void setDataType(Class<?> dataType) {this.dataType = dataType;}
+
+	/**
+	 * Returns a String name for the data type.
+	 * @return String -> name of data type
+	 */
+	public String getDataType(){
+		String r="";
+		if(data.getClass()==String.class) r="String";
+		else if(data.getClass()==Integer.class)r="Integer";
+		else if(data.getClass()==CalendarDate.class)r="CalendarDate";
+		return r;
+	}
 	
+	
+	/**
+	 * Method returns String representation from the data member
+	 * @return String 
+	 */
+	public String dataToString(){
+		String r="";
+		try{
+			if(this.data.getClass() == String.class)
+				r= (String)this.data;
+			else if(this.data.getClass() == Integer.class)
+				r= Integer.toString((Integer) this.data);
+			else if(this.data.getClass()==CalendarDate.class)r= this.data.toString();
+			else r = this.data.toString();
+		}catch(IllegalFormatException | ClassCastException e){
+			System.out.print(
+					"[Debug] IllegalFormatException \n[Debug]"+e.getLocalizedMessage());
+		}
+		return r;
+	}
+		
+	/**
+	 * Gets the name of the CustomField Object
+	 * @return fieldName String
+	 */
+	public String getFieldName(){return fieldName;}
+	/**
+	 * Sets the name of the CustomField object
+	 * @param fieldName String
+	 */
+	public void setFieldName(String fieldName) {this.fieldName=fieldName;}
+	/**
+	 * Gets the data member of a CustomField object
+	 * @return data T
+	 */
 	public T getData() {return data;}
+	/**
+	 * Set the data member of the CustomField
+	 * @param data T
+	 */
 	public void setData(T data){this.data = data;}
+
+	/**
+	 * If there is a minimum value set for this CustomField then this returns it.  
+	 *  ***NOTE: if the data type is String then this represents the minimum # of characters that can be used
+	 * @return int
+	 */
+	public int getMin() {return minValue;}
+	/**
+	 * If the instance has a min value than this is what that value is set to.
+	 * NOTE: if the data type is String then this represents the min # of characters that can be used
+	 * @param int
+	 */
+	public void setMin(int min) {minValue = min;}
+
+	/**
+	 * If there is a maximum value set for this CustomField then this returns it.  
+	 *  ***NOTE: if the data type is String then this represents the max # of characters that can be used
+	 * @return int
+	 */
+	public int getMax() {return maxValue;}
+	/**
+	 * If the instance has a max value than this is what that value is set to.
+	 *  ***NOTE: if the data type is String then this represents the max # of characters that can be used
+	 * @return int
+	 */
+	public void setMax(int max) {this.maxValue = max;}
+	/**
+	 * @return boolean
+	 */
+	public boolean isRequired() {return isRequired;}
+
 }

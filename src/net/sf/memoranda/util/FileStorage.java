@@ -29,6 +29,7 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.ResourcesListImpl;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TaskListImpl;
+import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
@@ -469,5 +470,24 @@ public class FileStorage implements Storage {
                 "");
         }
     }
+
+	@Override
+	public void openTemplateManger() {
+		if (!new File(JN_DOCPATH + ".templates").exists()) {
+            TaskTemplateManager._doc = null;
+            return;
+        }
+        /*DEBUG*/
+        System.out.println(
+            "[DEBUG] Open task template manager: " + JN_DOCPATH + ".templates");
+        TaskTemplateManager._doc = openDocument(JN_DOCPATH + ".temlpates");
+		
+	}
+
+	@Override
+	public void storeTemplateManger() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

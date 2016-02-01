@@ -32,9 +32,10 @@ import nu.xom.Nodes;
 /*$Id: TaskListImpl.java,v 1.14 2006/07/03 11:59:19 alexeya Exp $*/
 public class TaskListImpl implements TaskList {
 
-    private Project _project = null;
+	private Project _project = null;
     private Document _doc = null;
     private Element _root = null;
+
 	
 	/*
 	 * Hastable of "task" XOM elements for quick searching them by ID's
@@ -104,8 +105,9 @@ public class TaskListImpl implements TaskList {
         return filterActiveTasks(allTasks,date);
     }
 
-    public <T extends Comparable <T>> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
-    		String description, String parentTaskId,ArrayList<CustomFieldInterface<T>> customFields) {
+    public <T> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
+    		String description, String parentTaskId,ArrayList<CustomField<T>> customFields) {
+    	System.out.println("***[Debug] TaskListImpl.createTask() reached...");
         Element el = new Element("task");
         el.addAttribute(new Attribute("startDate", startDate.toString()));
         el.addAttribute(new Attribute("endDate", endDate != null? endDate.toString():""));
@@ -122,7 +124,14 @@ public class TaskListImpl implements TaskList {
         Element desc = new Element("description");
         desc.appendChild(description);
         el.appendChild(desc);
-
+        
+        // Add the custom fields to the task;
+        
+        for(CustomField<T> item:customFields){
+        	Element cfld = new Element("customField");
+        	cfld.addAttribute(new Attribute("minimumValue", String.valueOf(item.getMin())));
+        }
+		
         if (parentTaskId == null) {
             _root.appendChild(el);
         }

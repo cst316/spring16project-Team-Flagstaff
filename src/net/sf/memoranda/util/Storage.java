@@ -48,5 +48,8 @@ public interface Storage {
     
     void restoreContext();
     void storeContext(); 
+    
+    void openTemplateManger();
+    void storeTemplateManger();
        
 }
