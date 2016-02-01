@@ -44,7 +44,7 @@ public class AgendaGenerator {
 					+ "<tr>\n";
 	static String FOOTER = "</td></tr></table></body></html>";
 
-	static String generateTasksInfo(Project p, CalendarDate date, Collection expandedTasks) {    	    	
+	public static String generateTasksInfo(Project p, CalendarDate date, Collection expandedTasks) {    	    	
 		TaskList tl;
 		if (p.getID().equals(CurrentProject.get().getID())) {
 			tl = CurrentProject.getTaskList();        	
@@ -239,7 +239,7 @@ public class AgendaGenerator {
 		return s;
 	}
 
-	static int getProgress(TaskList tl) {
+	public static int getProgress(TaskList tl) {
 		Vector v = (Vector) tl.getAllSubTasks(null);
 		if (v.size() == 0)
 			return -1;
@@ -251,7 +251,7 @@ public class AgendaGenerator {
 		return (p * 100) / (v.size() * 100);
 	}
 
-	static String getPriorityString(int p) {
+	public static String getPriorityString(int p) {
 		switch (p) {
 		case Task.PRIORITY_NORMAL :
 			return "<font color=\"green\">"+Local.getString("Normal")+"</font>";
@@ -267,7 +267,7 @@ public class AgendaGenerator {
 		return "";
 	}
 
-	static String generateProjectInfo(Project p, CalendarDate date, Collection expandedTasks) {
+	public static String generateProjectInfo(Project p, CalendarDate date, Collection expandedTasks) {
 		String s = "<h2><a href=\"memoranda:project#"
 				+ p.getID()
 				+ "\">"
@@ -281,7 +281,7 @@ public class AgendaGenerator {
 		return s + generateTasksInfo(p, date,expandedTasks);        
 	}
 
-	static String generateAllProjectsInfo(CalendarDate date, Collection expandedTasks) {
+	public static String generateAllProjectsInfo(CalendarDate date, Collection expandedTasks) {
 		String s =
 				"<td width=\"66%\" valign=\"top\">"
 						+ "<h1>"
@@ -298,7 +298,7 @@ public class AgendaGenerator {
 		return s + "</td>";
 	}
 
-	static String generateEventsInfo(CalendarDate date) {
+	public static String generateEventsInfo(CalendarDate date) {
 		String s =
 				"<td width=\"34%\" valign=\"top\">"
 						+ "<a href=\"memoranda:events\"><h1>"
@@ -358,7 +358,7 @@ public class AgendaGenerator {
 		return s + "</table>";
 	}
 
-	static String generateStickers(CalendarDate date) {
+	public static String generateStickers(CalendarDate date) {
 		String iurl =
 				net
 				.sf
@@ -438,10 +438,10 @@ public class AgendaGenerator {
     we do not need this. Tasks are sorted using the Comparable interface
     public static class TaskSorter {
 
-        static final int BY_IMP_RATE = 0;
-        static final int BY_END_DATE = 1;
-        static final int BY_PRIORITY = 2;
-        static final int BY_COMPLETION = 3;
+        public static final int BY_IMP_RATE = 0;
+        public static final int BY_END_DATE = 1;
+        public static final int BY_PRIORITY = 2;
+        public static final int BY_COMPLETION = 3;
 
         private static Vector tasks = null;
         private static CalendarDate date = null;  
@@ -463,7 +463,7 @@ public class AgendaGenerator {
             return (100-t.getProgress()) / (numOfDays+1) * (t.getPriority()+1);
         }
 
-        static long getRate(Object task) {
+        public static long getRate(Object task) {
             Task t = (Task)task;
             switch (mode) {
                 case BY_IMP_RATE: return -1*calcTaskRate(t, date);

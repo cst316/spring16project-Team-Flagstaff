@@ -41,7 +41,7 @@ public class Configuration {
     }
   }
   
-  static String getConfigPath() {
+  public static String getConfigPath() {
     String p = Util.getEnvDir()+"memoranda.properties";
     if (new File(p).exists()) 
         return p;
