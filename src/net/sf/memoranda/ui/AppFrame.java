@@ -1,6 +1,12 @@
 package net.sf.memoranda.ui;
 
 import java.awt.AWTEvent;
+import java.awt.Desktop;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -11,6 +17,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -633,16 +640,52 @@ public class AppFrame extends JFrame {
     }
    
     protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
-        Util.runBrowser(App.BUGS_TRACKER_URL);
-    }
+        //Util.runBrowser(App.BUGS_TRACKER_URL);
+    	URI uri = null;
+     	try {
+     			uri = new URI(App.BUGS_TRACKER_URL);
+     			System.out.println("URI created: " + uri);
+     			if (Desktop.isDesktopSupported()) 
+     			{
+     				Desktop.getDesktop().browse(uri);
+     			}
+     		}
+     		catch (IOException | URISyntaxException x) {
+     			 System.out.println("URI Syntax Error: " + x.getMessage());
+     		}
+     }
    
     protected void jMenuHelpWeb_actionPerformed(ActionEvent e) {
-        Util.runBrowser(App.WEBSITE_URL);
-    }
+        //Util.runBrowser(App.WEBSITE_URL); 
+     	URI uri = null;
+     	try {
+     			uri = new URI(App.WEBSITE_URL);
+     			System.out.println("URI created: " + uri);
+     			if (Desktop.isDesktopSupported()) 
+     			{
+     				Desktop.getDesktop().browse(uri);
+     			}
+     		}
+     		catch (IOException | URISyntaxException x) {
+     			 System.out.println("URI Syntax Error: " + x.getMessage());
+    		}
+     }
    
     protected void jMenuHelpGuide_actionPerformed(ActionEvent e) {
-        Util.runBrowser(App.GUIDE_URL);
-    }
+        //Util.runBrowser(App.GUIDE_URL);  
+     	URI uri = null;
+     	try {
+     			uri = new URI(App.GUIDE_URL);
+     			System.out.println("URI created: " + uri);
+     			if (Desktop.isDesktopSupported()) 
+     			{
+     				Desktop.getDesktop().browse(uri);
+     			}
+     		}
+     		catch (IOException | URISyntaxException x) {
+     			 System.out.println("URI Syntax Error: " + x.getMessage());
+     		}	
+/     }
     
     //File | Exit action performed
     public void doExit() {
