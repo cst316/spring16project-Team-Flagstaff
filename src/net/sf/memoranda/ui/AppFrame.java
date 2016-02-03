@@ -685,7 +685,7 @@ public class AppFrame extends JFrame {
      		catch (IOException | URISyntaxException x) {
      			 System.out.println("URI Syntax Error: " + x.getMessage());
      		}	
-/     }
+     }
     
     //File | Exit action performed
     public void doExit() {

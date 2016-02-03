@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.plaf.basic.BasicFileChooserUI;
 
 import net.sf.memoranda.util.Local;
 
@@ -55,6 +56,10 @@ public class FileExportDialog extends javax.swing.JDialog {
         okB.setText(Local.getString("Save"));
         okB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            /**
+             * Compile time error fixed by adding method with this name.
+             * @author ggoforth on 2/1/16 
+             */
               okB_actionPerformed(e);
                if (fileChooser.getUI() instanceof BasicFileChooserUI)	
       	      {
@@ -145,8 +150,12 @@ public class FileExportDialog extends javax.swing.JDialog {
             }
         });
         optionsPanel.add(usetemplChB);
-
-        xhtmlChB.setText(Local.getString("Save as XHTML"));
+        /**
+         * Multiple issues with this item being used as both a JCheckBox and a JComboBox
+         * I changed ti to JComboBox since it was declared as JCheckBox but instantiated as JComboBox
+         * @author ggoforth on 2/1/16
+         */
+        //xhtmlChB.setText(Local.getString("Save as XHTML"));
         xhtmlChB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xhtmlChBActionPerformed(evt);
@@ -184,7 +193,13 @@ public class FileExportDialog extends javax.swing.JDialog {
         pack();
     }//GEN-END:initComponents
 
-    private void xhtmlChBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xhtmlChBActionPerformed
+    protected void okB_actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void xhtmlChBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xhtmlChBActionPerformed
         // TODO add your handling code here:
     }
 
@@ -221,7 +236,7 @@ public class FileExportDialog extends javax.swing.JDialog {
     public javax.swing.JTextField templF;
     private javax.swing.JPanel templPanel;
     public javax.swing.JCheckBox usetemplChB;
-    public javax.swing.JCheckBox xhtmlChB;
+    public JComboBox xhtmlChB;
     public JComboBox encCB;
     // End of variables declaration//GEN-END:variables
     

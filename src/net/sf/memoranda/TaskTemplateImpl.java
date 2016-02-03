@@ -4,6 +4,10 @@
 package net.sf.memoranda;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+
+import nu.xom.Document;
+import nu.xom.Element;
 
 /**
  * @author ggoforth
@@ -12,13 +16,22 @@ import java.util.ArrayList;
  */
 public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 
+	Document _doc;
+	Element _root;
 	private String id;
 	String name;
 	private ArrayList<CustomField<T>> fields;
 	
+	/**
+	 * HashTable for lookup of elements by element name
+	 */
+	private Hashtable elements = new Hashtable();
+	
 	public TaskTemplateImpl(String id, String name){
 		this.id = id;
 		this.name = name;
+		_root = new Element("tasklist");
+        _doc = new Document(_root);
 	}
 	
 	@Override
@@ -84,5 +97,10 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	@Override
 	public void setName(String name) {
 		// TODO Auto-generated method stub		
+	}
+
+	@Override
+	public Document getXMLContent() {
+		return _doc;
 	}
 }

@@ -12,8 +12,6 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import com.sun.media.jfxmedia.events.NewFrameEvent;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -23,7 +21,6 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Node;
-import oracle.jrockit.jfr.parser.ParseException;
 
 /**
  *

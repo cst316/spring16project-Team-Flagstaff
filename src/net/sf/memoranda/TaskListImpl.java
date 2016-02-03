@@ -27,15 +27,16 @@ import nu.xom.Nodes;
 //import nux.xom.xquery.XQueryUtil;
 
 /**
+ * @param <T>
  * 
  */
 /*$Id: TaskListImpl.java,v 1.14 2006/07/03 11:59:19 alexeya Exp $*/
-public class TaskListImpl implements TaskList {
+public class TaskListImpl<T> implements TaskList {
 
 	private Project _project = null;
     private Document _doc = null;
     private Element _root = null;
-
+    private TaskTemplateImpl<?> _template = null;
 	
 	/*
 	 * Hastable of "task" XOM elements for quick searching them by ID's
@@ -46,17 +47,20 @@ public class TaskListImpl implements TaskList {
     /**
      * Constructor for TaskListImpl.
      */
-    public TaskListImpl(Document doc, Project prj) {
+    public TaskListImpl(Document doc, Project prj, TaskTemplateImpl<T> template) {
         _doc = doc;
         _root = _doc.getRootElement();
         _project = prj;
 		buildElements(_root);
+		_template = new TaskTemplateImpl<T>(template.getId(), template.getName());
     }
     
-    public TaskListImpl(Project prj) {            
+    public TaskListImpl(Project prj, TaskTemplateImpl<T> template) {            
             _root = new Element("tasklist");
             _doc = new Document(_root);
             _project = prj;
+            if(template==null)
+            _template = new TaskTemplateImpl<T>(template.getId(), template.getName());
     }
     
 	public Project getProject() {
@@ -139,10 +143,7 @@ public class TaskListImpl implements TaskList {
             Element parent = getTaskElement(parentTaskId);
             parent.appendChild(el);
         }
-        
-        // Add the custom template fields to the xml for saving
-        
-		elements.put(id, el);
+   		elements.put(id, el);
 		
         Util.debug("Created task with parent " + parentTaskId);
         
@@ -377,6 +378,18 @@ public class TaskListImpl implements TaskList {
     		return false;
     	}
     }
+
+	@SuppressWarnings({ "hiding", "unchecked" })
+	@Override
+	public <T> TaskTemplate<T> getTaskTemplate() {
+		return (TaskTemplate<T>) _template;
+	}
+
+	@SuppressWarnings("hiding")
+	@Override
+	public <T> void setTaskTemplate(TaskTemplate<T> taskTemplate) {
+		_template = (TaskTemplateImpl<?>) taskTemplate;		
+	}
 
     /*
      * deprecated methods below

@@ -29,6 +29,7 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.ResourcesListImpl;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TaskListImpl;
+import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.ExceptionDialog;
@@ -262,7 +263,8 @@ public class FileStorage implements Storage {
         f.delete();
     }
 
-    public TaskList openTaskList(Project prj) {
+    @SuppressWarnings("unchecked")
+	public TaskList openTaskList(Project prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".tasklist";
 
         if (documentExists(fn)) {
@@ -275,6 +277,7 @@ public class FileStorage implements Storage {
                     + ".tasklist");
             
             Document tasklistDoc = openDocument(fn);
+            
             /*DocType tasklistDoctype = tasklistDoc.getDocType();
             String publicId = null;
             if (tasklistDoctype != null) {
@@ -285,12 +288,12 @@ public class FileStorage implements Storage {
                 // reload from new file
                 tasklistDoc = openDocument(fn);
             }*/
-            return new TaskListImpl(tasklistDoc, prj);   
+            return new TaskListImpl(tasklistDoc, prj, (TaskTemplateImpl) TaskTemplateManager.getTemplate("__default"));   
         }
         else {
             /*DEBUG*/
             System.out.println("[DEBUG] New task list created");
-            return new TaskListImpl(prj);
+            return new TaskListImpl(prj,(TaskTemplateImpl) TaskTemplateManager.getTemplate("__default"));
         }
     }
 
@@ -486,8 +489,18 @@ public class FileStorage implements Storage {
 
 	@Override
 	public void storeTemplateManger() {
-		// TODO Auto-generated method stub
-		
+		try {
+            /*DEBUG*/
+            System.out.println(
+                "[DEBUG] Save Templates: " + JN_DOCPATH + ".templates");
+            Context.context.save(new FileOutputStream(JN_DOCPATH + ".templates"));
+        }
+        catch (Exception ex) {
+            new ExceptionDialog(
+                ex,
+                "Failed to store context to " + JN_DOCPATH + ".templates",
+                "");
+        }
 	}
 
 }

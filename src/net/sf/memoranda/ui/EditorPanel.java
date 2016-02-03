@@ -41,6 +41,11 @@ import net.sf.memoranda.util.Configuration;
 
 /*$Id: EditorPanel.java,v 1.21 2006/06/28 22:58:31 alexeya Exp $*/
 public class EditorPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	BorderLayout borderLayout1 = new BorderLayout();
 
 	JPanel jPanel1 = new JPanel();
@@ -99,6 +104,11 @@ public class EditorPanel extends JPanel {
 			.getString("Insert current time"), new ImageIcon(
 			net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/time.png"))) {
+		/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+
 		public void actionPerformed(ActionEvent e) {
 			insTimeB_actionPerformed(e);
 		}
@@ -108,6 +118,11 @@ public class EditorPanel extends JPanel {
 			.getString("Insert current date"), new ImageIcon(
 			net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/date.png"))) {
+		/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+
 		public void actionPerformed(ActionEvent e) {
 			insDateB_actionPerformed(e);
 		}
@@ -122,6 +137,11 @@ public class EditorPanel extends JPanel {
 	public Action newAction = new AbstractAction(Local.getString("New note"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/filenew.png"))) {
+		/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+
 		public void actionPerformed(ActionEvent e) {
 			newB_actionPerformed(e);
 		}
@@ -131,6 +151,11 @@ public class EditorPanel extends JPanel {
 			.getString("Export note to file"), new ImageIcon(
 			net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/export.png"))) {
+		/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+
 		public void actionPerformed(ActionEvent e) {
 			exportB_actionPerformed(e);
 		}
@@ -140,6 +165,11 @@ public class EditorPanel extends JPanel {
 			.getString("Insert file"), new ImageIcon(
 			net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/import.png"))) {
+		/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+
 		public void actionPerformed(ActionEvent e) {
 			importB_actionPerformed(e);
 		}
@@ -149,6 +179,11 @@ public class EditorPanel extends JPanel {
 			.getString("Preview note in browser"), new ImageIcon(
 			net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/preview.png"))) {
+		/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1L;
+
 		public void actionPerformed(ActionEvent e) {
 			previewB_actionPerformed(e);
 		}
@@ -458,7 +493,7 @@ public class EditorPanel extends JPanel {
 			dlg.templF.setText(templ);
 		String xhtml = (String) Context.get("EXPORT_XHTML");
 		if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES")))
-			dlg.xhtmlChB.setSelected(true);
+			dlg.usetemplChB.setSelected(true);
 		String num = (String) Context.get("EXPORT_NUMENT");
 		if ((num != null) && (num.equalsIgnoreCase("YES")))
 			dlg.numentChB.setSelected(true);
@@ -476,13 +511,25 @@ public class EditorPanel extends JPanel {
 				.getPath());
 		Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
 		Context.put("EXPORT_NUMENT", dlg.numentChB.isSelected() ? "YES" : "NO");
-		Context.put("EXPORT_XHTML", dlg.xhtmlChB.isSelected() ? "YES" : "NO");
+		Context.put("EXPORT_XHTML", dlg.usetemplChB.isSelected() ? "YES" : "NO");
 		String template = null;
 		if (dlg.usetemplChB.isSelected() && dlg.templF.getText().length() > 0) {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
 		}
-    	int ti = dlg.xhtmlChB.getSelectedIndex();
+		
+		
+		/**********************************************************
+		 * New Error since last update from repository?  
+		 ***********************************************************/
+		
+		//int ti = dlg.xhtmlChB.getSelectedIndex();
+		
+		/**********************************************************
+		 * Replaced with following by Galen Goforth 2/1/16
+		 ********************************************************/
+		int ti = dlg.xhtmlChB.getSelectedIndex();
+	
 	   String type = "";
 	   if (ti == 0)
 		   type = "HTML";

@@ -119,6 +119,7 @@ public class CurrentProject {
         storage.storeTaskList(_tasklist, _project); 
         storage.storeResourcesList(_resources, _project);
         storage.storeProjectManager();
+        storage.storeTaskList(_tasklist, _project);
     }
     
     public static void free() {
