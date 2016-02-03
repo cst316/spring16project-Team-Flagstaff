@@ -148,7 +148,6 @@ public class FileExportDialog extends javax.swing.JDialog {
         });
         optionsPanel.add(usetemplChB);
 
-        //xhtmlChB.setText(Local.getString("Save as XHTML"));
         xhtmlChB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xhtmlChBActionPerformed(evt);
