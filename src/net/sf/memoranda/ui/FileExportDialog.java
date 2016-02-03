@@ -109,7 +109,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 
         filePanel.add(fileChooser, java.awt.BorderLayout.CENTER);
 
-        optionsPanel.setLayout(new java.awt.GridLayout(3, 2, 5, 0));
+        optionsPanel.setLayout(new java.awt.GridLayout(5, 2, 5, 0));
 
         optionsPanel.setBorder(new javax.swing.border.EmptyBorder(new java.awt.Insets(5, 5, 5, 5)));
         encPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
@@ -129,8 +129,6 @@ public class FileExportDialog extends javax.swing.JDialog {
 
         optionsPanel.add(encPanel);
         optionsPanel.add(typePanel);
-
-        optionsPanel.add(encPanel);
 
         usetemplChB.setText(Local.getString("Use template")+":");
         usetemplChB.setMargin(new java.awt.Insets(0, 0, 0, 0));
