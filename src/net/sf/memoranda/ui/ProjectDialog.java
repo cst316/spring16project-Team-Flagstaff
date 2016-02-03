@@ -14,16 +14,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -32,9 +36,12 @@ import javax.swing.event.ChangeListener;
 
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
+import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 
 /*$Id: ProjectDialog.java,v 1.26 2004/10/18 19:09:10 ivanrise Exp $*/
 public class ProjectDialog extends JDialog {
@@ -45,6 +52,7 @@ public class ProjectDialog extends JDialog {
     CalendarFrame endCalFrame = new CalendarFrame();
     CalendarFrame startCalFrame = new CalendarFrame();
     GridBagConstraints gbc;
+    private GridBagConstraints gbc_1;
     JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JLabel header = new JLabel();
     JPanel centerPanel = new JPanel(new GridBagLayout());
@@ -61,9 +69,16 @@ public class ProjectDialog extends JDialog {
     /*
      * Added by ggoforth 12/27/16 for access dialog to edit the task template per project needs
      */
-    JButton modTaskButton = new JButton();
+    JButton btnModTask = new JButton();
     JButton okButton = new JButton();
     JButton cancelButton = new JButton();
+    JPanel pnlSelectTemplate = new JPanel();
+    JList<String> lstTemplateList = new JList<String>();
+    JPanel pnlTaskButtons = new JPanel();
+    JPanel pnlTemlateList = new JPanel();
+    JScrollPane jspTemplateList = new JScrollPane(lstTemplateList);
+    JButton btnAddTemplate = new JButton("Add Template");
+    JButton btnRemoveTask = new JButton("Remove Template");
     
     public ProjectDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -77,8 +92,15 @@ public class ProjectDialog extends JDialog {
     }
 
     void jbInit() throws Exception {
+    	
+    	setListItems("__default");
+    	pnlTaskButtons.add(btnAddTemplate);
+    	pnlTaskButtons.add(btnRemoveTask);
 	this.setResizable(false);
-        getContentPane().setLayout(new GridBagLayout());
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
+        gridBagLayout.columnWeights = new double[]{1.0};
+        getContentPane().setLayout(gridBagLayout);
         topPanel.setBorder(new EmptyBorder(new Insets(0, 5, 0, 5)));
         topPanel.setBackground(Color.WHITE);        
         header.setFont(new java.awt.Font("Dialog", 0, 20));
@@ -222,17 +244,6 @@ public class ProjectDialog extends JDialog {
         
         bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
-        // Modify task button
-        modTaskButton.setMaximumSize(new Dimension(150, 25));
-        modTaskButton.setMinimumSize(new Dimension(150, 25));
-        modTaskButton.setPreferredSize(new Dimension(150, 25));
-        modTaskButton.setText("Modify Task Template");
-        modTaskButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	modTaskButton_actionPerformed(e);
-            }
-        });
-        
         okButton.setMaximumSize(new Dimension(100, 25));
         okButton.setMinimumSize(new Dimension(100, 25));
         okButton.setPreferredSize(new Dimension(100, 25));
@@ -252,23 +263,53 @@ public class ProjectDialog extends JDialog {
                 cancelButton_actionPerformed(e);
             }
         });
-        bottomPanel.add(modTaskButton);
         bottomPanel.add(okButton);
         bottomPanel.add(cancelButton);
         
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        getContentPane().add(topPanel, gbc);
+        gbc_1 = new GridBagConstraints();
+        gbc_1.insets = new Insets(0, 0, 5, 0);
+        gbc_1.gridx = 0; gbc_1.gridy = 0;
+        gbc_1.fill = GridBagConstraints.HORIZONTAL;
+        getContentPane().add(topPanel, gbc_1);
         
         gbc = new GridBagConstraints();
         gbc.gridx = 0; gbc.gridy = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(5, 5, 5, 0);
         getContentPane().add(centerPanel, gbc);
         
+        GridBagConstraints gbc_pnlSelectTemplate = new GridBagConstraints();
+        gbc_pnlSelectTemplate.insets = new Insets(0, 0, 5, 0);
+        gbc_pnlSelectTemplate.fill = GridBagConstraints.BOTH;
+        gbc_pnlSelectTemplate.gridx = 0;
+        gbc_pnlSelectTemplate.gridy = 2;
+        getContentPane().add(pnlSelectTemplate, gbc_pnlSelectTemplate);
+        pnlSelectTemplate.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        //pnlTemlateList.add(lstTemplateList);
+        lstTemplateList.setBackground(new Color(255, 255, 255));
+        lstTemplateList.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        lstTemplateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lstTemplateList.setSize(150,250 );
+        pnlSelectTemplate.add(pnlTaskButtons);
+        pnlTaskButtons.add(btnModTask);
+        
+        // Modify task button
+        btnModTask.setMaximumSize(new Dimension(200, 25));
+        btnModTask.setMinimumSize(new Dimension(200, 25));
+        btnModTask.setPreferredSize(new Dimension(150, 25));
+        btnModTask.setText("Modify Task Template");
+        FlowLayout flowLayout = (FlowLayout) pnlTemlateList.getLayout();
+        flowLayout.setAlignOnBaseline(true);
+        
+        pnlSelectTemplate.add(pnlTemlateList);
+        btnModTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	modTaskButton_actionPerformed(e);
+            }
+        });
+        
         gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 2;
-        gbc.insets = new Insets(5, 0, 5, 5);
+        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.insets = new Insets(5, 0, 0, 0);
         gbc.anchor = GridBagConstraints.EAST;
         getContentPane().add(bottomPanel, gbc);
     
@@ -340,7 +381,7 @@ public class ProjectDialog extends JDialog {
      * @author ggofort -> Galen Goforth 1/28/16
      */
     public void newTaskTemplate(){
-    	TaskTemplateDialog ttd = new TaskTemplateDialog(null, "");
+    	TaskTemplateDialog ttd = new TaskTemplateDialog(null, "", "");
     	Dimension dlgSize = ttd.getSize();
     	Dimension frmSize = App.getFrame().getSize();
     	Point point = App.getFrame().getLocation();
@@ -375,6 +416,20 @@ public class ProjectDialog extends JDialog {
             prj.freeze();*/
         CurrentStorage.get().storeProjectManager();
     }
+	
+	public void setListItems(String selectedId){
+		ArrayList<String> titles = TaskTemplateManager.getTemplateTitles();
+    	DefaultListModel<String> listModel = new DefaultListModel<String>();
+    	for(String s:titles){
+    		if(s.compareToIgnoreCase(selectedId)!=0)
+    			listModel.addElement(s);
+    		else
+    			listModel.add(0, s);
+    	}
+    	lstTemplateList.setSelectedIndex(0);
+    	
+    	lstTemplateList.setModel(listModel);
+	}
 	
 	protected void ttd_windowClosed(WindowEvent e) {
 		

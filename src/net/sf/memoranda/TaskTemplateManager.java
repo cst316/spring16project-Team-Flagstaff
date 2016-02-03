@@ -186,4 +186,14 @@ public class TaskTemplateManager {
 		d.detach();
 	}
 	
+	/**
+	 * Static Method for Saving changes to a Task Template
+	 * @param <T>
+	 */
+	public static <T> void saveTemplateChanges(String id){
+		@SuppressWarnings("unchecked")
+		TaskTemplateImpl<T> tti = (TaskTemplateImpl<T>) getTemplate(id); 
+		//ttDefault = getTemplate("__default");
+	}
+	
 }

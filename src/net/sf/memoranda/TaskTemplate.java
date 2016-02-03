@@ -23,4 +23,6 @@ public interface TaskTemplate<T> {
 	public void addField(CustomField<T> field);
 	public CustomField<T> getField(int index);
 	public void removeField(int index);
+
+	nu.xom.Document getXMLContent();
 }

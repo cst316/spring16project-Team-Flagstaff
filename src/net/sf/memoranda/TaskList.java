@@ -34,6 +34,9 @@ public interface TaskList {
     public Collection<?> getAllSubTasks(String taskId);
     public Collection<?> getActiveSubTasks(String taskId,CalendarDate date);
     
+    public <T> TaskTemplate<T> getTaskTemplate();
+    public <T> void setTaskTemplate(TaskTemplate<T> taskTemplate);
+    
 //    public void adjustParentTasks(Task t);
     
     public long calculateTotalEffortFromSubTasks(Task t);
