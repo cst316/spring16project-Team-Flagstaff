@@ -456,9 +456,21 @@ public class EditorPanel extends JPanel {
 		String templ = (String) Context.get("EXPORT_TEMPLATE");
 		if (templ != null)
 			dlg.templF.setText(templ);
-		String xhtml = (String) Context.get("EXPORT_XHTML");
-		if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES")))
-			dlg.xhtmlChB.setSelected(true);
+		//String xhtml = (String) Context.get("EXPORT_XHTML");
+		//if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES")))
+			//dlg.xhtmlChB.setSelected(true);
+		
+		int ti = dlg.xhtmlChB.getSelectedIndex();
+		String type = "";
+		if (ti == 0)
+			type = "HTML";
+		if (ti == 1)
+			type = "XHTML";
+		if (ti == 2)
+			type = "DOCX";
+		//if (ti == 3)
+			//type = "PDF";
+		
 		String num = (String) Context.get("EXPORT_NUMENT");
 		if ((num != null) && (num.equalsIgnoreCase("YES")))
 			dlg.numentChB.setSelected(true);
@@ -476,22 +488,14 @@ public class EditorPanel extends JPanel {
 				.getPath());
 		Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
 		Context.put("EXPORT_NUMENT", dlg.numentChB.isSelected() ? "YES" : "NO");
-		Context.put("EXPORT_XHTML", dlg.xhtmlChB.isSelected() ? "YES" : "NO");
+		Context.put("EXPORT_FILE_TYPE", dlg.xhtmlChB.getSelectedItem());
 		String template = null;
+		//Context.put("EXPORT_XHTML", dlg.xhtmlChB.isSelected() ? "YES" : "NO");
+		//String template = null;
 		if (dlg.usetemplChB.isSelected() && dlg.templF.getText().length() > 0) {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
 		}
-    	int ti = dlg.xhtmlChB.getSelectedIndex();
-	   String type = "";
-	   if (ti == 0)
-		   type = "HTML";
-	   if (ti == 1)
-		   type = "XHTML";
-	   if (ti == 2)
-		   type = "DOCX";
-	   //if (ti == 3)
-		   //type = "PDF";
 
 		/*
 		 * if (chooser.getFileFilter().getDescription().equals("Rich Text

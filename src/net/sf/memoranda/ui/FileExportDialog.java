@@ -10,6 +10,8 @@ import javax.swing.JFileChooser;
 
 import net.sf.memoranda.util.Local;
 
+import javax.swing.plaf.basic.BasicFileChooserUI;
+
 /**
  *
  * @author  Alex
@@ -146,7 +148,7 @@ public class FileExportDialog extends javax.swing.JDialog {
         });
         optionsPanel.add(usetemplChB);
 
-        xhtmlChB.setText(Local.getString("Save as XHTML"));
+        //xhtmlChB.setText(Local.getString("Save as XHTML"));
         xhtmlChB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xhtmlChBActionPerformed(evt);
@@ -183,6 +185,11 @@ public class FileExportDialog extends javax.swing.JDialog {
         getRootPane().setDefaultButton(okB);
         pack();
     }//GEN-END:initComponents
+    
+    void okB_actionPerformed(ActionEvent e) {
+        CANCELLED = false;
+        this.dispose();
+    }
 
     private void xhtmlChBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xhtmlChBActionPerformed
         // TODO add your handling code here:
@@ -221,7 +228,7 @@ public class FileExportDialog extends javax.swing.JDialog {
     public javax.swing.JTextField templF;
     private javax.swing.JPanel templPanel;
     public javax.swing.JCheckBox usetemplChB;
-    public javax.swing.JCheckBox xhtmlChB;
+    public javax.swing.JComboBox xhtmlChB;
     public JComboBox encCB;
     // End of variables declaration//GEN-END:variables
     
