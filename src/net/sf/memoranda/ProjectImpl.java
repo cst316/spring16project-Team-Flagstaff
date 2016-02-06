@@ -180,6 +180,26 @@ public class ProjectImpl implements Project {
             desc.appendChild(s);    	
     	}
     }
+
+    /**
+     * Returns the id of the associated task template
+     * @return 
+     */
+	@Override
+	public String getTaskTemplate() {
+		String templateId = "__default";
+		Element tt = _root.getFirstChildElement("taskTemplate");
+		if(tt!=null){
+			templateId = tt.getValue();
+		}
+		return null;
+	}
+
+	@Override
+	public void setTaskTemplate(String templateId) {
+		
+		
+	}
         
     /**
      * @see net.sf.memoranda.Project#getTaskList()

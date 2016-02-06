@@ -48,8 +48,10 @@ public interface Project {
     //TaskList getTaskList();
     
     //NoteList getNoteList();
-    
     //ResourcesList getResourcesList();
+    
+    String getTaskTemplate();
+    void setTaskTemplate(String templateId);
     
     void freeze();
     void unfreeze();  

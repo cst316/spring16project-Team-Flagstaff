@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,6 +25,7 @@ import net.sf.memoranda.CustomField;
 import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
 
@@ -31,6 +33,7 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TableView.TableRow;
 import javax.swing.BorderFactory;
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -48,51 +51,53 @@ import java.awt.event.ActionEvent;
  * @param <T>
  */
 public class TaskTemplateDialog<T> extends JDialog {
-	
-	private TaskTemplateImpl<T> tti=null;
-	
+
+	private ArrayList<CustomField<T>> _customFields=null;
+	private String _id;
+
 	/**
 	 * Declare class level variables to keep them accessible
 	 */
-	GridBagLayout gridBagLayout;
-	Border border1, border2, border3, border4, border5;
-	JTextField txtFieldName;
-	JPanel pnlMain, pnlFields, pnlFieldInfo, pnlMidBtns, pnlButtons;
-	JTable tblFields;
-	JLabel lblAddField, lblFieldName, lblType, lblMin, lblMax, lblMessage;
-	JComboBox<String> cbxType;
-	JCheckBox chkRequired;
-	GridBagConstraints gbc_pnlMain;
-	JSpinner spnMin, spnMax;
-	JButton btnAddField, btnEditField, btnRemoveField;
-	
+	private GridBagLayout gridBagLayout;
+	private Border border1, border2, border3, border4, border5;
+	private JTextField txtFieldName, txtTemplateName;
+	private JPanel pnlMain, pnlFields, pnlFieldInfo, pnlMidBtns, pnlButtons, pnlTemplateName;
+	private JTable tblFields;
+	private JLabel lblAddField, lblFieldName, lblType, lblMin, lblMax, lblMessage, lblTemplateName;
+	private JComboBox<String> cbxType;
+	private JCheckBox chkRequired;
+	private GridBagConstraints gbc_pnlMain;
+	private JSpinner spnMin, spnMax;
+	private JButton btnAddField, btnEditField, btnRemoveField;
+
 	/**
 	 * Constructor for the TaskTemplateDialog class
 	 * @param Frame frame
 	 * @param String title
 	 * @param String id
 	 */
-	@SuppressWarnings("unchecked")
-	public TaskTemplateDialog(Frame frame, String title, String id){
+	public TaskTemplateDialog(Frame frame, String title, String id){		
 		super(frame,title,true);
+		
+		// Initialize list of CustomField objects in order to avoid null reference
+		_customFields = new ArrayList<CustomField<T>>();
 		setPreferredSize(new Dimension(600, 400));
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setTitle("Edit Template For Project Tasks");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TaskTemplateDialog.class.getResource("/net/sf/memoranda/ui/resources/icons/task_active.png")));
+		// Setup the GUI components 
 		try{
 			initDialog();
 			pack();
 		}catch(Exception ex){
 			new ExceptionDialog(ex);
 		}
-		try{
-			tti = (TaskTemplateImpl<T>)TaskTemplateManager.getTemplate(id);
-		}catch(Exception e){
-			Util.debug("[Debug]*** Error loading the Task Template");
+		if(id.compareTo("")!=0)
+		{
+			getExistingTemplate(id);
 		}
 		setFields();
-		
 	}
 
 	void initDialog() throws Exception{
@@ -122,34 +127,34 @@ public class TaskTemplateDialog<T> extends JDialog {
 		getContentPane().add(pnlMain, gbc_pnlMain);
 
 		pnlFields = new JPanel();
-		pnlFields.setBounds(339, 48, 245, 250);
+		pnlFields.setBounds(339, 11, 245, 287);
 		pnlMain.add(pnlFields);
 		pnlFields.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 245, 250);
+		scrollPane.setBounds(0, 0, 245, 287);
 		pnlFields.add(scrollPane);
-		
-				tblFields = new JTable();
-				scrollPane.setViewportView(tblFields);
-				tblFields.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-				tblFields.setShowHorizontalLines(true);
-				tblFields.setShowVerticalLines(false);	
+
+		tblFields = new JTable();
+		scrollPane.setViewportView(tblFields);
+		tblFields.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		tblFields.setShowHorizontalLines(true);
+		tblFields.setShowVerticalLines(false);	
 
 		pnlFieldInfo = new JPanel();
 		pnlFieldInfo.setBorder(new TitledBorder(null, "Field Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnlFieldInfo.setBounds(4, 32, 222, 273);
+		pnlFieldInfo.setBounds(4, 48, 222, 312);
 		pnlMain.add(pnlFieldInfo);
 		pnlFieldInfo.setLayout(null);
 
 		lblAddField = new JLabel("Add New Field:");
-		lblAddField.setBounds(10, 28, 134, 26);
+		lblAddField.setBounds(10, 17, 134, 26);
 		lblAddField.setForeground(new Color(0, 0, 102));
-		lblAddField.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblAddField.setFont(new Font("Dialog", Font.BOLD, 14));
 		pnlFieldInfo.add(lblAddField);
 
 		lblFieldName = new JLabel("Field Name:");
-		lblFieldName.setBounds(10, 54, 56, 14);
+		lblFieldName.setBounds(10, 54, 76, 26);
 		pnlFieldInfo.add(lblFieldName);
 
 		txtFieldName = new JTextField();
@@ -158,7 +163,7 @@ public class TaskTemplateDialog<T> extends JDialog {
 		pnlFieldInfo.add(txtFieldName);
 
 		lblType = new JLabel("Data Type:");
-		lblType.setBounds(10, 110, 54, 14);
+		lblType.setBounds(10, 110, 76, 26);
 		pnlFieldInfo.add(lblType);
 
 		cbxType = new JComboBox<String>();
@@ -169,23 +174,23 @@ public class TaskTemplateDialog<T> extends JDialog {
 		pnlFieldInfo.add(cbxType);
 
 		chkRequired = new JCheckBox("Required Field");
-		chkRequired.setBounds(23, 228, 93, 23);
+		chkRequired.setBounds(10, 247, 93, 23);
 		pnlFieldInfo.add(chkRequired);
 
 		lblMin = new JLabel("Min:");
-		lblMin.setBounds(10, 207, 20, 14);
+		lblMin.setBounds(10, 179, 46, 26);
 		pnlFieldInfo.add(lblMin);
 
 		spnMin = new JSpinner();
-		spnMin.setBounds(43, 201, 62, 20);
+		spnMin.setBounds(24, 204, 62, 20);
 		pnlFieldInfo.add(spnMin);
 
 		lblMax = new JLabel("Max:");
-		lblMax.setBounds(115, 207, 24, 14);
+		lblMax.setBounds(120, 179, 46, 26);
 		pnlFieldInfo.add(lblMax);
 
 		spnMax = new JSpinner();
-		spnMax.setBounds(147, 201, 65, 20);
+		spnMax.setBounds(130, 204, 65, 20);
 		pnlFieldInfo.add(spnMax);
 
 		lblMessage = new JLabel("");
@@ -230,11 +235,28 @@ public class TaskTemplateDialog<T> extends JDialog {
 		JButton btnOK = new JButton("Save");
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				storeTemplate();
 			}
 		});
 		pnlButtons.add(btnCancel);
 		pnlButtons.add(btnOK);
 		pnlMain.add(pnlButtons);
+
+		pnlTemplateName = new JPanel();
+		pnlTemplateName.setBounds(4, 11, 283, 26);
+		pnlMain.add(pnlTemplateName);
+		pnlTemplateName.setLayout(null);
+
+		txtTemplateName = new JTextField();
+		txtTemplateName.setBounds(122, 0, 161, 20);
+		pnlTemplateName.add(txtTemplateName);
+		txtTemplateName.setColumns(10);
+
+		lblTemplateName = new JLabel("Template Name:");
+		lblTemplateName.setForeground(new Color(0, 0, 102));
+		lblTemplateName.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblTemplateName.setBounds(0, -1, 129, 20);
+		pnlTemplateName.add(lblTemplateName);
 		/*topPanel.setBorder(new EmptyBorder(new Insets(0, 5, 0, 5)));
 	        topPanel.setBackground(Color.WHITE);        
 	        header.setFont(new java.awt.Font("Dialog", 0, 20));
@@ -250,14 +272,28 @@ public class TaskTemplateDialog<T> extends JDialog {
 
 
 	}
+
+	/**
+	 * Save the newly created task template to the XML file using the TaskTemplateManager
+	 * and close the dialog returning the newly created template for setting as the selected
+	 * value for the new project dialog.
+	 * Added by: Galen Goforth on 2/5/16
+	 */
+	protected void storeTemplate() {
+		boolean isValid = validateSave();
+		if(isValid){
+			TaskTemplateManager.createTemplate(txtTemplateName.getText(),_customFields);
+			CurrentStorage.get().storeTemplateManger();
+			this.dispose();
+		}
+	}
+
 	/**
 	 * Action event Handler for JButton btnRemoveField - Removes the field from the list
 	 * @param e -> Event context
 	 */
 	protected void btnRemoveField_actionPerformed(ActionEvent e) {
-		tblFields.getSelectedRow();
-		
-		
+		((DefaultTableModel)tblFields.getModel()).removeRow(tblFields.getSelectedRow());
 	}
 
 	protected void btnEditField_actionPerformed(ActionEvent e) {
@@ -279,34 +315,52 @@ public class TaskTemplateDialog<T> extends JDialog {
 			}else{
 				field = (CustomField<T>) new CustomField<String>(txtFieldName.getText(), chkRequired.isSelected(), "");
 			}
-			tti.addField(field);
+			_customFields.add(field);
 		}
 		setFields();
 	}
+	
+	/**
+	 * Gets an existing TaskTemplate for editing and populates the GUI controls from template values
+	 * @param id
+	 */
+	private boolean getExistingTemplate(String id){
+		boolean loadedSuccessfully = false;
+		try{
+			@SuppressWarnings("unchecked")
+			TaskTemplateImpl<T> ttl = (TaskTemplateImpl<T>)TaskTemplateManager.getTemplate(id);
+			_customFields = ttl.getFields();
+			loadedSuccessfully = false;
+		}
+		catch(Exception ex){
+			Util.debug("***[Debug] There was an error loading the selected Template:\n"
+					+ ex.getLocalizedMessage().toString());
+		}
+		return loadedSuccessfully;
+	}
+	
 	/**
 	 * Refresh the fields Table when a new field added
 	 */
-	@SuppressWarnings("unchecked")
 	private void setFields() {
-		if(tti==null){
-			tti = (TaskTemplateImpl<T>) TaskTemplateManager.getDefaultTemplate();
-		}
-		ArrayList<CustomField<T>> fields = tti.getFields();
 		ArrayList<String> titles = new ArrayList<String>();
-		for(CustomField<T> c:fields){
+		if(_customFields!=null){
+			
+		}
+		for(CustomField<T> c:_customFields){
 			titles.add(c.getFieldName());
 		}
 		Object[] columnNames = {"Field Title", "Data Type", "Required?"};
 		DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames);
-        for (CustomField<T> fld : fields) {
-            Object[] o = new Object[3];
-            o[0] = fld.getFieldName();
-            o[1] = fld.getDataType();
-            o[2] = fld.isRequired();
-            model.addRow(o);
-        }
-        tblFields.setModel(model);
-        
+		for (CustomField<T> fld : _customFields) {
+			Object[] o = new Object[3];
+			o[0] = fld.getFieldName();
+			o[1] = fld.getDataType();
+			o[2] = fld.isRequired();
+			model.addRow(o);
+		}
+		tblFields.setModel(model);
+
 	}
 	/**
 	 * Helper method for field validation before adding a new field to the template
@@ -323,8 +377,22 @@ public class TaskTemplateDialog<T> extends JDialog {
 			txtFieldName.grabFocus();
 		}
 		return isValid;
-		
 	}
-	
+	/**
+	 * Validates the data in the Template design before attempting to save
+	 * @return boolean isValid
+	 */
+	private boolean validateSave() {
+		String strMessage;
+		boolean isValid = true;
+		if(txtTemplateName.getText().isEmpty() || txtTemplateName.getText().length()<3){
+			isValid=false;
+			strMessage = "The Template Title must be at least 3 characters.";
+			lblTemplateName.setForeground(Color.RED);
+			JOptionPane.showMessageDialog(this.getContentPane(), strMessage, "Error saving template", JOptionPane.ERROR_MESSAGE);
+		}
+		return isValid;
+	}
+
 	private static final long serialVersionUID = 1L;
 }

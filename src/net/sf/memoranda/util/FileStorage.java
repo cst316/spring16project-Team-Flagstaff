@@ -29,6 +29,7 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.ResourcesListImpl;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.TaskListImpl;
+import net.sf.memoranda.TaskTemplate;
 import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
@@ -476,14 +477,25 @@ public class FileStorage implements Storage {
 
 	@Override
 	public void openTemplateManger() {
+		String fn = JN_DOCPATH + ".templates";
+		if(documentExists(fn)){
+			 /*DEBUG*/
+            System.out.println("[DEBUG] Open task template list: " + fn);
+            TaskTemplateManager._doc = openDocument(JN_DOCPATH + ".templates");
+		}
+		else{
+			/*DEBUG*/
+			System.out.println("[DEBUG] New task template list created: " + fn);
+		}
+		/*
 		if (!new File(JN_DOCPATH + ".templates").exists()) {
             TaskTemplateManager._doc = null;
             return;
         }
-        /*DEBUG*/
+        //DEBUG
         System.out.println(
             "[DEBUG] Open task template manager: " + JN_DOCPATH + ".templates");
-        TaskTemplateManager._doc = openDocument(JN_DOCPATH + ".temlpates");
+        TaskTemplateManager._doc = openDocument(JN_DOCPATH + ".temlpates");*/
 		
 	}
 
@@ -493,9 +505,10 @@ public class FileStorage implements Storage {
             /*DEBUG*/
             System.out.println(
                 "[DEBUG] Save Templates: " + JN_DOCPATH + ".templates");
-            Context.context.save(new FileOutputStream(JN_DOCPATH + ".templates"));
+            saveDocument(TaskTemplateManager._doc, JN_DOCPATH + ".templates");
         }
         catch (Exception ex) {
+        	System.out.println("[DEBUG] Error Saving Task Template");
             new ExceptionDialog(
                 ex,
                 "Failed to store context to " + JN_DOCPATH + ".templates",

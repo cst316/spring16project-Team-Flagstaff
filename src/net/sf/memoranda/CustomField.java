@@ -23,7 +23,6 @@ public class CustomField<T> implements CustomFieldInterface<T>{
 	private int minValue;
 	private int maxValue;
 	private boolean isRequired;
-	private int index;
 	private T data;
 
 	/**

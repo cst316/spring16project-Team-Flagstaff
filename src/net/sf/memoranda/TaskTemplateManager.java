@@ -4,6 +4,7 @@
 package net.sf.memoranda;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
@@ -20,25 +21,34 @@ import nu.xom.Elements;
  * Handles IO operations for the Task Templates 
  */
 public class TaskTemplateManager {
-	public static Object _doc=null;
+	public static Document _doc=null;
 	static Element _root = null;
-	
+
 	static {
-    	init();
-    }
-	
+		init();
+	}
+
+	/*
+	 * Hastable of "task" XOM elements for quick searching them by ID's
+	 * (ID => element) 
+	 */
+	private static Hashtable<String, TaskTemplate<?>> elements = new Hashtable<String, TaskTemplate<?>>();
+
 	/**
 	 * Helper method for initiating the needed class members
 	 */
 	public static void init(){
 		CurrentStorage.get().openTemplateManger();
 		if (_doc == null) {
-            _root = new Element("templateList");
-            _doc = new Document(_root);
-            createTemplate("__default", Local.getString("Default Template"), null);
+			_root = new Element("templateList");
+			_doc = new Document(_root);
+			createTemplate("__default", Local.getString("Default Template"), null);
+		}
+		else{
+			_root = _doc.getRootElement();
 		}
 	}
-	
+
 	/**
 	 * Creates a TaskTemplate in Local Storage and then returns an instance of the
 	 * TaskTemplate class that represents the new template
@@ -49,13 +59,13 @@ public class TaskTemplateManager {
 	 * @return
 	 */
 	public static <T> TaskTemplate<T> createTemplate(String id, String templateName, ArrayList<CustomField<T>> fields) {
-		 Element el = new Element("template");
-	        el.addAttribute(new Attribute("id", id));
-	        el.addAttribute(new Attribute("name", templateName));
-	        _root.appendChild(el);
-	        TaskTemplate<T> tt = new TaskTemplateImpl<T>(id, templateName);
-	        tt.setFields(fields);
-	        return tt;
+		Element el = new Element("template");
+		el.addAttribute(new Attribute("id", id));
+		el.addAttribute(new Attribute("name", templateName));
+		_root.appendChild(el);
+		TaskTemplate<T> tt = new TaskTemplateImpl<T>(id, templateName);
+		tt.setFields(fields);
+		return tt;
 	}
 	/**
 	 * Creates a TaskTemplate in Local Storage and then returns an instance of the
@@ -82,7 +92,7 @@ public class TaskTemplateManager {
 		TaskTemplate<T> tt = createTemplate(Util.generateId(),templateName, fields);
 		return tt;
 	}	
-	
+
 	/**
 	 * Returns a list of the template names for display
 	 * @return ArrayList<String> : A list of title names
@@ -95,7 +105,7 @@ public class TaskTemplateManager {
 		}
 		return names;
 	}
-	
+
 	/**
 	 * Returns the default object of type: TaskTemplate from XML storage
 	 * @return TaskTemplate
@@ -110,12 +120,24 @@ public class TaskTemplateManager {
 		}
 		return ttDefault;
 	}
-	
+
 	/**
-	 * Returns the TaskTemplate Object (TaskTemplateImpl)
-	 * TaskTemplateImpl implements the TaskTemplate interface
+	 * Returns an object that implements the TaskTemplate interface from the given name
+	 * @param String name
+	 * @return TaskTemplate 
+	 */
+	public static <T> TaskTemplate<T> getTemplateFromName(String name){
+		TaskTemplate<T> tt = null;
+		Element d = null;
+		return tt;
+	}
+
+
+	/**
+	 * Returns an object that implements the TaskTemplate interface from the given id.
+	 * TaskTemplateImpl implements the TaskTemplate interface and is the intended return type for the generic
 	 * 
-	 * @param id
+	 * @param String id
 	 * @return TaskTemplate 
 	 */
 	@SuppressWarnings("unchecked")
@@ -150,23 +172,23 @@ public class TaskTemplateManager {
 			if(e.getFirstChildElement("data").getValue()!=null)
 				data = e.getFirstChildElement("data").getValue();
 			if(e.getFirstChildElement("dataType").getValue()!=null);
-				type=e.getFirstChildElement("dataType").getValue();
-				if(type.compareToIgnoreCase("Integer")==0){
-					int d1 = Integer.parseInt(data);
-					cf = new CustomField<Integer>(fname, isReq, d1);
-				}else if(type.compareToIgnoreCase("CalendarDate")==0){
-					CalendarDate cd = new CalendarDate(data);
-					cf = new CustomField<CalendarDate>(fname, isReq, cd);
-				}else{
-					cf = new CustomField<String>(fname, isReq, data);
-				}
+			type=e.getFirstChildElement("dataType").getValue();
+			if(type.compareToIgnoreCase("Integer")==0){
+				int d1 = Integer.parseInt(data);
+				cf = new CustomField<Integer>(fname, isReq, d1);
+			}else if(type.compareToIgnoreCase("CalendarDate")==0){
+				CalendarDate cd = new CalendarDate(data);
+				cf = new CustomField<CalendarDate>(fname, isReq, cd);
+			}else{
+				cf = new CustomField<String>(fname, isReq, data);
+			}
 
 			tt.addField((CustomField<T>) cf);
 		}
 		tt.setFields(fields);
 		return tt;
 	}
-	
+
 	/**
 	 * Removes the task template from local storage
 	 * @param id
@@ -185,7 +207,7 @@ public class TaskTemplateManager {
 		d.removeChildren();
 		d.detach();
 	}
-	
+
 	/**
 	 * Static Method for Saving changes to a Task Template
 	 * @param <T>
@@ -195,5 +217,12 @@ public class TaskTemplateManager {
 		TaskTemplateImpl<T> tti = (TaskTemplateImpl<T>) getTemplate(id); 
 		//ttDefault = getTemplate("__default");
 	}
-	
+	/**
+	 * Create the hash table for efficient lookup of templates from name
+	 */
+	private static void setTable(){
+
+	}
 }
+
+
