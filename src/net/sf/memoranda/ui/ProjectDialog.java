@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -49,6 +48,7 @@ public class ProjectDialog extends JDialog {
     public static boolean taskTemplateMod = false;
     boolean ignoreStartChanged = false;
     boolean ignoreEndChanged = false;
+    DefaultListModel<String> model;
     CalendarFrame endCalFrame = new CalendarFrame();
     CalendarFrame startCalFrame = new CalendarFrame();
     GridBagConstraints gbc;
@@ -93,9 +93,19 @@ public class ProjectDialog extends JDialog {
 
     void jbInit() throws Exception {
     	
-    	setListItems("__default");
+    	setListItems("Default Template");
     	pnlTaskButtons.add(btnAddTemplate);
     	pnlTaskButtons.add(btnRemoveTask);
+    	btnAddTemplate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	taskButton_actionPerformed(e);
+            }
+        });
+    	btnModTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	taskButton_actionPerformed(e);
+            }
+        });
 	this.setResizable(false);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
@@ -284,29 +294,29 @@ public class ProjectDialog extends JDialog {
         gbc_pnlSelectTemplate.gridy = 2;
         getContentPane().add(pnlSelectTemplate, gbc_pnlSelectTemplate);
         pnlSelectTemplate.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-        //pnlTemlateList.add(lstTemplateList);
+        pnlTemlateList.add(jspTemplateList);
         lstTemplateList.setBackground(new Color(255, 255, 255));
         lstTemplateList.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         lstTemplateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        lstTemplateList.setSize(150,250 );
+        lstTemplateList.setMinimumSize(new Dimension(200, 180));
+        lstTemplateList.setMaximumSize(new Dimension(200,180));
+        lstTemplateList.setPreferredSize(new Dimension(200, 180));
         pnlSelectTemplate.add(pnlTaskButtons);
         pnlTaskButtons.add(btnModTask);
+        btnModTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	taskButton_actionPerformed(e);
+            }
+        });
         
         // Modify task button
         btnModTask.setMaximumSize(new Dimension(200, 25));
         btnModTask.setMinimumSize(new Dimension(200, 25));
-        btnModTask.setPreferredSize(new Dimension(150, 25));
+        btnModTask.setPreferredSize(new Dimension(200, 25));
         btnModTask.setText("Modify Task Template");
         FlowLayout flowLayout = (FlowLayout) pnlTemlateList.getLayout();
         flowLayout.setAlignOnBaseline(true);
-        
-        pnlSelectTemplate.add(pnlTemlateList);
-        btnModTask.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	modTaskButton_actionPerformed(e);
-            }
-        });
-        
+        pnlSelectTemplate.add(pnlTemlateList);        
         gbc = new GridBagConstraints();
         gbc.gridx = 0; gbc.gridy = 3;
         gbc.insets = new Insets(5, 0, 0, 0);
@@ -329,12 +339,28 @@ public class ProjectDialog extends JDialog {
         });
     }
     /**
-     * Event handler for Modify Task Template button
+     * Event handler for Task Template buttons
      * @param e
      */
-    void modTaskButton_actionPerformed(ActionEvent e) {
+    void taskButton_actionPerformed(ActionEvent e) {
 		this.setVisible(false);
-    	newTaskTemplate();
+    	if(e.getSource()==this.btnAddTemplate)
+    		newTaskTemplate();
+    	else if(e.getSource()==this.btnModTask)
+    		modTaskTemplate(this.lstTemplateList.getSelectedValue());
+    	else
+    		removeTaskTemplate(this.lstTemplateList.getSelectedValue());
+		
+	}
+
+	private void removeTaskTemplate(String selectedValue) {
+		String id = "";
+		TaskTemplateManager.removeTemplate(id);
+		
+	}
+
+	private void modTaskTemplate(String selectedValue) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -419,20 +445,26 @@ public class ProjectDialog extends JDialog {
 	
 	public void setListItems(String selectedId){
 		ArrayList<String> titles = TaskTemplateManager.getTemplateTitles();
-    	DefaultListModel<String> listModel = new DefaultListModel<String>();
+		model = new DefaultListModel<String>();
     	for(String s:titles){
     		if(s.compareToIgnoreCase(selectedId)!=0)
-    			listModel.addElement(s);
+    			model.addElement(s);
     		else
-    			listModel.add(0, s);
+    			model.add(0, s);
     	}
+    	lstTemplateList.setModel(model);
     	lstTemplateList.setSelectedIndex(0);
+    	lstTemplateList.setVisible(true);
     	
-    	lstTemplateList.setModel(listModel);
 	}
 	
+	/**
+	 * Window closed event handler for the 'new/edit' TaskTemplate dialog
+	 * @param e
+	 */
 	protected void ttd_windowClosed(WindowEvent e) {
-		
+		// set the new project window visible again.
 		this.setVisible(true);
+		setListItems("__default");
 	}
 }

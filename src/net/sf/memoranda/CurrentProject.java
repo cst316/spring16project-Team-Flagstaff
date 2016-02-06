@@ -116,9 +116,9 @@ public class CurrentProject {
         Storage storage = CurrentStorage.get();
 
         storage.storeNoteList(_notelist, _project);
-        storage.storeTaskList(_tasklist, _project); 
         storage.storeResourcesList(_resources, _project);
         storage.storeProjectManager();
+        storage.storeTemplateManger();
         storage.storeTaskList(_tasklist, _project);
     }
     

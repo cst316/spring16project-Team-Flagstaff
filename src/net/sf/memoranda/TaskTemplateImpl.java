@@ -15,23 +15,28 @@ import nu.xom.Element;
  *
  */
 public class TaskTemplateImpl<T> implements TaskTemplate<T> {
-
-	Document _doc;
 	Element _root;
+	ArrayList<Project> _projects;
 	private String id;
 	String name;
 	private ArrayList<CustomField<T>> fields;
 	
 	/**
-	 * HashTable for lookup of elements by element name
+	 * Constructor taking 3 parameters for root element
+	 * @param Element root -> root element from XML 
 	 */
-	private Hashtable elements = new Hashtable();
-	
+	public TaskTemplateImpl(Element root){
+		_root = root;
+	}
+	/**
+	 * Constructor takes with 2 arguments
+	 * @param String id
+	 * @param String name
+	 */
 	public TaskTemplateImpl(String id, String name){
 		this.id = id;
 		this.name = name;
 		_root = new Element("tasklist");
-        _doc = new Document(_root);
 	}
 	
 	@Override
@@ -69,7 +74,7 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	}
 
 	@Override
-	public void removeField(int index) {
+	public void removeField(String index) {
 		fields.remove(index);
 		
 	}
@@ -90,17 +95,38 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	}
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.name;
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub		
+		this.name=name;		
 	}
 
+	/**
+	 * Adds the Project to the list of projects associated with the template
+	 * @param projectId
+	 */
 	@Override
-	public Document getXMLContent() {
-		return _doc;
+	public void addProject(String projectId) {
+		
+	}
+	/**
+	 * Returns the list of projects associated with the template
+	 */
+	@Override
+	public ArrayList<Project> getProjects() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/**
+	 * Remove Project Id from the list of projects associated with this task template
+	 * @param projectId
+	 * @return
+	 */
+	@Override
+	public boolean removeProject(String projectId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
