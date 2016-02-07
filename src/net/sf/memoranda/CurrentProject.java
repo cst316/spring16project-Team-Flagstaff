@@ -29,6 +29,7 @@ public class CurrentProject {
     private static NoteList _notelist = null;
     private static ResourcesList _resources = null;
     private static Vector projectListeners = new Vector();
+    private static TaskTemplate _taskTemplate = null;
 
         
     static {
@@ -38,18 +39,15 @@ public class CurrentProject {
             Context.put("LAST_OPENED_PROJECT_ID", prjId);
         }
         //ProjectManager.init();
-        _project = ProjectManager.getProject(prjId);
-		
+        _project = ProjectManager.getProject(prjId);		
 		if (_project == null) {
 			// alexeya: Fixed bug with NullPointer when LAST_OPENED_PROJECT_ID
 			// references to missing project
 			_project = ProjectManager.getProject("__default");
 			if (_project == null) 
 				_project = (Project)ProjectManager.getActiveProjects().get(0);						
-            Context.put("LAST_OPENED_PROJECT_ID", _project.getID());
-			
-		}		
-		
+            Context.put("LAST_OPENED_PROJECT_ID", _project.getID());			
+		}				
         _tasklist = CurrentStorage.get().openTaskList(_project);
         _notelist = CurrentStorage.get().openNoteList(_project);
         _resources = CurrentStorage.get().openResourcesList(_project);

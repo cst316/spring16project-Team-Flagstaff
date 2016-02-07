@@ -360,7 +360,6 @@ public class TaskTemplateDialog<T> extends JDialog {
 			model.addRow(o);
 		}
 		tblFields.setModel(model);
-
 	}
 	/**
 	 * Helper method for field validation before adding a new field to the template

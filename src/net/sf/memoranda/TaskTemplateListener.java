@@ -6,12 +6,8 @@
  */
 package net.sf.memoranda;
 
-/**
- * @author ggoforth
- *
- */
 public interface TaskTemplateListener {
 	public void TaskTemplateChanged(String id);
-	public void TaskTemplateAdded();
-	public void TaskTemplateRemoved();
+	public void TaskTemplateAdded(String id);
+	public void TaskTemplateRemoved(String id);
 }

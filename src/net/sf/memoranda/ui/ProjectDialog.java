@@ -1,3 +1,8 @@
+/**
+ * net.sf.memoranda.ui.ProjectDialog.java
+ * Last Modified by: Galen Goforth - ghgofort@asu.edu 
+ * Last Modified on: 2/7/16
+ */
 package net.sf.memoranda.ui;
 
 import java.awt.Color;
@@ -40,12 +45,18 @@ import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.Util;
+
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 /*$Id: ProjectDialog.java,v 1.26 2004/10/18 19:09:10 ivanrise Exp $*/
 public class ProjectDialog extends JDialog {
-    public boolean CANCELLED = true;
+    /**
+	 * Serial id for the version of the class
+	 */
+	private static final long serialVersionUID = 1L;
+	public boolean CANCELLED = true;
     public static boolean taskTemplateMod = false;
     boolean ignoreStartChanged = false;
     boolean ignoreEndChanged = false;
@@ -320,8 +331,15 @@ public class ProjectDialog extends JDialog {
         gbc.insets = new Insets(5, 0, 0, 0);
         gbc.anchor = GridBagConstraints.EAST;
         getContentPane().add(bottomPanel, gbc);
+        addListeners();
+    }
     
-        startCalFrame.cal.addSelectionListener(new ActionListener() {
+    /**
+     * Helper method for initialization of the class that adds listener methods for the dialog content.
+     */
+    public void addListeners(){
+    	// Add the calendar date listeners
+    	startCalFrame.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged)
                     return;
@@ -335,7 +353,7 @@ public class ProjectDialog extends JDialog {
                 endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
             }
         });
-
+    	
         // add listeners for changes to the task template list
         TaskTemplateManager.addTemplateListener(new TaskTemplateListener(){
 
@@ -346,42 +364,50 @@ public class ProjectDialog extends JDialog {
 			}
 
 			@Override
-			public void TaskTemplateAdded() {
-				// TODO Auto-generated method stub
-				
+			public void TaskTemplateAdded(String id) {
+				Util.debug("[DEBUG] Task Template Added listener reached");
+				setListItems("");
 			}
 
 			@Override
-			public void TaskTemplateRemoved() {
+			public void TaskTemplateRemoved(String id) {
 				// TODO Auto-generated method stub
 				
 			}
         	
         });
     }
+    
+    
     /**
      * Event handler for Task Template buttons
      * @param e
      */
     void taskButton_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
-    	if(e.getSource()==this.btnAddTemplate)
-    		newTaskTemplate();
-    	else if(e.getSource()==this.btnModTask)
-    		modTaskTemplate(this.lstTemplateList.getSelectedValue());
-    	else
+    	if(e.getSource()==this.btnAddTemplate){
+    		editTaskTemplate("");
+    	}
+    	else if(e.getSource()==this.btnModTask){
+    		editTaskTemplate(this.lstTemplateList.getSelectedValue());
+    	}
+    	else{
     		removeTaskTemplate(this.lstTemplateList.getSelectedValue());
+    	}
+		this.setVisible(false);
 		
 	}
 
+    /**
+     * Checks to see if there are projects that use this template, asks you to confirm
+     * that you would like to change these projects to the default template, and then
+     *  Removes the selected Task Template using the TaskTemplateManager 
+     *  -- WARNING - If a user confirms the change to remove the template any data that is
+     * stored in the custom fields for the tasks will no longer display for the user
+     * @param selectedValue
+     */
 	private void removeTaskTemplate(String selectedValue) {
 		String id = "";
 		TaskTemplateManager.removeTemplate(id);
-		
-	}
-
-	private void modTaskTemplate(String selectedValue) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -426,9 +452,10 @@ public class ProjectDialog extends JDialog {
     /**
      * Displays an instance of the dialog box for creating a task template
      * @author ggofort -> Galen Goforth 1/28/16
+     * @param <T>
      */
-    public void newTaskTemplate(){
-    	TaskTemplateDialog ttd = new TaskTemplateDialog(null, "", "");
+    public <T> void editTaskTemplate(String id){
+    	TaskTemplateDialog<T> ttd = new TaskTemplateDialog<T>(null, "", "");
     	Dimension dlgSize = ttd.getSize();
     	Dimension frmSize = App.getFrame().getSize();
     	Point point = App.getFrame().getLocation();
@@ -464,9 +491,16 @@ public class ProjectDialog extends JDialog {
         CurrentStorage.get().storeProjectManager();
     }
 	
+	/**
+	 * Sets the items in task template selection list
+	 * @param selectedId
+	 */
 	public void setListItems(String selectedId){
+		/*DEBUG*/
+		Util.debug("[DEBUG] SetListItems("+selectedId+") reached");
 		ArrayList<String> titles = TaskTemplateManager.getTemplateTitles();
 		model = new DefaultListModel<String>();
+		int setSelect = 0;
     	for(String s:titles){
     		if(s.compareToIgnoreCase(selectedId)!=0)
     			model.addElement(s);
@@ -474,19 +508,18 @@ public class ProjectDialog extends JDialog {
     			model.add(0, s);
     	}
     	lstTemplateList.setModel(model);
-    	lstTemplateList.setSelectedIndex(0);
-    	lstTemplateList.setVisible(true);
-    	
+    	lstTemplateList.setSelectedIndex(setSelect);
 	}
-	
 	
 	/**
 	 * Window closed event handler for the 'new/edit' TaskTemplate dialog
 	 * @param e
 	 */
 	protected void ttd_windowClosed(WindowEvent e) {
+		Util.debug("[DEBUG] Window Closed Listener reached");
 		// set the new project window visible again.
+		setListItems("selectedId");
 		this.setVisible(true);
-		setListItems("__default");
+		
 	}
 }

@@ -23,7 +23,7 @@ import nu.xom.Elements;
 public class TaskTemplateManager {
 	public static Document _doc=null;
 	static Element _root = null;
-	static ArrayList<TaskTemplateListener> _templateListeners=null;
+	static ArrayList<TaskTemplateListener> _templateListeners=new ArrayList<TaskTemplateListener>();
 
 	static {
 		init();
@@ -236,28 +236,31 @@ public class TaskTemplateManager {
 	
 	/**
 	 * Notify the template listener methods that there was a new template added to the template list
+	 * @param newId
 	 */
-	public static void addNotify(){
+	public static void addNotify(String newId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateAdded();         
+            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateAdded(newId);         
         }
 	}
 	
 	/**
 	 * Notify the template listener methods that there was a template removed from the list
+	 * @param removeId
 	 */
-	public static void removeNotify(){
+	public static void removeNotify(String removedId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateRemoved();         
+            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateRemoved(removedId);         
         }
 	}
 
 	/**
 	 * Notify the template listener methods that there was a change to a template in the list
+	 * @param modId
 	 */
-	public static void modNotify(String id){
+	public static void modNotify(String modId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateChanged(id);         
+            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateChanged(modId);         
         }
 	}
 

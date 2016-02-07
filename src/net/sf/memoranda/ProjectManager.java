@@ -98,15 +98,21 @@ public class ProjectManager {
         return count;
     }
 
-    public static Project createProject(String id, String title, CalendarDate startDate, CalendarDate endDate) {
+    public static Project createProject(String id, String title, CalendarDate startDate, CalendarDate endDate, String templateId) {
         Element el = new Element("project");
         el.addAttribute(new Attribute("id", id));
+        el.addAttribute(new Attribute("taskTemplateId", templateId));
         _root.appendChild(el);
         Project prj = new ProjectImpl(el);
         prj.setTitle(title);
         prj.setStartDate(startDate);
         prj.setEndDate(endDate);
         CurrentStorage.get().createProjectStorage(prj);
+        return prj;
+    }
+    
+    public static Project createProject(String id, String title, CalendarDate startDate, CalendarDate endDate) {
+        Project prj = createProject(id, title, startDate, endDate, "__default");
         return prj;
     }
 
