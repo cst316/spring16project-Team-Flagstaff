@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
+import net.sf.memoranda.TaskTemplateListener;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
@@ -253,7 +254,6 @@ public class ProjectDialog extends JDialog {
         centerPanel.add(edButton, gbc);
         
         bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        
         okButton.setMaximumSize(new Dimension(100, 25));
         okButton.setMinimumSize(new Dimension(100, 25));
         okButton.setPreferredSize(new Dimension(100, 25));
@@ -286,7 +286,6 @@ public class ProjectDialog extends JDialog {
         gbc.gridx = 0; gbc.gridy = 1;
         gbc.insets = new Insets(5, 5, 5, 0);
         getContentPane().add(centerPanel, gbc);
-        
         GridBagConstraints gbc_pnlSelectTemplate = new GridBagConstraints();
         gbc_pnlSelectTemplate.insets = new Insets(0, 0, 5, 0);
         gbc_pnlSelectTemplate.fill = GridBagConstraints.BOTH;
@@ -308,8 +307,7 @@ public class ProjectDialog extends JDialog {
             	taskButton_actionPerformed(e);
             }
         });
-        
-        // Modify task button
+
         btnModTask.setMaximumSize(new Dimension(200, 25));
         btnModTask.setMinimumSize(new Dimension(200, 25));
         btnModTask.setPreferredSize(new Dimension(200, 25));
@@ -336,6 +334,29 @@ public class ProjectDialog extends JDialog {
                     return;
                 endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
             }
+        });
+
+        // add listeners for changes to the task template list
+        TaskTemplateManager.addTemplateListener(new TaskTemplateListener(){
+
+			@Override
+			public void TaskTemplateChanged(String id) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void TaskTemplateAdded() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void TaskTemplateRemoved() {
+				// TODO Auto-generated method stub
+				
+			}
+        	
         });
     }
     /**
@@ -457,6 +478,7 @@ public class ProjectDialog extends JDialog {
     	lstTemplateList.setVisible(true);
     	
 	}
+	
 	
 	/**
 	 * Window closed event handler for the 'new/edit' TaskTemplate dialog
