@@ -23,6 +23,7 @@ import nu.xom.Elements;
 public class TaskTemplateManager {
 	public static Document _doc=null;
 	static Element _root = null;
+	static ArrayList<TaskTemplateListener> _templateListeners=null;
 
 	static {
 		init();
@@ -132,7 +133,6 @@ public class TaskTemplateManager {
 		return tt;
 	}
 
-
 	/**
 	 * Returns an object that implements the TaskTemplate interface from the given id.
 	 * TaskTemplateImpl implements the TaskTemplate interface and is the intended return type for the generic
@@ -217,6 +217,54 @@ public class TaskTemplateManager {
 		TaskTemplateImpl<T> tti = (TaskTemplateImpl<T>) getTemplate(id); 
 		//ttDefault = getTemplate("__default");
 	}
+	
+	/**
+	 * Adds a TaskTemplateListener to the list of methods to be notified if there are changes made to the task templates list in storage
+	 * @param listener
+	 */
+	public static void addTemplateListener(TaskTemplateListener listener){
+		_templateListeners.add(listener);
+	}
+	
+	/**
+	 * Returns a list of the methods to be notified if there are changes made to the task templates list in storage
+	 * @return
+	 */
+	public static ArrayList<TaskTemplateListener> getTemplateListeners(){
+		return _templateListeners;
+	}
+	
+	/**
+	 * Notify the template listener methods that there was a new template added to the template list
+	 */
+	public static void addNotify(){
+		for (int i = 0; i < _templateListeners.size(); i++) {
+            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateAdded();         
+        }
+	}
+	
+	/**
+	 * Notify the template listener methods that there was a template removed from the list
+	 */
+	public static void removeNotify(){
+		for (int i = 0; i < _templateListeners.size(); i++) {
+            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateRemoved();         
+        }
+	}
+
+	/**
+	 * Notify the template listener methods that there was a change to a template in the list
+	 */
+	public static void modNotify(String id){
+		for (int i = 0; i < _templateListeners.size(); i++) {
+            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateChanged(id);         
+        }
+	}
+
+	// *******************************************************************************************
+	// ---------------------------   Private Methods Below Here   --------------------------------
+	// *******************************************************************************************
+	
 	/**
 	 * Create the hash table for efficient lookup of templates from name
 	 */

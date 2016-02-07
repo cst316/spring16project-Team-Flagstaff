@@ -8,5 +8,7 @@ package net.sf.memoranda;
  *
  */
 public interface TaskTemplateListener {
-
+	public void TaskTemplateChanged(String id);
+	public void TaskTemplateAdded();
+	public void TaskTemplateRemoved();
 }

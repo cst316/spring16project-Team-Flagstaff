@@ -254,8 +254,6 @@ public class ProjectDialog extends JDialog {
         centerPanel.add(edButton, gbc);
         
         bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        
-        // Save Button
         okButton.setMaximumSize(new Dimension(100, 25));
         okButton.setMinimumSize(new Dimension(100, 25));
         okButton.setPreferredSize(new Dimension(100, 25));
@@ -266,7 +264,6 @@ public class ProjectDialog extends JDialog {
             }
         });
         this.getRootPane().setDefaultButton(okButton);
-        // Cancel Button
         cancelButton.setMaximumSize(new Dimension(100, 25));
         cancelButton.setMinimumSize(new Dimension(100, 25));
         cancelButton.setPreferredSize(new Dimension(100, 25));
@@ -289,8 +286,6 @@ public class ProjectDialog extends JDialog {
         gbc.gridx = 0; gbc.gridy = 1;
         gbc.insets = new Insets(5, 5, 5, 0);
         getContentPane().add(centerPanel, gbc);
-       
-        // Select Template Panel
         GridBagConstraints gbc_pnlSelectTemplate = new GridBagConstraints();
         gbc_pnlSelectTemplate.insets = new Insets(0, 0, 5, 0);
         gbc_pnlSelectTemplate.fill = GridBagConstraints.BOTH;
@@ -312,8 +307,7 @@ public class ProjectDialog extends JDialog {
             	taskButton_actionPerformed(e);
             }
         });
-        
-        // Modify task button
+
         btnModTask.setMaximumSize(new Dimension(200, 25));
         btnModTask.setMinimumSize(new Dimension(200, 25));
         btnModTask.setPreferredSize(new Dimension(200, 25));
@@ -341,7 +335,7 @@ public class ProjectDialog extends JDialog {
                 endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
             }
         });
-        
+
         // add listeners for changes to the task template list
         TaskTemplateManager.addTemplateListener(new TaskTemplateListener(){
 
