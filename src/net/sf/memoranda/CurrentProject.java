@@ -29,7 +29,7 @@ public class CurrentProject {
     private static NoteList _notelist = null;
     private static ResourcesList _resources = null;
     private static Vector projectListeners = new Vector();
-    private static TaskTemplate _taskTemplate = null;
+    private static TaskTemplate<?> _taskTemplate = null;
 
         
     static {
@@ -126,4 +126,18 @@ public class CurrentProject {
         _notelist = null;
         _resources = null;
     }
+
+	/**
+	 * @return the _taskTemplate
+	 */
+	public static TaskTemplate<?> get_taskTemplate() {
+		return _taskTemplate;
+	}
+
+	/**
+	 * @param _taskTemplate the _taskTemplate to set
+	 */
+	public static void set_taskTemplate(TaskTemplate<?> _taskTemplate) {
+		CurrentProject._taskTemplate = _taskTemplate;
+	}
 }

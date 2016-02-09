@@ -116,8 +116,8 @@ public class ProjectManager {
         return prj;
     }
 
-    public static Project createProject(String title, CalendarDate startDate, CalendarDate endDate) {
-        return createProject(Util.generateId(), title, startDate, endDate);
+    public static Project createProject(String title, CalendarDate startDate, CalendarDate endDate, String templateId) {
+        return createProject(Util.generateId(), title, startDate, endDate, templateId);
     }
     
     public static void removeProject(String id) {

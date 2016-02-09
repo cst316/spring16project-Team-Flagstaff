@@ -68,7 +68,8 @@ public class TaskTemplateDialog<T> extends JDialog {
 	private JCheckBox chkRequired;
 	private GridBagConstraints gbc_pnlMain;
 	private JSpinner spnMin, spnMax;
-	private JButton btnAddField, btnEditField, btnRemoveField;
+	private JButton btnAddField, btnEditField, btnRemoveField, btnOK, btnCancel;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Constructor for the TaskTemplateDialog class
@@ -131,7 +132,7 @@ public class TaskTemplateDialog<T> extends JDialog {
 		pnlMain.add(pnlFields);
 		pnlFields.setLayout(null);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 245, 287);
 		pnlFields.add(scrollPane);
 
@@ -231,8 +232,8 @@ public class TaskTemplateDialog<T> extends JDialog {
 
 		pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pnlButtons.setBounds(339, 327, 245, 33);
-		JButton btnCancel = new JButton("Cancel");
-		JButton btnOK = new JButton("Save");
+		btnCancel = new JButton("Cancel");
+		btnOK = new JButton("Save");
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				storeTemplate();
