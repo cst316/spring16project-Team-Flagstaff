@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,8 +38,10 @@ import javax.swing.event.ChangeListener;
 import javax.swing.JCheckBox;
 
 import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.CustomField;
+import net.sf.memoranda.DisplayField;
 import net.sf.memoranda.TaskTemplate;
-import net.sf.memoranda.TaskTemplateImpl;
+import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
 
@@ -47,8 +50,11 @@ public class TaskDialog extends JDialog {
 	/**
 	 * Default Serial ID
 	 */
-	private TaskTemplate<?> taskTemp = new TaskTemplateImpl<Object>();
 	private static final long serialVersionUID = 1L;
+	
+	//@SuppressWarnings("rawtypes")
+	//TaskTemplateImpl taskTemp = new TaskTemplateImpl();
+	
 	JPanel mPanel = new JPanel(new BorderLayout());
 	JPanel areaPanel = new JPanel(new BorderLayout());
 	JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -113,7 +119,7 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
-	private final CustomFieldsPanel<?> pnlCustom = new CustomFieldsPanel<Object>();
+	private final CustomFieldsPanel pnlCustom = new CustomFieldsPanel();
 
 	public TaskDialog(Frame frame, String title) {
 		super(frame, title, true);
@@ -127,7 +133,7 @@ public class TaskDialog extends JDialog {
 	}
 
 	void jbInit() throws Exception {
-		this.taskTemp = new TaskTemplateImpl<>();
+		//this.taskTemp = new TaskTemplateImpl<>();
 		this.setResizable(false);
 		this.setSize(new Dimension(831, 442));
 		border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -349,11 +355,12 @@ public class TaskDialog extends JDialog {
 
 		priorityCB.setSelectedItem(Local.getString("Normal"));
 
-		// Add the pnlCustom to the main form
-		pnlCustom.setLayout(new GridBagLayout());
-		getContentPane().add(pnlCustom, BorderLayout.SOUTH);
 
+		pnlCustom.setLayout(new GridBagLayout());
+		// Add the items to the pnlCustom
 		addCustomFields();
+
+		areaPanel.add(pnlCustom, BorderLayout.SOUTH);
 
 		cancelB.setMaximumSize(new Dimension(100, 26));
 		cancelB.setMinimumSize(new Dimension(100, 26));
@@ -395,14 +402,52 @@ public class TaskDialog extends JDialog {
 		});
 	}
 
-	private void addCustomFields() {
-		if(taskTemp!=null){
-			if(taskTemp.getFields()!=null){
-				pnlCustom.setCustomFields(taskTemp.getFields());
+	@SuppressWarnings({ "unchecked" })
+	private <T> void addCustomFields() {
+		if(CurrentProject.get_taskTemplate()==null){
+			CurrentProject.set_taskTemplate(TaskTemplateManager.getDefaultTemplate());
+		}
+		if(CurrentProject.get_taskTemplate().getFields()!=null){
+			TaskTemplate<T> temp = (TaskTemplate<T>) CurrentProject.get_taskTemplate();
+			ArrayList<CustomField<T>> fld = temp.getFields();
+			if(fld!=null){
+				pnlCustom.fillPanel(fld);
 			}
 		}
 	}
-
+	
+	/**
+	 * Get the values from the controls for the custom fields
+	 * @return
+	 */
+	public <T> ArrayList<CustomField<T>> getCustomFieldValues(){
+		ArrayList<DisplayField> fields =  pnlCustom.getCustomPanels();
+		ArrayList<CustomField<T>> custom = new ArrayList<CustomField<T>>();
+		for(DisplayField df:fields){
+			String name = df.getFieldName();
+			T data = df.getData();
+			CustomField<T> cf = new CustomField<T>(name, false, data);
+			custom.add(cf);
+		}
+		return custom;
+	}
+	
+	/**
+	 * Set the values in the custom fields if they exist
+	 * @param customFields
+	 */
+	public <T> void setCustomFieldValues(ArrayList<CustomField<T>> customFields){
+		if(customFields!=null){
+			for(CustomField<T> f:customFields){
+				if(f.getFieldName()!=null && f.getData()!=null){
+					pnlCustom.setFieldData(f.getFieldName(), f.getData());
+				}
+			}
+		}
+		
+		
+	}
+	
 	public void setStartDate(CalendarDate d) {
 		this.startDate.getModel().setValue(d.getDate());
 	}
@@ -463,19 +508,4 @@ public class TaskDialog extends JDialog {
 		((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e, 
 				this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
 	}
-
-	/**
-	 * @return the taskTemp
-	 */
-	public TaskTemplate<?> getTaskTemp() {
-		return taskTemp;
-	}
-
-	/**
-	 * @param taskTemp the taskTemp to set
-	 */
-	public void setTaskTemp(TaskTemplate<?> taskTemp) {
-		this.taskTemp = taskTemp;
-	}
-
 }

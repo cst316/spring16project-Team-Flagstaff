@@ -24,16 +24,17 @@ public class TaskTemplateManager {
 	public static Document _doc=null;
 	static Element _root = null;
 	static ArrayList<TaskTemplateListener> _templateListeners=new ArrayList<TaskTemplateListener>();
-
-	static {
-		init();
-	}
-
-	/*
-	 * Hastable of "task" XOM elements for quick searching them by ID's
+	
+	 /* 
+	 * Hashtable of "task" XOM elements for mapping the names of the templates to the template id
 	 * (ID => element) 
 	 */
-	private static Hashtable<String, TaskTemplate<?>> elements = new Hashtable<String, TaskTemplate<?>>();
+	private static Hashtable<String, String> _nameMap; 
+	
+	static {
+		_nameMap = new Hashtable<String, String>();
+		init();
+	}
 
 	/**
 	 * Helper method for initiating the needed class members
@@ -47,6 +48,12 @@ public class TaskTemplateManager {
 		}
 		else{
 			_root = _doc.getRootElement();
+			Elements elements = _root.getChildElements("taskTemplate");
+			if(elements!=null){
+				for(int x=0;x<elements.size();x++){
+					_nameMap.put((elements.get(x).getAttributeValue("name")!=null)?elements.get(x).getAttributeValue("name"): "NAME...ERROR", elements.get(x).getAttributeValue("id"));
+				}
+			}
 		}
 	}
 
@@ -60,12 +67,27 @@ public class TaskTemplateManager {
 	 * @return
 	 */
 	public static <T> TaskTemplate<T> createTemplate(String id, String templateName, ArrayList<CustomField<T>> fields) {
-		Element el = new Element("template");
+		Element el = new Element("taskTemplate");
 		el.addAttribute(new Attribute("id", id));
 		el.addAttribute(new Attribute("name", templateName));
+		// Loop through the CustomFields and add the values to the XML element for the task template
+		for(int x=0;x<fields.size();x++){
+			Element child = new Element("customField");
+			Element type = new Element("dataType");
+			type.appendChild(fields.get(x).getDataType());
+			Element name = new Element("fieldName");
+			name.appendChild(fields.get(x).getFieldName());
+			Element data = new Element("data");
+			name.appendChild(fields.get(x).dataToString());
+			child.appendChild(type);
+			child.appendChild(name);
+			child.appendChild(data);
+			el.appendChild(child);
+		}
 		_root.appendChild(el);
 		TaskTemplate<T> tt = new TaskTemplateImpl<T>(id, templateName);
 		tt.setFields(fields);
+		_nameMap.put(templateName, id);
 		return tt;
 	}
 	/**
@@ -128,9 +150,17 @@ public class TaskTemplateManager {
 	 * @return TaskTemplate 
 	 */
 	public static <T> TaskTemplate<T> getTemplateFromName(String name){
-		TaskTemplate<T> tt = null;
-		Element d = null;
-		return tt;
+		String id = _nameMap.get(name);
+		return getTemplate(id);
+	}
+
+	/**
+	 * Returns the id lookup from the name to id map
+	 * @param name
+	 * @return 
+	 */
+	public static String getIdFromName(String name){
+		return _nameMap.get(name);
 	}
 
 	/**
@@ -145,8 +175,8 @@ public class TaskTemplateManager {
 		TaskTemplate<T> tt = null;
 		Element d = null;
 		Elements elements = _root.getChildElements();
-		int x=0;
-		while(x<elements.size()){
+
+		for(int x =0;x<elements.size();x++){
 			if(elements.get(x).getAttribute("id").getValue().equals(id))
 				d = elements.get(x);
 			x++;
@@ -155,8 +185,10 @@ public class TaskTemplateManager {
 		ArrayList<CustomField<T>> fields = new ArrayList<CustomField<T>>();
 		//fields
 		tt = new TaskTemplateImpl<T>(id, name);
-		Elements children = d.getChildElements();
-		for(int y=0;y<d.getChildCount();y++){
+		Elements children = d.getChildElements("customField");
+		int intSize1 = d.getChildCount();
+		int intSize2 = d.getChildElements("customField").size();
+		for(int y=0;y<d.getChildElements("customField").size();y++){
 			Element e = children.get(y);
 			String fname="", min="", max="", req="", data="", type="";
 			boolean isReq =(req.compareToIgnoreCase("true")==0)? true:false;
@@ -174,7 +206,12 @@ public class TaskTemplateManager {
 			if(e.getFirstChildElement("dataType").getValue()!=null);
 			type=e.getFirstChildElement("dataType").getValue();
 			if(type.compareToIgnoreCase("Integer")==0){
-				int d1 = Integer.parseInt(data);
+				int d1 = 0;
+				try{
+					d1 = Integer.parseInt(data);
+				}catch(NumberFormatException ex){
+					Util.debug("Number Format Exception Handled...Integer field set to 0");
+				}
 				cf = new CustomField<Integer>(fname, isReq, d1);
 			}else if(type.compareToIgnoreCase("CalendarDate")==0){
 				CalendarDate cd = new CalendarDate(data);
@@ -185,7 +222,6 @@ public class TaskTemplateManager {
 
 			tt.addField((CustomField<T>) cf);
 		}
-		tt.setFields(fields);
 		return tt;
 	}
 
@@ -217,7 +253,7 @@ public class TaskTemplateManager {
 		TaskTemplateImpl<T> tti = (TaskTemplateImpl<T>) getTemplate(id); 
 		//ttDefault = getTemplate("__default");
 	}
-	
+
 	/**
 	 * Adds a TaskTemplateListener to the list of methods to be notified if there are changes made to the task templates list in storage
 	 * @param listener
@@ -225,7 +261,7 @@ public class TaskTemplateManager {
 	public static void addTemplateListener(TaskTemplateListener listener){
 		_templateListeners.add(listener);
 	}
-	
+
 	/**
 	 * Returns a list of the methods to be notified if there are changes made to the task templates list in storage
 	 * @return
@@ -233,25 +269,25 @@ public class TaskTemplateManager {
 	public static ArrayList<TaskTemplateListener> getTemplateListeners(){
 		return _templateListeners;
 	}
-	
+
 	/**
 	 * Notify the template listener methods that there was a new template added to the template list
 	 * @param newId
 	 */
 	public static void addNotify(String newId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateAdded(newId);         
-        }
+			_templateListeners.get(i).TaskTemplateAdded(newId);         
+		}
 	}
-	
+
 	/**
 	 * Notify the template listener methods that there was a template removed from the list
 	 * @param removeId
 	 */
 	public static void removeNotify(String removedId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateRemoved(removedId);         
-        }
+			_templateListeners.get(i).TaskTemplateRemoved(removedId);         
+		}
 	}
 
 	/**
@@ -260,14 +296,14 @@ public class TaskTemplateManager {
 	 */
 	public static void modNotify(String modId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-            ((TaskTemplateListener)_templateListeners.get(i)).TaskTemplateChanged(modId);         
-        }
+			_templateListeners.get(i).TaskTemplateChanged(modId);         
+		}
 	}
 
 	// *******************************************************************************************
 	// ---------------------------   Private Methods Below Here   --------------------------------
 	// *******************************************************************************************
-	
+
 	/**
 	 * Create the hash table for efficient lookup of templates from name
 	 */

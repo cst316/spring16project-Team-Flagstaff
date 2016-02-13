@@ -7,17 +7,17 @@
  */
 package net.sf.memoranda.ui;
 
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.SpinnerDateModel;
-
 import net.sf.memoranda.CustomField;
 import net.sf.memoranda.DisplayField;
+import net.sf.memoranda.DisplayFieldFactory;
 import net.sf.memoranda.date.CalendarDate;
 
 /**
@@ -25,46 +25,75 @@ import net.sf.memoranda.date.CalendarDate;
  * @param <T>
  *
  */
-public class CustomFieldsPanel<T> extends JPanel {
+public class CustomFieldsPanel extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArrayList<CustomField<T>> customFields=null;
 	private ArrayList<DisplayField> customPanels=null;	
-	
+
 	/**
 	 * Constructor to add all of our fields to the panel
 	 */
 	public CustomFieldsPanel() {
-		customFields = new ArrayList<CustomField<T>>();
-
+		customPanels = new ArrayList<DisplayField>();
 	}
 	/**
 	 * Add a field to the panel
-	 * @param field
+	 * @param <T>
+	 * @param customField
 	 */
-	public void addField(CustomField<T> field){
-		// Add the label for the field
-		
-		
-		if(field.getData().getClass() == String.class){
-			if(field.getData()!=null){
-				field.dataToString();
+	public <T> void addField(CustomField<T> customField, int xIndex, int yIndex) throws InvalidClassException{	
+		DisplayField newField = null;
+		GridBagConstraints cs = new GridBagConstraints();
+	    cs.anchor = GridBagConstraints.WEST;
+	    cs.insets = new Insets(5, 5, 5, 5);
+	    cs.gridx = xIndex;
+	    cs.gridy=yIndex;
+		if(customField.getData()!=null){
+			if(customField.getData().getClass() == CalendarDate.class){
+				newField = DisplayFieldFactory.createField("CalendarDate");
+				newField.createDataControl(customField.getData());
+			}else if(customField.getData().getClass()== Integer.class){
+				newField = DisplayFieldFactory.createField("Integer");
+				newField.createDataControl(customField.getData());
+			}else{
+				newField = DisplayFieldFactory.createField("String");
+				newField.createDataControl(customField.getData());
 			}
-		}else if(field.getData().getClass()== Integer.class){
-			
 		}else{
-			
+			throw new InvalidClassException("There is a field in the XML template that is not a supported data type.\n"
+					+"Fix the XML Template for this project or select a different template.\n"
+					+ "CustomFieldsPanel.java: 62/naddField(CustomField<T> customField) parameter type not supported\n"
+					+ "Parameter type= " +customField.getClass().toGenericString());	
 		}
+		newField.setFieldName(customField.getFieldName());
+		customPanels.add(newField);
+		this.add((Component) newField, cs);
+		// Render the changes
+		this.revalidate();
+		this.repaint();
 	}
 	
+	/**
+	 * Removes the indicated field from the Panel
+	 * @param name
+	 * @return
+	 */
+	public boolean removeField(String name){
+		
+		// Still needs to be implemented
+		
+		boolean isFound = false;
+		return isFound;
+	}
+
 	/**
 	 * @param layout
 	 */
 	public CustomFieldsPanel(LayoutManager layout) {
 		super(layout);
-		// TODO Auto-generated constructor stub
+		customPanels = new ArrayList<DisplayField>();
 	}
 
 	/**
@@ -72,7 +101,7 @@ public class CustomFieldsPanel<T> extends JPanel {
 	 */
 	public CustomFieldsPanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
+		customPanels = new ArrayList<DisplayField>();
 	}
 
 	/**
@@ -81,22 +110,30 @@ public class CustomFieldsPanel<T> extends JPanel {
 	 */
 	public CustomFieldsPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
+		customPanels = new ArrayList<DisplayField>();
+	}
+	
+	/**
+	 * Adds the custom fields to the panel from an array list of CustomField types
+	 * @param <T>
+	 * @param fld
+	 */
+	public <T> void fillPanel(ArrayList<CustomField<T>> fld){
+		this.removeAll();
+		int column = fld.size()/2;
+		for(int x=0;x<fld.size();x++){
+			try {
+				if(x<column){
+					addField(fld.get(x),0,x );
+				}else{
+					addField(fld.get(x),1,(x-(column+1)));
+				}
+			} catch (InvalidClassException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	/**
-	 * @return the customField
-	 */
-	public ArrayList<CustomField<T>> getCustomFields() {
-		return customFields;
-	}
-
-	/**
-	 * @param customField the customField to set
-	 */
-	public void setCustomFields(ArrayList<CustomField<T>> customFields) {
-		this.customFields = customFields;
-	}
 	/**
 	 * @return the customPanels
 	 */
@@ -108,6 +145,25 @@ public class CustomFieldsPanel<T> extends JPanel {
 	 */
 	public void setCustomPanels(ArrayList<DisplayField> customPanels) {
 		this.customPanels = customPanels;
+	}
+	
+	/**
+	 * Sets the data in the field with the name given
+	 * @param fieldName
+	 * @param data
+	 */
+	public <T> void setFieldData(String fieldName, T data){
+		if(customPanels!=null){
+			int x=0;
+			boolean isFound = false;
+			while(x<customPanels.size() && !isFound){
+				if(customPanels.get(x).getFieldName().compareTo(fieldName)==0){
+					customPanels.get(x).createDataControl(data);
+					isFound=true;
+				}
+				x++;
+			}
+		}
 	}
 
 }

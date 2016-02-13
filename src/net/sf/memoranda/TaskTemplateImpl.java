@@ -22,13 +22,7 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	private String id;
 	String name;
 	private ArrayList<CustomField<T>> fields;
-	
-	/**
-	 * Constructor taking 3 parameters for root element
-	 * @param Element root -> root element from XML 
-	 */
-	public TaskTemplateImpl(){
-	}
+
 	/**
 	 * Constructor takes with 2 arguments
 	 * @param String id
@@ -37,6 +31,7 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	public TaskTemplateImpl(String id, String name){
 		this.id = id;
 		this.name = name;
+		fields = new ArrayList<CustomField<T>>();
 	}
 	/**
 	 * Returns the id for the TaskTemplate object

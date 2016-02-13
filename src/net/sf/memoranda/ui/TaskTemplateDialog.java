@@ -295,6 +295,10 @@ public class TaskTemplateDialog<T> extends JDialog {
 	 */
 	protected void btnRemoveField_actionPerformed(ActionEvent e) {
 		((DefaultTableModel)tblFields.getModel()).removeRow(tblFields.getSelectedRow());
+		
+		//Try to remove item*********Needs work still
+		tblFields.revalidate();
+		tblFields.repaint();
 	}
 
 	protected void btnEditField_actionPerformed(ActionEvent e) {

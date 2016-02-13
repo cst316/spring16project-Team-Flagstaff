@@ -470,6 +470,9 @@ public class ProjectDialog extends JDialog {
     	ttd.setVisible(true);
     }
 
+    /**
+     * Static Method for creating the dialog and saving the field information on the close event.
+     */
 	public static void newProject() {
         ProjectDialog dlg = new ProjectDialog(null, Local.getString("New project"));
         Dimension dlgSize = dlg.getSize();
@@ -485,10 +488,8 @@ public class ProjectDialog extends JDialog {
         CalendarDate endD = null;
         if (dlg.endDateChB.isSelected())
             endD = new CalendarDate((Date) dlg.endDate.getModel().getValue());
-        String templateId = dlg.lstTemplateList.getSelectedValue();
-        Project prj = ProjectManager.createProject(title, startD, endD, templateId);
-        /*if (dlg.freezeChB.isSelected())
-            prj.freeze();*/
+        String templateId = TaskTemplateManager.getIdFromName(dlg.lstTemplateList.getSelectedValue());
+        ProjectManager.createProject(title, startD, endD, templateId);
         CurrentStorage.get().storeProjectManager();
     }
 	
@@ -519,7 +520,7 @@ public class ProjectDialog extends JDialog {
 	protected void ttd_windowClosed(WindowEvent e) {
 		Util.debug("[DEBUG] Window Closed Listener reached");
 		// set the new project window visible again.
-		setListItems("selectedId");
+		setListItems(lstTemplateList.getSelectedValue());
 		this.setVisible(true);
 		
 	}

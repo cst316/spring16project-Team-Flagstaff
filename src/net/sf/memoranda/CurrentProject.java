@@ -128,16 +128,20 @@ public class CurrentProject {
     }
 
 	/**
+	 * @param <T>
 	 * @return the _taskTemplate
 	 */
-	public static TaskTemplate<?> get_taskTemplate() {
-		return _taskTemplate;
+	@SuppressWarnings("unchecked")
+	public static <T> TaskTemplate<T> get_taskTemplate() {
+		TaskTemplate<T> template = (TaskTemplate<T>)TaskTemplateManager.getTemplate(_project.getTaskTemplate());
+		return template;
 	}
 
 	/**
+	 * @param <T>
 	 * @param _taskTemplate the _taskTemplate to set
 	 */
-	public static void set_taskTemplate(TaskTemplate<?> _taskTemplate) {
-		CurrentProject._taskTemplate = _taskTemplate;
+	public static <T> void set_taskTemplate(TaskTemplate<T> taskTemplate) {
+		CurrentProject._project.setTaskTemplate(taskTemplate.getId());
 	}
 }

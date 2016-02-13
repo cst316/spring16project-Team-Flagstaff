@@ -1,19 +1,50 @@
 /**
- * 
+ * DisplayIntegerField.java -- Defines the class DisplayIntegerField
+ * @author ggoforth - Galen Goforth - Email: ghgofort@asu.edu - 2/12/16
  */
 package net.sf.memoranda;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 /**
  * @author ggoforth
- *
+ * DisplayIntegerField class is a custom panel that has a JTextArea and a JLabel built in for displaying an integer type data. 
+ * The DisplayField interface is implemented so that this field can be dynamically added to meet the needs of an XML
+ * defined task template.
  */
-public class DisplayIntegerField implements DisplayField {
+public class DisplayIntegerField extends JPanel implements DisplayField {
+	/**
+	 * Default Serial ID
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel lblName = null;
+	private JTextArea txtData = null;
 
 	/**
+	 * @param gridBagLayout 
 	 * 
 	 */
-	public DisplayIntegerField() {
-		// TODO Auto-generated constructor stub
+	public DisplayIntegerField(LayoutManager layout) {
+		super(layout);
+		GridBagConstraints cs = new GridBagConstraints();
+	    cs.anchor = GridBagConstraints.WEST;
+	    cs.insets = new Insets(5, 5, 5, 5);
+		lblName = new JLabel();
+		lblName.setPreferredSize(new Dimension(200,25));
+		cs.gridx=0;
+		cs.gridy=0;
+		this.add(lblName, cs);
+		txtData = new JTextArea();
+		txtData.setPreferredSize(new Dimension(100, 25));
+		cs.gridx=1;
+		this.add(txtData, cs);	
 	}
 
 	/* (non-Javadoc)
@@ -21,8 +52,7 @@ public class DisplayIntegerField implements DisplayField {
 	 */
 	@Override
 	public void setFieldName(String name) {
-		// TODO Auto-generated method stub
-
+		lblName.setText(name);
 	}
 
 	/* (non-Javadoc)
@@ -30,8 +60,7 @@ public class DisplayIntegerField implements DisplayField {
 	 */
 	@Override
 	public String getFieldName() {
-		// TODO Auto-generated method stub
-		return null;
+		return lblName.getText();
 	}
 
 	/* (non-Javadoc)
@@ -39,17 +68,16 @@ public class DisplayIntegerField implements DisplayField {
 	 */
 	@Override
 	public <T> void createDataControl(T data) {
-		// TODO Auto-generated method stub
-
+		txtData.setText((String)data.toString());
 	}
 
 	/* (non-Javadoc)
 	 * @see net.sf.memoranda.DisplayField#getData()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getData() {
-		// TODO Auto-generated method stub
-		return null;
+		return (T) txtData.getText();
 	}
 
 }

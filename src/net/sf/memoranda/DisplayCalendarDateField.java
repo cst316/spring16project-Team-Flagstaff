@@ -41,8 +41,7 @@ public class DisplayCalendarDateField extends JPanel implements DisplayField {
 		this.add(lblName, cs);
 		spnDate = new JSpinner(new SpinnerDateModel());
 		cs.gridx=1;
-		this.add(spnDate, cs);
-		
+		this.add(spnDate, cs);	
 	}
 
 	/* (non-Javadoc)
@@ -66,7 +65,9 @@ public class DisplayCalendarDateField extends JPanel implements DisplayField {
 	 */
 	@Override
 	public <T> void createDataControl(T data) {
-		spnDate.getModel().setValue((Date)data);
+		if(data!=null){
+			spnDate.getModel().setValue((Date)data);
+		}
 		
 	}
 
