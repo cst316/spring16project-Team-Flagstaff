@@ -41,7 +41,7 @@ import java.util.Hashtable;
  */
 public class TaskTableModel extends AbstractTreeTableModel implements TreeTableModel {
 
-    String[] columnNames = {"", Local.getString("To-do"),
+    String[] columnNames = {"", Local.getString("To-do"), Local.getString("Description"),
             Local.getString("Start date"), Local.getString("End date"),
             Local.getString("Priority"), Local.getString("Status"),
             "% " + Local.getString("done") };

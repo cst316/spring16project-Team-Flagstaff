@@ -59,17 +59,17 @@ import net.sf.memoranda.ui.treetable.*;
  * JAVADOC:
  * <h1>TaskTable</h1>
  * <p>
- * JTable whick uses JTree as a CellRenderer to show
+ * JTable which uses JTree as a CellRenderer to show
  * Tasks and subtasks logically.</p>
  *
  * <p>
- * Datamodel is TaskTableModel whick is not used directly but
- * via TaskTableSorter whick extends TaskTableModel and
+ * Data model is TaskTableModel which is not used directly but
+ * via TaskTableSorter which extends TaskTableModel and
  * adds sorting capability.
  * </p>
  *
  * <p>
- * To make this class simpler, most cellrendering code
+ * To make this class simpler, most cell rendering code
  * has been moved to TaskTreeTableCellRenderer.
  * </p>
  *
@@ -507,7 +507,7 @@ public class TaskTable extends JTable {
 		 * Expands stored treepaths in JTree
 		 * <p>
 		 * If model has been changed (eg. project change) we
-		 * still try to expand paths whick do not exist.
+		 * still try to expand paths which do not exist.
 		 * We just assume that this is not causing problems,
 		 * and as a side effect it preserved tree expansion status
 		 * even after project has been changed to some other project 
