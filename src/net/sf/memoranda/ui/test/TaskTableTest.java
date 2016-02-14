@@ -5,23 +5,31 @@ package net.sf.memoranda.ui.test;
 
 import static org.junit.Assert.*;
 
+import java.awt.PopupMenu;
+
+import javax.accessibility.AccessibleContext;
+import javax.swing.JTree;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.sf.memoranda.ui.TaskTable;
+import net.sf.memoranda.ui.TaskTable.TreeTableCellRenderer;
+
 /**
- * @author Kevin
+ * @author Kevin Bryant - kjbryan1
  *
  */
 public class TaskTableTest {
-
+	TaskTable testTable = new TaskTable();
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() throws Exception {	
 	}
 
 	/**
@@ -74,7 +82,8 @@ public class TaskTableTest {
 	 */
 	@Test
 	public void testTaskTable() {
-		fail("Not yet implemented");
+		TaskTable testTable2 = new TaskTable();
+		assertNotNull(testTable2);
 	}
 
 	/**
@@ -90,7 +99,14 @@ public class TaskTableTest {
 	 */
 	@Test
 	public void testTableChanged() {
-		fail("Not yet implemented");
+		PopupMenu test = new PopupMenu();
+		TaskTable temp = testTable;
+		testTable.add(test);
+		assertTrue(temp != testTable);
+		temp.add(test);
+		testTable.tableChanged();
+		temp.tableChanged();
+		assertTrue(temp == testTable);
 	}
 
 	/**
@@ -98,7 +114,10 @@ public class TaskTableTest {
 	 */
 	@Test
 	public void testGetTree() {
-		fail("Not yet implemented");
+		TreeTableCellRenderer temp = testTable.getTree();
+		AccessibleContext temp2 = temp.getAccessibleContext();
+		assertNotNull(temp);
+		assertNotNull(temp2);
 	}
 
 	/**
@@ -106,7 +125,10 @@ public class TaskTableTest {
 	 */
 	@Test
 	public void testDoLayout() {
-		fail("Not yet implemented");
+		TaskTable temp = testTable;
+		testTable.doLayout();
+		temp.doLayout();
+		assertTrue(temp == testTable);
 	}
 
 	/**

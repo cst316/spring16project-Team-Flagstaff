@@ -5,11 +5,16 @@ package net.sf.memoranda.ui.test;
 
 import static org.junit.Assert.*;
 
+import java.awt.Frame;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.ui.TaskDialog;
 
 /**
  * @author Kevin
@@ -50,7 +55,10 @@ public class TaskDialogTest {
 	 */
 	@Test
 	public void testTaskDialog() {
-		fail("Not yet implemented");
+		Frame testFrame = new Frame();
+		TaskDialog testDialog = new TaskDialog(testFrame,"testTitle");
+		assertNotNull(testDialog);
+		assertTrue(testDialog.getTitle().equals("testTitle"));
 	}
 
 	/**
@@ -66,7 +74,13 @@ public class TaskDialogTest {
 	 */
 	@Test
 	public void testSetStartDate() {
-		fail("Not yet implemented");
+		Frame testFrame = new Frame();
+		TaskDialog testDialog = new TaskDialog(testFrame,"testTitle");
+		CalendarDate testdate = new CalendarDate();
+		testdate.getFullDateString();
+		testDialog.setStartDate(testdate);
+		//TODO getStartDate() method need in order to test... assertNotNull(testDialog.)
+		fail("need getStartDate() method");
 	}
 
 	/**
@@ -74,7 +88,13 @@ public class TaskDialogTest {
 	 */
 	@Test
 	public void testSetEndDate() {
-		fail("Not yet implemented");
+		Frame testFrame = new Frame();
+		TaskDialog testDialog = new TaskDialog(testFrame,"testTitle");
+		CalendarDate testdate = new CalendarDate();
+		testdate.getFullDateString();
+		testDialog.setEndDate(testdate);
+		//TODO getSetEndDate() method need in order to test... assertNotNull(testDialog.)
+		fail("need getEndDate() method");
 	}
 
 	/**
@@ -82,7 +102,13 @@ public class TaskDialogTest {
 	 */
 	@Test
 	public void testSetStartDateLimit() {
-		fail("Not yet implemented");
+		Frame testFrame = new Frame();
+		TaskDialog testDialog = new TaskDialog(testFrame,"testTitle");
+		CalendarDate testdate = new CalendarDate();
+		testdate.getFullDateString();
+		testDialog.setStartDateLimit(testdate, testdate);
+		//TODO get() method need in order to test... assertNotNull(testDialog.)
+		fail("need get() method");
 	}
 
 	/**
