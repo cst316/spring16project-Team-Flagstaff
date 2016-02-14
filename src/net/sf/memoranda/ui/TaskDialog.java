@@ -120,7 +120,7 @@ public class TaskDialog extends JDialog {
         }
     }
     
-    void jbInit() throws Exception {
+    public void jbInit() throws Exception {
 	this.setResizable(false);
 	this.setSize(new Dimension(831, 442));
         border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
