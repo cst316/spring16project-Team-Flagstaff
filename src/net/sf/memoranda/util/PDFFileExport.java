@@ -18,7 +18,6 @@ import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
  
 import java.io.*;
-
 import java.util.Date;
 import java.util.regex.Pattern;
 
