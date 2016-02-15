@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +44,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.JCheckBox;
 
+//import com.google.common.io.Files;
+
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.date.CalendarDate;
@@ -56,6 +59,10 @@ import nu.xom.Document;
 import nu.xom.Element;
 
 import java.awt.Panel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -475,6 +482,7 @@ public class TaskDialog extends JDialog {
 			this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
     }
     
+    //added by mdgibso2
     void attachmentB_actionPerformed(ActionEvent e) {
     	UIManager.put("FileChooser.lookInLabelText", Local
                 .getString("Look in:"));
@@ -503,10 +511,8 @@ public class TaskDialog extends JDialog {
         chooser.setDialogTitle(Local.getString("Import notes"));
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
         chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
         chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
-        chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
         chooser.setPreferredSize(new Dimension(550, 375));
 
         File lastSel = null;
@@ -523,41 +529,51 @@ public class TaskDialog extends JDialog {
             chooser.setCurrentDirectory(lastSel);
         if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
             return;
-        Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());        
-        java.io.File f = chooser.getSelectedFile();
-        HashMap<String,String> notesName = new HashMap<String,String>();
-        HashMap<String,String> notesContent = new HashMap<String,String>();
-        Builder parser = new Builder();
-        String id="", name="", content = "";
-        try{
-                Document document = parser.build(f);
-                content = document.getRootElement().getFirstChildElement("body").getValue();
-                content = content.substring(content.indexOf("\n", content.indexOf("-")));
-                content = content.replace("<p>","").replace("</p>","\n");
-                name = f.getName().substring(0,f.getName().lastIndexOf("."));	
-                Element item;
-                id=Util.generateId();
-                System.out.println(id+" "+name+" "+content);
-                notesName.put(id, name);
-                notesContent.put(id, content);
-                JEditorPane p = new JEditorPane();
-                p.setContentType("text/html");
-                
-                for (Map.Entry<String,String> entry : notesName.entrySet()){
-                        id = entry.getKey();
-                        System.out.println(id+" "+name+" "+content);
-                        p.setText(content);
-                        HTMLDocument doc = (HTMLDocument)p.getDocument();
-                        Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
-                note.setTitle(name);
-                        note.setId(Util.generateId());
-                CurrentStorage.get().storeNote(note, doc);
-                }
-                workPanel.dailyItemsPanel.notesControlPane.refresh();
-                
-        }catch(Exception exc){
-                exc.printStackTrace();
-        }
+        
+        //java.io.File f = chooser.getSelectedFile();
+        Path copyFrom = chooser.getSelectedFile().toPath();
+        Path copyTo = (new File(System.getProperty("user.dir") + "/attachments")).toPath();
+
+        try {
+			Files.copy(copyFrom, copyTo.resolve(copyFrom.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e1) {
+			System.out.println("File did not copy");
+			e1.printStackTrace();
+		}
+//        HashMap<String,String> notesName = new HashMap<String,String>();
+//        HashMap<String,String> notesContent = new HashMap<String,String>();
+//        Builder parser = new Builder();
+//        String id="", name="", content = "";
+//        try{
+//                Document document = parser.build(f);
+//                content = document.getRootElement().getFirstChildElement("body").getValue();
+//                content = content.substring(content.indexOf("\n", content.indexOf("-")));
+//                content = content.replace("<p>","").replace("</p>","\n");
+//                name = f.getName().substring(0,f.getName().lastIndexOf("."));	
+//                Element item;
+//                id=Util.generateId();
+//                System.out.println(id+" "+name+" "+content);
+//                notesName.put(id, name);
+//                notesContent.put(id, content);
+//                JEditorPane p = new JEditorPane();
+//                p.setContentType("text/html");
+//                
+//                for (Map.Entry<String,String> entry : notesName.entrySet()){
+//                        id = entry.getKey();
+//                        System.out.println(id+" "+name+" "+content);
+//                        p.setText(content);
+//                        HTMLDocument doc = (HTMLDocument)p.getDocument();
+//                        Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+//                note.setTitle(name);
+//                        note.setId(Util.generateId());
+//                CurrentStorage.get().storeNote(note, doc);
+//                }
+//                workPanel.dailyItemsPanel.notesControlPane.refresh();
+//                
+//        }catch(Exception exc){
+//                exc.printStackTrace();
+//        }
+        
     }
 
 }
