@@ -442,8 +442,8 @@ public class EditorPanel extends JPanel {
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-	   chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
-	   chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
+	    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
+	    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
 		if (lastSel != null)
 			chooser.setCurrentDirectory(new File(lastSel));
