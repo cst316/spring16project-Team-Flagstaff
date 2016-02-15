@@ -37,6 +37,8 @@ import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.HTMLFileExport;
 import net.sf.memoranda.util.HTMLFileImport;
+import net.sf.memoranda.util.DOCXFileExport;
+import net.sf.memoranda.util.PDFFileExport;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Configuration;
 
@@ -459,17 +461,6 @@ public class EditorPanel extends JPanel {
 		String templ = (String) Context.get("EXPORT_TEMPLATE");
 		if (templ != null)
 			dlg.templF.setText(templ);
-		
-   	int ti = dlg.xhtmlChB.getSelectedIndex();
-	   String type = "";
-	   if (ti == 0)
-		   type = "HTML";
-	   if (ti == 1)
-	   	type = "XHTML";
-	   if (ti == 2)
-	   	type = "DOCX";
-	   if (ti == 3)
-		   type = "PDF";
 		
 		String num = (String) Context.get("EXPORT_NUMENT");
 		if ((num != null) && (num.equalsIgnoreCase("YES")))
