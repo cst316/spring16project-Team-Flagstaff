@@ -37,6 +37,8 @@ import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.HTMLFileExport;
 import net.sf.memoranda.util.HTMLFileImport;
+import net.sf.memoranda.util.DOCXFileExport;
+import net.sf.memoranda.util.PDFFileExport;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Configuration;
 
@@ -432,6 +434,7 @@ public class EditorPanel extends JPanel {
 		UIManager.put("FileChooser.cancelButtonToolTipText", Local
 				.getString("Cancel"));
 
+      //Re-enabled PDF File option as it is now available - Thomas J, 2/14/2016
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
 		chooser.setDialogTitle(Local.getString("Export note"));
@@ -439,8 +442,8 @@ public class EditorPanel extends JPanel {
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-/*TJ*/	chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
-/*TJ*/	//chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
+	    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
+	    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
 		if (lastSel != null)
 			chooser.setCurrentDirectory(new File(lastSel));
@@ -459,17 +462,6 @@ public class EditorPanel extends JPanel {
 		if (templ != null)
 			dlg.templF.setText(templ);
 		
-/*TJ*/	int ti = dlg.xhtmlChB.getSelectedIndex();
-/*TJ*/	String type = "";
-/*TJ*/	if (ti == 0)
-/*TJ*/		type = "HTML";
-/*TJ*/	if (ti == 1)
-/*TJ*/		type = "XHTML";
-/*TJ*/	if (ti == 2)
-/*TJ*/		type = "DOCX";
-/*TJ*/	//if (ti == 3)
-/*TJ*/		//type = "PDF";
-		
 		String num = (String) Context.get("EXPORT_NUMENT");
 		if ((num != null) && (num.equalsIgnoreCase("YES")))
 			dlg.numentChB.setSelected(true);
@@ -487,9 +479,9 @@ public class EditorPanel extends JPanel {
 				.getPath());
 		Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
 		Context.put("EXPORT_NUMENT", dlg.numentChB.isSelected() ? "YES" : "NO");
-/*TJ*/	Context.put("EXPORT_FILE_TYPE", dlg.xhtmlChB.getSelectedItem());
+    	Context.put("EXPORT_FILE_TYPE", dlg.xhtmlChB.getSelectedItem());
 		String template = null;
-		//if(type)
+
 		if (dlg.usetemplChB.isSelected() && dlg.templF.getText().length() > 0) {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
@@ -499,37 +491,50 @@ public class EditorPanel extends JPanel {
 		 * Format")) new RTFFileExport(chooser.getSelectedFile(),
 		 * editor.document); else
 		 */
+       
+       /* Changed the if condition to use the int "ti" value as opposed to
+       *  the alpha representation of the "type", for ease of functions.
+       *  Re-enabled PDF Export - Thomas J, 2/14/2016 (Lines 512,519,526,533-539)
+       */
 		int ei = dlg.encCB.getSelectedIndex();
+		int ti = dlg.xhtmlChB.getSelectedIndex();
+		System.out.print("Type Selection: " + ti);
 		enc = null;
-/*TJ*/		if (ei == 1 && type.equals("HTML"))
-/*TJ*/		{
-/*TJ*/			enc = "UTF-8";
-/*TJ*/			File f = chooser.getSelectedFile();
-/*TJ*/			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/				dlg.numentChB.isSelected(), template, false);
-/*TJ*/		}
-/*TJ*/		if (ei == 1 && type.equals("XHTML"))
-/*TJ*/		{
-/*TJ*/			enc = "UTF-8";
-/*TJ*/			File f = chooser.getSelectedFile();
-/*TJ*/			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/				dlg.numentChB.isSelected(), template, true);
-/*TJ*/		}
-/*TJ*/		if (type.equals("DOCX"))
-/*TJ*/	{
-/*TJ*/		enc = "UTF-8";
-/*TJ*/			File f = chooser.getSelectedFile();
-/*TJ*/		new DOCXFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/			dlg.numentChB.isSelected(), template, false);
-/*TJ*/	}
-/*TJ*/	//if (type.equals("PDF"))
-/*TJ*/	//{
-/*TJ*/		//enc = "UTF-8";
-/*TJ*/		//File f = chooser.getSelectedFile();
-/*TJ*/		//new PDFFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/			//dlg.numentChB.isSelected(), template, false);
-/*TJ*/	//}
-/*TJ*/}
+		if (ei == 1 && ti == 0)
+		{
+			enc = "UTF-8";
+			File f = chooser.getSelectedFile();
+			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
+				dlg.numentChB.isSelected(), template, false);
+		}
+		if (ei == 1 && ti == 1)
+		{
+			enc = "UTF-8";
+			File f = chooser.getSelectedFile();
+			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
+				dlg.numentChB.isSelected(), template, true);
+		}
+		if (ei == 1 && ti == 2)
+		{
+			enc = "UTF-8";
+				File f = chooser.getSelectedFile();
+				new DOCXFileExport(f, editor.document, CurrentNote.get(), enc,
+					dlg.numentChB.isSelected(), template, true);
+		}
+		if (ei == 1 && ti == 3)
+		{
+			enc = "UTF-8";
+			File f = chooser.getSelectedFile();
+			new PDFFileExport(f, editor.document, CurrentNote.get(), enc,
+				dlg.numentChB.isSelected(), template, true);
+		}
+		      //if (ei == 1 && ti == 4)
+		//{
+			//enc = "UTF-8";
+			//File f = chooser.getSelectedFile();
+			//new RTFFileExport(f, editor.document);
+		//}
+}
 
 	String initialTitle = "";
 
