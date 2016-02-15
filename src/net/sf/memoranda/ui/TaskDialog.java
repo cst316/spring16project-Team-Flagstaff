@@ -12,19 +12,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,28 +41,16 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.html.HTMLDocument;
 import javax.swing.JCheckBox;
 
-//import com.google.common.io.Files;
-
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Note;
 import net.sf.memoranda.date.CalendarDate;
-import net.sf.memoranda.date.CurrentDate;
+import net.sf.memoranda.ui.AllFilesFilter;
+import net.sf.memoranda.ui.WorkPanel;
 import net.sf.memoranda.util.Context;
-import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
-import net.sf.memoranda.util.Util;
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Element;
 
 import java.awt.Panel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -89,11 +77,11 @@ public class TaskDialog extends JDialog {
     JTextArea descriptionField = new JTextArea();
     JScrollPane descriptionScrollPane = new JScrollPane(descriptionField);
     
-    // Added by mdigibso2
+    // Added by mdgibso2
     JButton attachment = new JButton();
     JPanel attachmentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     public WorkPanel workPanel = new WorkPanel();
-
+    
 //    Border border7;
     Border border8;
     CalendarFrame startCalFrame = new CalendarFrame();
@@ -148,7 +136,7 @@ public class TaskDialog extends JDialog {
         }
     }
     
-    void jbInit() throws Exception {
+    public void jbInit() throws Exception {
 	this.setResizable(false);
 	this.setSize(new Dimension(831, 442));
         border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
