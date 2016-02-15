@@ -10,6 +10,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 //import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -38,7 +45,11 @@ import javax.swing.JCheckBox;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.ui.AllFilesFilter;
+import net.sf.memoranda.ui.WorkPanel;
+import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
+
 import java.awt.Panel;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
@@ -101,6 +112,11 @@ public class TaskDialog extends JDialog {
 	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	JLabel jLabelProgress = new JLabel();
 	JSpinner progress = new JSpinner(new SpinnerNumberModel(0, 0, 100, 5));
+	
+	// Added by mdgibso2
+    JButton attachment = new JButton();
+    JPanel attachmentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    public WorkPanel workPanel = new WorkPanel();
 	
 	//Forbid to set dates outside the bounds
 	CalendarDate startDateMin = CurrentProject.get().getStartDate();
@@ -342,6 +358,16 @@ public class TaskDialog extends JDialog {
         
         priorityCB.setSelectedItem(Local.getString("Normal"));
         
+        //added by mdgibso2
+        attachment.setText(Local.getString("Attachment"));
+        attachmentPanel.add(attachment);
+        areaPanel.add(attachmentPanel, BorderLayout.SOUTH);
+        attachment.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(ActionEvent e) {
+        		attachmentB_actionPerformed(e);
+        	}
+        });
+        
         getContentPane().add(pnlCustom, BorderLayout.SOUTH);
         cancelB.setMaximumSize(new Dimension(100, 26));
         cancelB.setMinimumSize(new Dimension(100, 26));
@@ -442,6 +468,100 @@ public class TaskDialog extends JDialog {
     void setNotifB_actionPerformed(ActionEvent e) {
     	((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e, 
 			this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
+    }
+    
+    //added by mdgibso2
+    void attachmentB_actionPerformed(ActionEvent e) {
+    	UIManager.put("FileChooser.lookInLabelText", Local
+                .getString("Look in:"));
+        UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
+                "Up One Level"));
+        UIManager.put("FileChooser.newFolderToolTipText", Local.getString(
+                "Create New Folder"));
+        UIManager.put("FileChooser.listViewButtonToolTipText", Local
+                .getString("List"));
+        UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+                .getString("Details"));
+        UIManager.put("FileChooser.fileNameLabelText", Local.getString(
+                "File Name:"));
+        UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString(
+                "Files of Type:"));
+        UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
+        UIManager.put("FileChooser.openButtonToolTipText", Local.getString(
+                "Open selected file"));
+        UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+        UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString(
+                "Cancel"));
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileHidingEnabled(false);
+
+        chooser.setDialogTitle(Local.getString("Import notes"));
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
+        chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
+        chooser.setPreferredSize(new Dimension(550, 375));
+
+        File lastSel = null;
+
+        try {
+            lastSel = (java.io.File) Context.get("LAST_SELECTED_NOTE_FILE");
+        }
+        catch (ClassCastException cce) {
+            lastSel = new File(System.getProperty("user.dir") + File.separator);
+        }
+        //---------------------------------------------------------------------
+
+        if (lastSel != null)
+            chooser.setCurrentDirectory(lastSel);
+        if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+            return;
+        
+        //java.io.File f = chooser.getSelectedFile();
+        Path copyFrom = chooser.getSelectedFile().toPath();
+        Path copyTo = (new File(System.getProperty("user.dir") + "/attachments")).toPath();
+
+        try {
+			Files.copy(copyFrom, copyTo.resolve(copyFrom.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e1) {
+			System.out.println("File did not copy");
+			e1.printStackTrace();
+		}
+//        HashMap<String,String> notesName = new HashMap<String,String>();
+//        HashMap<String,String> notesContent = new HashMap<String,String>();
+//        Builder parser = new Builder();
+//        String id="", name="", content = "";
+//        try{
+//                Document document = parser.build(f);
+//                content = document.getRootElement().getFirstChildElement("body").getValue();
+//                content = content.substring(content.indexOf("\n", content.indexOf("-")));
+//                content = content.replace("<p>","").replace("</p>","\n");
+//                name = f.getName().substring(0,f.getName().lastIndexOf("."));	
+//                Element item;
+//                id=Util.generateId();
+//                System.out.println(id+" "+name+" "+content);
+//                notesName.put(id, name);
+//                notesContent.put(id, content);
+//                JEditorPane p = new JEditorPane();
+//                p.setContentType("text/html");
+//                
+//                for (Map.Entry<String,String> entry : notesName.entrySet()){
+//                        id = entry.getKey();
+//                        System.out.println(id+" "+name+" "+content);
+//                        p.setText(content);
+//                        HTMLDocument doc = (HTMLDocument)p.getDocument();
+//                        Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+//                note.setTitle(name);
+//                        note.setId(Util.generateId());
+//                CurrentStorage.get().storeNote(note, doc);
+//                }
+//                workPanel.dailyItemsPanel.notesControlPane.refresh();
+//                
+//        }catch(Exception exc){
+//                exc.printStackTrace();
+//        }
+        
     }
 
 }
