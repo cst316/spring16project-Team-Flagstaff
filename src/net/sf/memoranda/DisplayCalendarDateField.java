@@ -10,12 +10,17 @@ package net.sf.memoranda;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+
+import net.sf.memoranda.date.CalendarDate;
 
 /**
  * @author ggoforth
@@ -33,7 +38,7 @@ public class DisplayCalendarDateField extends JPanel implements DisplayField {
 	public DisplayCalendarDateField(LayoutManager layout){
 		super(layout);
 		GridBagConstraints cs = new GridBagConstraints();
-	    cs.anchor = GridBagConstraints.WEST;
+	    cs.anchor = GridBagConstraints.CENTER;
 	    cs.insets = new Insets(5, 5, 5, 5);
 		lblName = new JLabel();
 		cs.gridx=0;
@@ -66,7 +71,14 @@ public class DisplayCalendarDateField extends JPanel implements DisplayField {
 	@Override
 	public <T> void createDataControl(T data) {
 		if(data!=null){
-			spnDate.getModel().setValue((Date)data);
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(data.toString());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			spnDate.getModel().setValue(date);
 		}
 		
 	}

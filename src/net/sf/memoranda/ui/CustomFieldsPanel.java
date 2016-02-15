@@ -46,10 +46,10 @@ public class CustomFieldsPanel extends JPanel {
 	public <T> void addField(CustomField<T> customField, int xIndex, int yIndex) throws InvalidClassException{	
 		DisplayField newField = null;
 		GridBagConstraints cs = new GridBagConstraints();
-	    cs.anchor = GridBagConstraints.WEST;
-	    cs.insets = new Insets(5, 5, 5, 5);
+	    cs.anchor = GridBagConstraints.BOTH;
+	    cs.insets = new Insets(3, 2, 3, 2);
 	    cs.gridx = xIndex;
-	    cs.gridy=yIndex;
+	    cs.gridy = yIndex;
 		if(customField.getData()!=null){
 			if(customField.getData().getClass() == CalendarDate.class){
 				newField = DisplayFieldFactory.createField("CalendarDate");

@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -359,9 +360,10 @@ public class TaskDialog extends JDialog {
 		pnlCustom.setLayout(new GridBagLayout());
 		// Add the items to the pnlCustom
 		addCustomFields();
-
+		
 		areaPanel.add(pnlCustom, BorderLayout.SOUTH);
-
+		pnlCustom.setBorder(border8);
+		pnlCustom.setLayout(new GridBagLayout());
 		cancelB.setMaximumSize(new Dimension(100, 26));
 		cancelB.setMinimumSize(new Dimension(100, 26));
 		cancelB.setPreferredSize(new Dimension(100, 26));

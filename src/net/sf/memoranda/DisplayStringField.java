@@ -10,6 +10,7 @@ import java.awt.LayoutManager;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.EtchedBorder;
 
 /**
  * @author ggoforth
@@ -26,8 +27,9 @@ public class DisplayStringField extends JPanel implements DisplayField{
 	
 	public DisplayStringField(LayoutManager layout) {
 		super(layout);
+		
 		GridBagConstraints cs = new GridBagConstraints();
-	    cs.anchor = GridBagConstraints.WEST;
+	    cs.anchor = GridBagConstraints.CENTER;
 	    cs.insets = new Insets(5, 5, 5, 5);
 		lblName = new JLabel();
 		lblName.setPreferredSize(new Dimension(200,25));
@@ -37,6 +39,7 @@ public class DisplayStringField extends JPanel implements DisplayField{
 		txtData = new JTextArea();
 		txtData.setPreferredSize(new Dimension(100, 25));
 		cs.gridx=1;
+		txtData.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		this.add(txtData, cs);	
 	}
 

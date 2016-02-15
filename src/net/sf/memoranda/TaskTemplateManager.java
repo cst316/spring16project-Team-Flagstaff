@@ -77,11 +77,8 @@ public class TaskTemplateManager {
 			type.appendChild(fields.get(x).getDataType());
 			Element name = new Element("fieldName");
 			name.appendChild(fields.get(x).getFieldName());
-			Element data = new Element("data");
-			name.appendChild(fields.get(x).dataToString());
 			child.appendChild(type);
 			child.appendChild(name);
-			child.appendChild(data);
 			el.appendChild(child);
 		}
 		_root.appendChild(el);
@@ -175,22 +172,28 @@ public class TaskTemplateManager {
 		TaskTemplate<T> tt = null;
 		Element d = null;
 		Elements elements = _root.getChildElements();
-
-		for(int x =0;x<elements.size();x++){
-			if(elements.get(x).getAttribute("id").getValue().equals(id))
-				d = elements.get(x);
-			x++;
+		int size = elements.size();
+		int x =0;
+		while(x<size){
+			d = elements.get(x);
+			String eleId = d.getAttributeValue("id");
+			if(eleId.compareTo(id)!=0){	
+				x++;
+			}
+			else{
+				x=size;
+			}
+		}
+		if(d==null){
+			return null;
 		}
 		String name = d.getAttributeValue("name");
-		ArrayList<CustomField<T>> fields = new ArrayList<CustomField<T>>();
 		//fields
 		tt = new TaskTemplateImpl<T>(id, name);
 		Elements children = d.getChildElements("customField");
-		int intSize1 = d.getChildCount();
-		int intSize2 = d.getChildElements("customField").size();
 		for(int y=0;y<d.getChildElements("customField").size();y++){
 			Element e = children.get(y);
-			String fname="", min="", max="", req="", data="", type="";
+			String fname="", min="", max="", req="", type="";
 			boolean isReq =(req.compareToIgnoreCase("true")==0)? true:false;
 			CustomField<?> cf=null;
 			if(e.getFirstChildElement("fieldName").getValue()!=null)
@@ -201,23 +204,21 @@ public class TaskTemplateManager {
 				max = e.getAttributeValue("maxValue");
 			if(e.getAttributeValue("isRequired")!=null)
 				req = e.getAttributeValue("isRequired");
-			if(e.getFirstChildElement("data").getValue()!=null)
-				data = e.getFirstChildElement("data").getValue();
 			if(e.getFirstChildElement("dataType").getValue()!=null);
 			type=e.getFirstChildElement("dataType").getValue();
 			if(type.compareToIgnoreCase("Integer")==0){
-				int d1 = 0;
+				int d1 = 0;  // This is the default value.  It could be set to change from program
 				try{
-					d1 = Integer.parseInt(data);
+					//d1 = Integer.parseInt(data);   // Change it with this value that can be stored in XML with template
 				}catch(NumberFormatException ex){
 					Util.debug("Number Format Exception Handled...Integer field set to 0");
 				}
 				cf = new CustomField<Integer>(fname, isReq, d1);
 			}else if(type.compareToIgnoreCase("CalendarDate")==0){
-				CalendarDate cd = new CalendarDate(data);
+				CalendarDate cd = new CalendarDate();
 				cf = new CustomField<CalendarDate>(fname, isReq, cd);
 			}else{
-				cf = new CustomField<String>(fname, isReq, data);
+				cf = new CustomField<String>(fname, isReq, "");
 			}
 
 			tt.addField((CustomField<T>) cf);
@@ -236,22 +237,49 @@ public class TaskTemplateManager {
 		while(x<elements.size()){
 			if(elements.get(x).getAttribute("id").getValue().equals(id)){
 				d = elements.get(x);
-				x = elements.size()-1;
+				_nameMap.remove(d.getAttribute("name").getValue());
+				d.removeChildren();
+				d.detach();
+				x=elements.size()-1; 	// skip to the end of the loop
 			}
 			x++;
-		}
-		d.removeChildren();
-		d.detach();
+		}		
 	}
 
 	/**
 	 * Static Method for Saving changes to a Task Template
 	 * @param <T>
+	 * @param template
 	 */
-	public static <T> void saveTemplateChanges(String id){
-		@SuppressWarnings("unchecked")
-		TaskTemplateImpl<T> tti = (TaskTemplateImpl<T>) getTemplate(id); 
-		//ttDefault = getTemplate("__default");
+	public static <T> void saveTemplateChanges(TaskTemplateImpl<T> template){
+		String id = template.getId();
+		Element d = null;
+		Elements elements = _root.getChildElements();
+		int x=0;
+		while(x<elements.size()){
+			d = elements.get(x);
+			x++;
+			if(d.getAttribute("id").getValue().compareTo(id)==0){
+				if(d.getAttribute("name").getValue().compareTo(template.getName())!=0){
+					_nameMap.remove(d.getAttribute("name").getValue());
+					_nameMap.put(template.getName(), id);
+					d.getAttribute("name").setValue(template.getName());
+				}
+				
+				d.removeChildren();
+				ArrayList<CustomField<T>> fields = template.getFields();
+				for(int y=0;y<fields.size();y++){
+					Element child = new Element("customField");
+					Element type = new Element("dataType");
+					type.appendChild(fields.get(y).getDataType());
+					Element name = new Element("fieldName");
+					name.appendChild(fields.get(y).getFieldName());
+					child.appendChild(type);
+					child.appendChild(name);
+					d.appendChild(child);
+				}
+			}
+		}
 	}
 
 	/**

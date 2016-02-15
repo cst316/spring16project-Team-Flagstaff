@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
+import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -40,6 +41,7 @@ import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
+import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
@@ -49,6 +51,10 @@ import net.sf.memoranda.util.*;
 
 /*$Id: ProjectsPanel.java,v 1.14 2005/01/04 09:59:22 pbielen Exp $*/
 public class ProjectsPanel extends JPanel implements ExpandablePanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	BorderLayout borderLayout1 = new BorderLayout();
 	JToolBar topBar = new JToolBar();
 	JPanel toolbarPanel = new JPanel();
@@ -417,11 +423,17 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		if (prj.getEndDate() != null) {
 			dlg.edButton.setEnabled(true);
             dlg.endDateChB.setForeground(Color.BLACK);
-
 			dlg.endDateChB.setSelected(true);
 			dlg.endDate.setEnabled(true);
 			dlg.endDate.getModel().setValue(
 				prj.getEndDate().getCalendar().getTime());
+		}
+		String taskTemplate = TaskTemplateManager.getTemplate(prj.getTaskTemplate()).getName();
+		ListModel<String> model = dlg.lstTemplateList.getModel();
+		for(int x=0;x<model.getSize();x++){
+			if(model.getElementAt(x).compareTo(taskTemplate)==0){
+				dlg.lstTemplateList.setSelectedIndex(x);
+			}
 		}
 		/*if (prj.getStatus() == Project.FROZEN)
 			dlg.freezeChB.setSelected(true);*/

@@ -50,7 +50,15 @@ public interface Project {
     //NoteList getNoteList();
     //ResourcesList getResourcesList();
     
+    /**
+     * Returns the String id for the TaskTemplate that is assigned to the project
+     * @return
+     */
     String getTaskTemplate();
+    /**
+     * Sets the TaskTemplate id that is assigned to the task template
+     * @param templateId
+     */
     void setTaskTemplate(String templateId);
     
     void freeze();

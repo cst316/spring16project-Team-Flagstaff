@@ -12,6 +12,7 @@ import java.awt.LayoutManager;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.EtchedBorder;
 
 /**
  * @author ggoforth
@@ -34,15 +35,17 @@ public class DisplayIntegerField extends JPanel implements DisplayField {
 	public DisplayIntegerField(LayoutManager layout) {
 		super(layout);
 		GridBagConstraints cs = new GridBagConstraints();
-	    cs.anchor = GridBagConstraints.WEST;
-	    cs.insets = new Insets(5, 5, 5, 5);
+	    cs.anchor = GridBagConstraints.CENTER;
+	    cs.insets = new Insets(0,0,5,0);
 		lblName = new JLabel();
-		lblName.setPreferredSize(new Dimension(200,25));
+		lblName.setPreferredSize(new Dimension(125,20));
 		cs.gridx=0;
 		cs.gridy=0;
 		this.add(lblName, cs);
+		cs.insets = new Insets(0,0,0,0);
 		txtData = new JTextArea();
-		txtData.setPreferredSize(new Dimension(100, 25));
+		txtData.setPreferredSize(new Dimension(100, 20));
+		txtData.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		cs.gridx=1;
 		this.add(txtData, cs);	
 	}

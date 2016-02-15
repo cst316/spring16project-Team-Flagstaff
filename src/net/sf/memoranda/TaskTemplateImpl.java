@@ -89,19 +89,6 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 		
 	}
 
-	public boolean saveTemplate(TaskTemplateImpl<T> taskTemp){
-		boolean success = false;
-		//********Save to XML storage using TaskTemplateManager********
-		TaskTemplateManager.saveTemplateChanges(this.id);
-		try{
-			
-			success=true;
-			
-		}catch(Exception e){
-			
-		}
-		return success;
-	}
 	@Override
 	public String getName() {
 		return this.name;

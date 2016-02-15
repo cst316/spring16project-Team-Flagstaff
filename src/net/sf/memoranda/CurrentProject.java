@@ -133,7 +133,9 @@ public class CurrentProject {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> TaskTemplate<T> get_taskTemplate() {
-		TaskTemplate<T> template = (TaskTemplate<T>)TaskTemplateManager.getTemplate(_project.getTaskTemplate());
+		TaskTemplate<T> template = null;
+		if((TaskTemplate<T>)TaskTemplateManager.getTemplate(_project.getTaskTemplate())!=null)
+			template = (TaskTemplate<T>)TaskTemplateManager.getTemplate(_project.getTaskTemplate());
 		return template;
 	}
 
