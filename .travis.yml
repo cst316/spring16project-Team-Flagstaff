@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 language: java
 jdk: oraclejdk8
 
-script:
     - ant junit
     - ant findbugs
-<<<<<<< HEAD
     - ant checkstyle
-=======
-    - ant checkstyle
->>>>>>> master
+
