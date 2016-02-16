@@ -88,11 +88,11 @@ public interface Task {
 	long getRate();
 	
 	<T> CustomField<T> getField(String index);
-	<T extends Comparable<T>> void setField(CustomField<T> field, String index);
-	<T extends Comparable<T>> void addField(CustomField<T> field);
-	<T extends Comparable<T>> void removeField(String index);
-	<T extends Comparable<T>> ArrayList<CustomField<T>> getFieldArray();
-	<T extends Comparable<T>> int getFieldCount();
+	<T> void setField(CustomField<T> field, String index);
+	<T> void addField(CustomField<T> field);
+	<T> void removeField(String index);
+	<T> ArrayList<CustomField<T>> getFieldArray();
+	<T> int getFieldCount();
 	
     nu.xom.Element getContent();
 }

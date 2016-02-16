@@ -109,6 +109,7 @@ public class TaskListImpl<T> implements TaskList {
 		return filterActiveTasks(allTasks,date);
 	}
 
+	@SuppressWarnings("hiding")
 	public <T> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
 			String description, String parentTaskId,ArrayList<CustomField<T>> customFields) {
 		System.out.println("***[Debug] TaskListImpl.createTask() reached...");
@@ -133,8 +134,15 @@ public class TaskListImpl<T> implements TaskList {
 
 		for(CustomField<T> item:customFields){
 			Element cfld = new Element("customField");
-			cfld.addAttribute(new Attribute("minimumValue", String.valueOf(item.getMin())));
+			//cfld.addAttribute(new Attribute("minimumValue", String.valueOf(item.getMin())));
+			cfld.appendChild(item.dataToString());
+			cfld.addAttribute(new Attribute("dataType", item.getDataType()));
+			cfld.addAttribute(new Attribute("fieldName", item.getFieldName()));
+			el.appendChild(cfld);
 		}
+		
+		
+		
 
 		if (parentTaskId == null) {
 			_root.appendChild(el);

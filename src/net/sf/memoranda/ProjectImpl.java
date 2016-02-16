@@ -188,16 +188,26 @@ public class ProjectImpl implements Project {
 	@Override
 	public String getTaskTemplate() {
 		String templateId = "__default";
-		Element tt = _root.getFirstChildElement("taskTemplate");
-		if(tt!=null){
-			templateId = tt.getValue();
+		if(_root.getAttribute("taskTemplateId")!=null){
+			templateId = _root.getAttribute("taskTemplateId").getValue();
 		}
-		return null;
+		return templateId;
 	}
-
+	/**
+	 * Sets the task template to the Project implementation
+	 * @param templateId
+	 */
 	@Override
 	public void setTaskTemplate(String templateId) {
-		
+		Element tt = _root.getFirstChildElement("taskTemplate");
+		if(tt==null){
+			tt = new Element("taskTemplate");
+			tt.appendChild(templateId);
+			_root.appendChild(tt);
+		}else{
+			tt.removeChildren();
+			tt.appendChild(templateId);
+		}
 		
 	}
         
