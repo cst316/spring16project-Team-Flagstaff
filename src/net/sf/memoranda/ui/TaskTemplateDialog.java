@@ -1,25 +1,36 @@
 /**
- * 
+ * Dialog for creating and editing task templates for individualized fields on tasks
+ * @author ggoforth - Galen Goforth
  */
 package net.sf.memoranda.ui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import net.sf.memoranda.CustomField;
 import net.sf.memoranda.Project;
@@ -28,25 +39,7 @@ import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
-
-import java.awt.Toolkit;
-import java.awt.Dimension;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.TableView.TableRow;
-import javax.swing.BorderFactory;
-import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-import java.awt.event.ActionEvent;
 
 /**
  * @author ggoforth
@@ -317,6 +310,7 @@ public class TaskTemplateDialog<T> extends JDialog {
 	}
 
 	private ArrayList<String> checkUse() {
+		@SuppressWarnings("unchecked")
 		Vector<Project> projects = ProjectManager.getActiveProjects();
 		ArrayList<String> useTemplate = new ArrayList<String>();
 		for(int x=0;x<projects.size();x++){

@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
-import net.sf.memoranda.date.CalendarDate;
 
 /**
  * @author ggoforth

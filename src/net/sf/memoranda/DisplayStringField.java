@@ -1,5 +1,6 @@
 /**
- * 
+ * DisplayStringField.java
+ * @author ghgoforth - Galen Goforth 2/15/16
  */
 package net.sf.memoranda;
 

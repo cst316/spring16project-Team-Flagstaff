@@ -8,10 +8,6 @@
 package net.sf.memoranda;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-
-import nu.xom.Document;
-import nu.xom.Element;
 
 /**
  * @author ggoforth
