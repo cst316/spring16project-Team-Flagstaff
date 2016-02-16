@@ -475,6 +475,9 @@ public class FileStorage implements Storage {
         }
     }
 
+    /**
+     * Opens the XML document and sets the TaskTemplate document 
+     */
 	@Override
 	public void openTemplateManger() {
 		String fn = JN_DOCPATH + ".templates";
@@ -486,19 +489,11 @@ public class FileStorage implements Storage {
 		else{
 			/*DEBUG*/
 			System.out.println("[DEBUG] New task template list created: " + fn);
-		}
-		/*
-		if (!new File(JN_DOCPATH + ".templates").exists()) {
-            TaskTemplateManager._doc = null;
-            return;
-        }
-        //DEBUG
-        System.out.println(
-            "[DEBUG] Open task template manager: " + JN_DOCPATH + ".templates");
-        TaskTemplateManager._doc = openDocument(JN_DOCPATH + ".temlpates");*/
-		
+		}		
 	}
-
+	/**
+	 * Saves the current state of the Task Templates into the .XML media file.
+	 */
 	@Override
 	public void storeTemplateManger() {
 		try {
@@ -508,10 +503,11 @@ public class FileStorage implements Storage {
             saveDocument(TaskTemplateManager._doc, JN_DOCPATH + ".templates");
         }
         catch (Exception ex) {
+        	/*DEBUG*/
         	System.out.println("[DEBUG] Error Saving Task Template");
             new ExceptionDialog(
                 ex,
-                "Failed to store context to " + JN_DOCPATH + ".templates",
+                "Failed to store Task Temlpates to " + JN_DOCPATH + ".templates",
                 "");
         }
 	}

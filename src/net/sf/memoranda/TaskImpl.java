@@ -9,7 +9,6 @@
 package net.sf.memoranda;
 
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.Vector;
 
 import java.util.ArrayList;
@@ -32,24 +31,14 @@ public class TaskImpl implements Task, Comparable {
 	private Element _element = null;
 	private TaskList _tl = null;
 
-	private Hashtable customFieldLookup = new Hashtable();
 	/**
 	 * Constructor for DefaultTask.
 	 */
 	public TaskImpl(Element taskElement, TaskList tl) {
 		_element = taskElement;
 		_tl = tl;
-		buildTree(_element);
 	}
 
-	private void buildTree(Element parent) {
-		Elements els = parent.getChildElements("customField");
-		for (int i = 0; i < els.size(); i++) {
-			Element el = els.get(i);
-			customFieldLookup.put(el.getAttribute("index").getValue(), el);
-		}
-
-	}
 
 	public Element getContent() {
 		return _element;
@@ -366,6 +355,7 @@ public class TaskImpl implements Task, Comparable {
 	/* 
 	 * @see net.sf.memoranda.Task#getSubTasks()
 	 */
+	@SuppressWarnings("unchecked")
 	public Collection getSubTasks() {
 		Elements subTasks = _element.getChildElements("task");
 		return convertToTaskObjects(subTasks);
@@ -454,7 +444,7 @@ public class TaskImpl implements Task, Comparable {
 	 * @param String index 
 	 * 
 	 */
-	public <T extends Comparable<T>> void setField(CustomField<T> field, String name) {
+	public <T> void setField(CustomField<T> field, String name) {
 		Elements cfs = _element.getChildElements("customField");
 		if(cfs!=null){
 			for (int i = 0; i < cfs.size(); i++) {
@@ -485,7 +475,7 @@ public class TaskImpl implements Task, Comparable {
 	 * Adds a new CustomField<T> object to the task
 	 * @param CustomField<T>
 	 */
-	public <T extends Comparable<T>> void addField(CustomField<T> field) {
+	public <T> void addField(CustomField<T> field) {
 		Element e = new Element("customField");
 		Element fn = new Element("name");
 		fn.appendChild(field.getFieldName());
@@ -509,7 +499,7 @@ public class TaskImpl implements Task, Comparable {
 	 * than the parameter index by subtracting 1 from each.
 	 * @param String index of the field to be removed
 	 */
-	public <T extends Comparable<T>> void removeField(String name) {
+	public <T> void removeField(String name) {
 		Elements cfs = _element.getChildElements("customField");
 		int count = getFieldCount();
 		if(cfs!=null){
@@ -531,18 +521,26 @@ public class TaskImpl implements Task, Comparable {
 	 * Adds a new CustomField<T> object to the task
 	 * @return ArrayList<CustomField<T>>
 	 */
-	public <T extends Comparable<T>> ArrayList<CustomField<T>> getFieldArray() {
-		ArrayList<CustomField<T>> cFields = null;
+	@SuppressWarnings("unchecked")
+	public <T> ArrayList<CustomField<T>> getFieldArray() {
+		ArrayList<CustomField<T>> cFields = new ArrayList<CustomField<T>>();
 		Elements ele = _element.getChildElements("customField");
-		
-		return null;
+		for(int x=0;x<ele.size();x++){
+			CustomField<T> cf = new CustomField<T>(
+				(ele.get(x).getAttributeValue("fieldName")==null)?"":ele.get(x).getAttributeValue("fieldName"), // String -> field name
+				false, 																							// boolean -> Required field
+				(ele.get(x).getValue()==null)?(T)"":(T)ele.get(x).getValue()									// T -> field data
+			);
+			cFields.add(cf);
+		}
+		return cFields;
 	}
 
 	/**
 	 * Returns a count of the custom fields in this task object
 	 * @return int 
 	 */
-	public <T extends Comparable<T>> int getFieldCount() {
+	public <T> int getFieldCount() {
 		return _element.getChildElements("customField").size();
 	}
 

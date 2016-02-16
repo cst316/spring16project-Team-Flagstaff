@@ -23,7 +23,4 @@ public interface TaskTemplate<T> {
 	public void addField(CustomField<T> field);
 	public CustomField<T> getField(int index);
 	public void removeField(String fieldId);
-	public void addProject(String projectId);
-	public ArrayList<Project> getProjects();
-	public boolean removeProject(String projectId);
 }
