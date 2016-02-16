@@ -1,3 +1,4 @@
+
  /** 
  * Interface that defines the interactions between TaskTemplate listener methods and the task template list through the TaskTemplateManager class.
  * @author ggoforth -> Galen Goforth
@@ -11,4 +12,3 @@ public interface TaskTemplateListener {
 	public void TaskTemplateAdded(String id);
 	public void TaskTemplateRemoved(String id);
 }
-
