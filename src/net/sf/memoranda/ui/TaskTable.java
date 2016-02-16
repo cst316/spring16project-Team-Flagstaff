@@ -175,7 +175,7 @@ public class TaskTable extends JTable {
 		getTableHeader().setReorderingAllowed(false);
     }
 
-    void initColumnWidths() {
+    public void initColumnWidths() {
         for (int i = 0; i < 7; i++) {
             TableColumn column = getColumnModel().getColumn(i);
             if (i == 0) {

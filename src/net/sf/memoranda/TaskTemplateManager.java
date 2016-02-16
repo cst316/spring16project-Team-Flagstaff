@@ -1,5 +1,6 @@
 /**
- * 
+ * TaskTemplateManager.java
+ * @author ggoforth -> Galen Goforth - Email: ghgofort@asu.edu
  */
 package net.sf.memoranda;
 
@@ -159,7 +160,6 @@ public class TaskTemplateManager {
 	public static String getIdFromName(String name){
 		return _nameMap.get(name);
 	}
-
 	/**
 	 * Returns an object that implements the TaskTemplate interface from the given id.
 	 * TaskTemplateImpl implements the TaskTemplate interface and is the intended return type for the generic
@@ -281,7 +281,7 @@ public class TaskTemplateManager {
 			}
 		}
 	}
-
+	
 	/**
 	 * Adds a TaskTemplateListener to the list of methods to be notified if there are changes made to the task templates list in storage
 	 * @param listener
@@ -289,7 +289,7 @@ public class TaskTemplateManager {
 	public static void addTemplateListener(TaskTemplateListener listener){
 		_templateListeners.add(listener);
 	}
-
+	
 	/**
 	 * Returns a list of the methods to be notified if there are changes made to the task templates list in storage
 	 * @return
@@ -297,7 +297,6 @@ public class TaskTemplateManager {
 	public static ArrayList<TaskTemplateListener> getTemplateListeners(){
 		return _templateListeners;
 	}
-
 	/**
 	 * Notify the template listener methods that there was a new template added to the template list
 	 * @param newId
@@ -327,6 +326,7 @@ public class TaskTemplateManager {
 			_templateListeners.get(i).TaskTemplateChanged(modId);         
 		}
 	}
+
 
 	// *******************************************************************************************
 	// ---------------------------   Private Methods Below Here   --------------------------------
