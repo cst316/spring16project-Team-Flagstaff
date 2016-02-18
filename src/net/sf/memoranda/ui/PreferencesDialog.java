@@ -16,115 +16,69 @@ import java.awt.event.*;
 /*$Id: PreferencesDialog.java,v 1.16 2006/06/28 22:58:31 alexeya Exp $*/
 public class PreferencesDialog extends JDialog {
 	JPanel topPanel = new JPanel(new BorderLayout());
-
 	JTabbedPane tabbedPanel = new JTabbedPane();
-
 	JPanel GeneralPanel = new JPanel(new GridBagLayout());
-
 	GridBagConstraints gbc;
-
 	JLabel jLabel1 = new JLabel();
-
 	ButtonGroup minGroup = new ButtonGroup();
-
 	JRadioButton minTaskbarRB = new JRadioButton();
-
 	JRadioButton minHideRB = new JRadioButton();
-
 	ButtonGroup closeGroup = new ButtonGroup();
-
 	JLabel jLabel2 = new JLabel();
-
 	JRadioButton closeExitRB = new JRadioButton();
-
 	JCheckBox askConfirmChB = new JCheckBox();
-
 	JRadioButton closeHideRB = new JRadioButton();
-
 	JLabel jLabel3 = new JLabel();
-
 	ButtonGroup lfGroup = new ButtonGroup();
-
+	/* These three radio buttons are the two unlabeled and the 
+	 * one labeled custom on the general tab.  This is for 
+	 * User Story #13 -> Task #52
+	 * Changed by: ghgofort - Galen Goforth 2/18/16 */
 	JRadioButton lfSystemRB = new JRadioButton();
-
 	JRadioButton lfJavaRB = new JRadioButton();
-
 	JRadioButton lfCustomRB = new JRadioButton();
-
-	JLabel classNameLabel = new JLabel();
-
-	JTextField lfClassName = new JTextField();
-
-	JLabel jLabel4 = new JLabel();
-
-	JCheckBox enSystrayChB = new JCheckBox();
-
-	JCheckBox startMinimizedChB = new JCheckBox();
-
-	JCheckBox enSplashChB = new JCheckBox();
-
-	JCheckBox enL10nChB = new JCheckBox();
-
-	JCheckBox firstdow = new JCheckBox();
-
-	JPanel resourcePanel = new JPanel(new BorderLayout());
-
-	ResourceTypePanel resourceTypePanel = new ResourceTypePanel();
-
-	Border rstPanelBorder;
-
-	JPanel rsBottomPanel = new JPanel(new GridBagLayout());
-
-	TitledBorder rsbpBorder;
-
-	JButton okB = new JButton();
-
-	JButton cancelB = new JButton();
-
-	JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-
-	JLabel jLabel5 = new JLabel();
-
-	JTextField browserPath = new JTextField();
-
-	JButton browseB = new JButton();
-
-	JLabel lblExit = new JLabel();
-
-	JPanel soundPanel = new JPanel();
-
-	JCheckBox enableSoundCB = new JCheckBox();
-
-	BorderLayout borderLayout1 = new BorderLayout();
-
-	TitledBorder titledBorder1;
-
-	ButtonGroup soundGroup = new ButtonGroup();
-
-	JPanel jPanel2 = new JPanel();
-
-	JButton soundFileBrowseB = new JButton();
-
-	GridLayout gridLayout1 = new GridLayout();
-
-	JPanel jPanel1 = new JPanel();
-
-	JRadioButton soundBeepRB = new JRadioButton();
-
-	JLabel jLabel6 = new JLabel();
-
-	JTextField soundFile = new JTextField();
-
-	JRadioButton soundDefaultRB = new JRadioButton();
-
-	BorderLayout borderLayout3 = new BorderLayout();
-
-	JPanel jPanel3 = new JPanel();
-
-	JRadioButton soundCustomRB = new JRadioButton();
-
-	BorderLayout borderLayout2 = new BorderLayout();
 	
+	// Labels added by ghgofort for labeling the radio buttons for Look and Feel
+	JLabel lblSystemLF = new JLabel();
+	JLabel lblDefaultLF = new JLabel();
+	
+	JLabel classNameLabel = new JLabel();
+	JTextField lfClassName = new JTextField();
+	JLabel jLabel4 = new JLabel();
+	JCheckBox enSystrayChB = new JCheckBox();
+	JCheckBox startMinimizedChB = new JCheckBox();
+	JCheckBox enSplashChB = new JCheckBox();
+	JCheckBox enL10nChB = new JCheckBox();
+	JCheckBox firstdow = new JCheckBox();
+	JPanel resourcePanel = new JPanel(new BorderLayout());
+	ResourceTypePanel resourceTypePanel = new ResourceTypePanel();
+	Border rstPanelBorder;
+	JPanel rsBottomPanel = new JPanel(new GridBagLayout());
+	TitledBorder rsbpBorder;
+	JButton okB = new JButton();
+	JButton cancelB = new JButton();
+	JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+	JLabel jLabel5 = new JLabel();
+	JTextField browserPath = new JTextField();
+	JButton browseB = new JButton();
+	JLabel lblExit = new JLabel();
+	JPanel soundPanel = new JPanel();
+	JCheckBox enableSoundCB = new JCheckBox();
+	BorderLayout borderLayout1 = new BorderLayout();
+	TitledBorder titledBorder1;
+	ButtonGroup soundGroup = new ButtonGroup();
+	JPanel jPanel2 = new JPanel();
+	JButton soundFileBrowseB = new JButton();
+	GridLayout gridLayout1 = new GridLayout();
+	JPanel jPanel1 = new JPanel();
+	JRadioButton soundBeepRB = new JRadioButton();
+	JLabel jLabel6 = new JLabel();
+	JTextField soundFile = new JTextField();
+	JRadioButton soundDefaultRB = new JRadioButton();
+	BorderLayout borderLayout3 = new BorderLayout();
+	JPanel jPanel3 = new JPanel();
+	JRadioButton soundCustomRB = new JRadioButton();
+	BorderLayout borderLayout2 = new BorderLayout();
 	JPanel editorConfigPanel = new JPanel(new BorderLayout());
 	JPanel econfPanel = new JPanel(new GridLayout(5, 2));
 	Vector fontnames = getFontNames();
@@ -298,7 +252,18 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(lfSystemRB, gbc);
-
+		
+		// New labels text added and added to container
+		lblSystemLF.setText(Local.getString("System"));
+		gbc = new GridBagConstraints();
+		gbc.gridx = 2;
+		gbc.gridy = 5;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(lfSystemRB, gbc);
+		lblDefaultLF.setText(Local.getString("Memoranda Default"));
+			
+			
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 6;
@@ -535,6 +500,8 @@ public class PreferencesDialog extends JDialog {
 
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
+		/* Statements determining the functionality of the radio buttons that are not enabled.
+		 * User Story # 13 -> ghgofort, Galen Goforth 2/18/16*/
 		if (lf.equalsIgnoreCase("system"))
 			lfSystemRB.setSelected(true);
 		else if (lf.equalsIgnoreCase("default"))
@@ -656,7 +623,7 @@ public class PreferencesDialog extends JDialog {
 			newlf = "default";
 		else if (this.lfCustomRB.isSelected())
 			newlf = this.lfClassName.getText();
-
+		// Sets the look and feel for the program
 		if (!lf.equalsIgnoreCase(newlf)) {
 			Configuration.put("LOOK_AND_FEEL", newlf);
 			try {

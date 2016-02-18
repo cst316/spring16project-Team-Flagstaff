@@ -11,10 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.Assert;
-import net.sf.memoranda.Project;
 import net.sf.memoranda.Task;
-import net.sf.memoranda.TaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.AgendaGenerator;
 import net.sf.memoranda.util.Local;
