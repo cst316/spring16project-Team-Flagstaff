@@ -1,3 +1,7 @@
+/**
+ * PreferenceDialog.java - Extends JDialog
+ * Dialog box that is used to set the user preferences for the the Memoranda program
+ */
 package net.sf.memoranda.ui;
 
 import java.io.File;
@@ -15,122 +19,76 @@ import java.awt.event.*;
 
 /*$Id: PreferencesDialog.java,v 1.16 2006/06/28 22:58:31 alexeya Exp $*/
 public class PreferencesDialog extends JDialog {
+	/**
+	 * Default Serial Version ID for object.
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel topPanel = new JPanel(new BorderLayout());
-
 	JTabbedPane tabbedPanel = new JTabbedPane();
-
-	JPanel GeneralPanel = new JPanel(new GridBagLayout());
-
+	JPanel generalPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints gbc;
-
-	JLabel jLabel1 = new JLabel();
-
+	JLabel lblMain1 = new JLabel();
 	ButtonGroup minGroup = new ButtonGroup();
-
-	JRadioButton minTaskbarRB = new JRadioButton();
-
-	JRadioButton minHideRB = new JRadioButton();
-
+	JRadioButton rbMinTaskbar = new JRadioButton();
+	JRadioButton rbMinHide = new JRadioButton();
 	ButtonGroup closeGroup = new ButtonGroup();
-
-	JLabel jLabel2 = new JLabel();
-
-	JRadioButton closeExitRB = new JRadioButton();
-
+	JLabel lblMain2 = new JLabel();
+	JRadioButton rbCloseExit = new JRadioButton();
 	JCheckBox askConfirmChB = new JCheckBox();
-
-	JRadioButton closeHideRB = new JRadioButton();
-
-	JLabel jLabel3 = new JLabel();
-
+	JRadioButton rbCloseHide = new JRadioButton();
+	JLabel lblMain3 = new JLabel();
 	ButtonGroup lfGroup = new ButtonGroup();
-
+	/* These three radio buttons are the two unlabeled and the 
+	 * one labeled custom on the general tab.  This is for 
+	 * User Story #13 -> Task #52
+	 * Changed by: ghgofort - Galen Goforth 2/18/16 */
 	JRadioButton lfSystemRB = new JRadioButton();
-
 	JRadioButton lfJavaRB = new JRadioButton();
-
 	JRadioButton lfCustomRB = new JRadioButton();
 
 	JLabel classNameLabel = new JLabel();
-
 	JTextField lfClassName = new JTextField();
-
 	JLabel jLabel4 = new JLabel();
-
 	JCheckBox enSystrayChB = new JCheckBox();
-
 	JCheckBox startMinimizedChB = new JCheckBox();
-
 	JCheckBox enSplashChB = new JCheckBox();
-
 	JCheckBox enL10nChB = new JCheckBox();
-
 	JCheckBox firstdow = new JCheckBox();
-
 	JPanel resourcePanel = new JPanel(new BorderLayout());
-
 	ResourceTypePanel resourceTypePanel = new ResourceTypePanel();
-
 	Border rstPanelBorder;
-
 	JPanel rsBottomPanel = new JPanel(new GridBagLayout());
-
 	TitledBorder rsbpBorder;
-
 	JButton okB = new JButton();
-
 	JButton cancelB = new JButton();
-
 	JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-
 	JLabel jLabel5 = new JLabel();
-
 	JTextField browserPath = new JTextField();
-
 	JButton browseB = new JButton();
-
 	JLabel lblExit = new JLabel();
-
 	JPanel soundPanel = new JPanel();
-
 	JCheckBox enableSoundCB = new JCheckBox();
-
 	BorderLayout borderLayout1 = new BorderLayout();
-
 	TitledBorder titledBorder1;
-
 	ButtonGroup soundGroup = new ButtonGroup();
-
 	JPanel jPanel2 = new JPanel();
-
 	JButton soundFileBrowseB = new JButton();
-
 	GridLayout gridLayout1 = new GridLayout();
-
 	JPanel jPanel1 = new JPanel();
-
 	JRadioButton soundBeepRB = new JRadioButton();
-
 	JLabel jLabel6 = new JLabel();
-
 	JTextField soundFile = new JTextField();
-
 	JRadioButton soundDefaultRB = new JRadioButton();
-
 	BorderLayout borderLayout3 = new BorderLayout();
-
 	JPanel jPanel3 = new JPanel();
-
 	JRadioButton soundCustomRB = new JRadioButton();
-
 	BorderLayout borderLayout2 = new BorderLayout();
-	
 	JPanel editorConfigPanel = new JPanel(new BorderLayout());
 	JPanel econfPanel = new JPanel(new GridLayout(5, 2));
-	Vector fontnames = getFontNames();
-	JComboBox normalFontCB = new JComboBox(fontnames);
-	JComboBox headerFontCB = new JComboBox(fontnames);
-	JComboBox monoFontCB = new JComboBox(fontnames);
+	Vector<String> fontnames = getFontNames();
+	JComboBox<String> normalFontCB = new JComboBox<String>(fontnames);
+	JComboBox<String> headerFontCB = new JComboBox<String>(fontnames);
+	JComboBox<String> monoFontCB = new JComboBox<String>(fontnames);
 	JSpinner baseFontSize = new JSpinner();
 	JCheckBox antialiasChB = new JCheckBox();
 	JLabel normalFontLabel = new JLabel();
@@ -157,8 +115,8 @@ public class PreferencesDialog extends JDialog {
 				.getString("Sound"));
 		this.setResizable(false);
 		// Build Tab1
-		jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel1.setText(Local.getString("Window minimize action:"));
+		lblMain1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMain1.setText(Local.getString("Window minimize action:"));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -213,11 +171,11 @@ public class PreferencesDialog extends JDialog {
 		jPanel3.add(soundFile, BorderLayout.CENTER);
 		jPanel3.add(soundFileBrowseB, BorderLayout.EAST);
 		jPanel3.add(jLabel6, BorderLayout.WEST);
-		GeneralPanel.add(jLabel1, gbc);
-		minGroup.add(minTaskbarRB);
-		minTaskbarRB.setSelected(true);
-		minTaskbarRB.setText(Local.getString("Minimize to taskbar"));
-		minTaskbarRB.addActionListener(new java.awt.event.ActionListener() {
+		generalPanel.add(lblMain1, gbc);
+		minGroup.add(rbMinTaskbar);
+		rbMinTaskbar.setSelected(true);
+		rbMinTaskbar.setText(Local.getString("Minimize to taskbar"));
+		rbMinTaskbar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				minTaskbarRB_actionPerformed(e);
 			}
@@ -227,10 +185,10 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 0;
 		gbc.insets = new Insets(10, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(minTaskbarRB, gbc);
-		minGroup.add(minHideRB);
-		minHideRB.setText(Local.getString("Hide"));
-		minHideRB.addActionListener(new java.awt.event.ActionListener() {
+		generalPanel.add(rbMinTaskbar, gbc);
+		minGroup.add(rbMinHide);
+		rbMinHide.setText(Local.getString("Hide"));
+		rbMinHide.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				minHideRB_actionPerformed(e);
 			}
@@ -240,19 +198,19 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 1;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(minHideRB, gbc);
-		jLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel2.setText(Local.getString("Window close action:"));
+		generalPanel.add(rbMinHide, gbc);
+		lblMain2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMain2.setText(Local.getString("Window close action:"));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		gbc.insets = new Insets(2, 10, 0, 15);
 		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel2, gbc);
-		closeGroup.add(closeExitRB);
-		closeExitRB.setSelected(true);
-		closeExitRB.setText(Local.getString("Close and exit"));
-		closeExitRB.addActionListener(new java.awt.event.ActionListener() {
+		generalPanel.add(lblMain2, gbc);
+		closeGroup.add(rbCloseExit);
+		rbCloseExit.setSelected(true);
+		rbCloseExit.setText(Local.getString("Close and exit"));
+		rbCloseExit.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeExitRB_actionPerformed(e);
 			}
@@ -262,11 +220,11 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 2;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(closeExitRB, gbc);
+		generalPanel.add(rbCloseExit, gbc);
 
-		closeGroup.add(closeHideRB);
-		closeHideRB.setText(Local.getString("Hide"));
-		closeHideRB.addActionListener(new java.awt.event.ActionListener() {
+		closeGroup.add(rbCloseHide);
+		rbCloseHide.setText(Local.getString("Hide"));
+		rbCloseHide.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeHideRB_actionPerformed(e);
 			}
@@ -276,40 +234,58 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 3;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(closeHideRB, gbc);
-		jLabel3.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel3.setText(Local.getString("Look and feel:"));
+		generalPanel.add(rbCloseHide, gbc);
+		lblMain3.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMain3.setText(Local.getString("Look and feel:"));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		gbc.insets = new Insets(2, 10, 0, 15);
 		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel3, gbc);
-
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
+		generalPanel.add(lblMain3, gbc);
 
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 5;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfSystemRB, gbc);
+		lfSystemRB.setHorizontalTextPosition(SwingConstants.RIGHT);
+		lfSystemRB.setText(Local.getString("System Look/Feel"));
+		generalPanel.add(lfSystemRB, gbc);
 
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 6;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfJavaRB, gbc);
+		lfJavaRB.setHorizontalTextPosition(SwingConstants.RIGHT);
+		lfJavaRB.setText(Local.getString("Default (Java) Look/Feel"));
+		generalPanel.add(lfJavaRB, gbc);
+
+		/* Add all of the JRadioButtons for Look and Feel to the group 
+		 * so that only one radio button may be selected at once.
+		 * Added by ghgofort - Galen Goforth - 2/18/16 */
+		lfGroup.add(lfSystemRB);
+		lfGroup.add(lfJavaRB);
 		lfGroup.add(lfCustomRB);
 		lfCustomRB.setText(Local.getString("Custom"));
+		/* Added the already existing action listener methods to the radio buttons in order to
+		 * disable the custom JLabel and JTextBox if the custom Look and Feel
+		 * is not the currently selected item in the radio button group
+		 * ghgofort - Galen Goforth - 2/18/16  */
 		lfCustomRB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lfCustomRB_actionPerformed(e);
+			}
+		});
+		lfJavaRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lfJavaRB_actionPerformed(e);
+			}
+		});
+		lfSystemRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lfSystemRB_actionPerformed(e);
 			}
 		});
 		gbc = new GridBagConstraints();
@@ -317,7 +293,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 7;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfCustomRB, gbc);
+		generalPanel.add(lfCustomRB, gbc);
 		classNameLabel.setEnabled(false);
 		classNameLabel.setText(Local.getString("L&F class name:"));
 		gbc = new GridBagConstraints();
@@ -325,7 +301,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 8;
 		gbc.insets = new Insets(2, 20, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(classNameLabel, gbc);
+		generalPanel.add(classNameLabel, gbc);
 		lfClassName.setEnabled(false);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
@@ -333,7 +309,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(7, 20, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		GeneralPanel.add(lfClassName, gbc);
+		generalPanel.add(lfClassName, gbc);
 		jLabel4.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabel4.setText(Local.getString("Startup:"));
 		gbc = new GridBagConstraints();
@@ -341,7 +317,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 10;
 		gbc.insets = new Insets(2, 10, 0, 15);
 		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel4, gbc);
+		generalPanel.add(jLabel4, gbc);
 		enSystrayChB.setText(Local.getString("Enable system tray icon"));
 		enSystrayChB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -353,14 +329,14 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 10;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(enSystrayChB, gbc);
+		generalPanel.add(enSystrayChB, gbc);
 		startMinimizedChB.setText(Local.getString("Start minimized"));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 11;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(startMinimizedChB, gbc);
+		generalPanel.add(startMinimizedChB, gbc);
 		enSplashChB.setText(Local.getString("Show splash screen"));
 		enSplashChB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -372,7 +348,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 12;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(enSplashChB, gbc);
+		generalPanel.add(enSplashChB, gbc);
 		enL10nChB.setText(Local.getString("Enable localization"));
 		enL10nChB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -384,7 +360,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 13;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(enL10nChB, gbc);
+		generalPanel.add(enL10nChB, gbc);
 		firstdow.setText(Local.getString("First day of week - Monday"));
 		firstdow.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -395,7 +371,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 14;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(firstdow, gbc);
+		generalPanel.add(firstdow, gbc);
 		lblExit.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblExit.setText(Local.getString("Exit") + ":");
 		gbc = new GridBagConstraints();
@@ -403,7 +379,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 15;
 		gbc.insets = new Insets(2, 10, 10, 15);
 		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(lblExit, gbc);
+		generalPanel.add(lblExit, gbc);
 		askConfirmChB.setSelected(true);
 		askConfirmChB.setText(Local.getString("Ask confirmation"));
 		askConfirmChB.addActionListener(new java.awt.event.ActionListener() {
@@ -416,7 +392,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 15;
 		gbc.insets = new Insets(2, 0, 10, 10);
 		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(askConfirmChB, gbc);
+		generalPanel.add(askConfirmChB, gbc);
 
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -455,7 +431,7 @@ public class PreferencesDialog extends JDialog {
 		rsBottomPanel.add(browseB, gbc);
 
 		resourcePanel.add(rsBottomPanel, BorderLayout.SOUTH);
-		
+
 		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
 		normalFontLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -482,7 +458,7 @@ public class PreferencesDialog extends JDialog {
 		((GridLayout)econfPanel.getLayout()).setVgap(5);
 		editorConfigPanel.add(econfPanel, BorderLayout.NORTH);
 		// Build TabbedPanel
-		tabbedPanel.add(GeneralPanel, Local.getString("General"));
+		tabbedPanel.add(generalPanel, Local.getString("General"));
 		tabbedPanel.add(resourcePanel, Local.getString("Resource types"));
 		tabbedPanel.add(soundPanel, Local.getString("Sound"));
 		tabbedPanel.add(editorConfigPanel, Local.getString("Editor"));
@@ -533,151 +509,166 @@ public class PreferencesDialog extends JDialog {
 		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString()
 				.equalsIgnoreCase("mon"));
 
-		enableCustomLF(false);
+		enableCustomLookFeel(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
-		if (lf.equalsIgnoreCase("system"))
+		/* Statements determining the functionality of the radio buttons that are not enabled.
+		 * User Story # 13 -> ghgofort, Galen Goforth 2/18/16*/
+		if (lf.equalsIgnoreCase("system")) {
 			lfSystemRB.setSelected(true);
-		else if (lf.equalsIgnoreCase("default"))
+		} else if (lf.equalsIgnoreCase("default")) {
 			lfJavaRB.setSelected(true);
-		else if (lf.length() > 0) {
+		} else if (lf.length() > 0) {
 			lfCustomRB.setSelected(true);
-			enableCustomLF(true);
+			enableCustomLookFeel(true);
 			lfClassName.setText(lf);
-		} else
+		} else {
 			lfJavaRB.setSelected(true);
+		}
 
 		askConfirmChB.setSelected(!Configuration.get("ASK_ON_EXIT").toString()
 				.equalsIgnoreCase("no"));
 		String onclose = Configuration.get("ON_CLOSE").toString();
 		if (onclose.equals("exit")) {
-			this.closeExitRB.setSelected(true);
+			this.rbCloseExit.setSelected(true);
 			// this.askConfirmChB.setEnabled(true);
 		} else {
-			this.closeHideRB.setSelected(true);
+			this.rbCloseHide.setSelected(true);
 			// this.askConfirmChB.setEnabled(false);
 		}
 
-		String onmin = Configuration.get("ON_MINIMIZE").toString();
-		this.minTaskbarRB.setSelected(true);
+		this.rbMinTaskbar.setSelected(true);
 
-		if (!System.getProperty("os.name").startsWith("Win"))
-			this.browserPath.setText(MimeTypesList.getAppList()
-					.getBrowserExec());
+		if (!System.getProperty("os.name").startsWith("Win")) {
+			this.browserPath.setText(MimeTypesList.getAppList().getBrowserExec());
+		}
 		if (Configuration.get("NOTIFY_SOUND").equals("")) {
 			Configuration.put("NOTIFY_SOUND", "DEFAULT");
 		}
 
-		boolean enableSnd = !Configuration.get("NOTIFY_SOUND").toString()
-				.equalsIgnoreCase("DISABLED");
+		boolean enableSnd = !Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("DISABLED");
 		enableSoundCB.setSelected(enableSnd);
 		if (Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase(
 				"DEFAULT")
-				|| Configuration.get("NOTIFY_SOUND").toString()
-						.equalsIgnoreCase("DISABLED")) {
+				|| Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("DISABLED")) {
 			this.soundDefaultRB.setSelected(true);
 			this.enableCustomSound(false);
-		} else if (Configuration.get("NOTIFY_SOUND").toString()
-				.equalsIgnoreCase("BEEP")) {
+		} else if (Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("BEEP")) {
 			this.soundBeepRB.setSelected(true);
 			this.enableCustomSound(false);
 		} else {
 			System.out.println(Configuration.get("NOTIFY_SOUND").toString());
 			this.soundCustomRB.setSelected(true);
 			this.soundFile
-					.setText(Configuration.get("NOTIFY_SOUND").toString());
+			.setText(Configuration.get("NOTIFY_SOUND").toString());
 			this.enableCustomSound(true);
 		}
 		this.enableSound(enableSnd);
-		
+
 		antialiasChB.setSelected(Configuration.get("ANTIALIAS_TEXT")
 				.toString().equalsIgnoreCase("yes"));
-		if (Configuration.get("NORMAL_FONT").toString().length() >0)
+		if (Configuration.get("NORMAL_FONT").toString().length() >0) {
 			normalFontCB.setSelectedItem(Configuration.get("NORMAL_FONT").toString());
-		else
+		} else {
 			normalFontCB.setSelectedItem("serif");
-		if (Configuration.get("HEADER_FONT").toString().length() >0)
+		}
+		if (Configuration.get("HEADER_FONT").toString().length() >0) {
 			headerFontCB.setSelectedItem(Configuration.get("HEADER_FONT").toString());
-		else
+		} else {
 			headerFontCB.setSelectedItem("sans-serif");
-		if (Configuration.get("MONO_FONT").toString().length() >0)
+		}
+		if (Configuration.get("MONO_FONT").toString().length() >0) {
 			monoFontCB.setSelectedItem(Configuration.get("MONO_FONT").toString());
-		else
+		} else {
 			monoFontCB.setSelectedItem("monospaced");
-		if (Configuration.get("BASE_FONT_SIZE").toString().length() >0)
+		}
+		if (Configuration.get("BASE_FONT_SIZE").toString().length() >0) {
 			baseFontSize.setValue(Integer.decode(Configuration.get("BASE_FONT_SIZE").toString()));
-		else
-			baseFontSize.setValue(new Integer(16));
+		} else {
+			baseFontSize.setValue(Integer.valueOf(16));
+		}
 	}
 
 	void apply() {
-		if (this.firstdow.isSelected())
+		if (this.firstdow.isSelected()) {
 			Configuration.put("FIRST_DAY_OF_WEEK", "mon");
-		else
+		} else {
 			Configuration.put("FIRST_DAY_OF_WEEK", "sun");
+		}
 
-		if (this.enL10nChB.isSelected())
+		if (this.enL10nChB.isSelected()) {
 			Configuration.put("DISABLE_L10N", "no");
-		else
+		} else {
 			Configuration.put("DISABLE_L10N", "yes");
+		}
 
-		if (this.enSplashChB.isSelected())
+		if (this.enSplashChB.isSelected()) {
 			Configuration.put("SHOW_SPLASH", "yes");
-		else
+		} else {
 			Configuration.put("SHOW_SPLASH", "no");
+		}
 
-		if (this.enSystrayChB.isSelected())
+		if (this.enSystrayChB.isSelected()) {
 			Configuration.put("DISABLE_SYSTRAY", "no");
-		else
+		} else {
 			Configuration.put("DISABLE_SYSTRAY", "yes");
+		}
 
-		if (this.startMinimizedChB.isSelected())
+		if (this.startMinimizedChB.isSelected()) {
 			Configuration.put("START_MINIMIZED", "yes");
-		else
+		} else {
 			Configuration.put("START_MINIMIZED", "no");
+		}
 
-		if (this.askConfirmChB.isSelected())
+		if (this.askConfirmChB.isSelected()) {
 			Configuration.put("ASK_ON_EXIT", "yes");
-		else
+		} else {
 			Configuration.put("ASK_ON_EXIT", "no");
+		}
 
-		if (this.closeExitRB.isSelected())
+		if (this.rbCloseExit.isSelected()) {
 			Configuration.put("ON_CLOSE", "exit");
-		else
+		} else {
 			Configuration.put("ON_CLOSE", "minimize");
+		}
 
 		Configuration.put("ON_MINIMIZE", "normal");
 
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
 		String newlf = "";
 
-		if (this.lfSystemRB.isSelected())
+		if (this.lfSystemRB.isSelected()) {
 			newlf = "system";
-		else if (this.lfJavaRB.isSelected())
+		} else if (this.lfJavaRB.isSelected()) {
 			newlf = "default";
-		else if (this.lfCustomRB.isSelected())
+		} else if (this.lfCustomRB.isSelected()) {
 			newlf = this.lfClassName.getText();
-
+		}
+		// Sets the look and feel for the program
 		if (!lf.equalsIgnoreCase(newlf)) {
 			Configuration.put("LOOK_AND_FEEL", newlf);
 			try {
-				if (Configuration.get("LOOK_AND_FEEL").equals("system"))
+				if (Configuration.get("LOOK_AND_FEEL").equals("system")) {
 					UIManager.setLookAndFeel(UIManager
 							.getSystemLookAndFeelClassName());
-				else if (Configuration.get("LOOK_AND_FEEL").equals("default"))
+				} else if (Configuration.get("LOOK_AND_FEEL").equals("default")) {
 					UIManager.setLookAndFeel(UIManager
 							.getCrossPlatformLookAndFeelClassName());
-				else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0)
+				} else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0) {
 					UIManager.setLookAndFeel(Configuration.get("LOOK_AND_FEEL")
 							.toString());
+				}
 
 				SwingUtilities.updateComponentTreeUI(App.getFrame());
 
-			} catch (Exception e) {
+			} catch (ClassNotFoundException | InstantiationException | 
+					IllegalAccessException | UnsupportedLookAndFeelException e) {
 				Configuration.put("LOOK_AND_FEEL", lf);
 				new ExceptionDialog(
 						e,
-						"Error when initializing a pluggable look-and-feel. Default LF will be used.",
-						"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
+						"Error when initializing a pluggable look-and-feel. "
+						+ "Default LF will be used.",
+						"Make sure that specified look-and-feel "
+						+ "library classes are on the CLASSPATH.");
 			}
 		}
 		String brPath = this.browserPath.getText();
@@ -686,34 +677,37 @@ public class PreferencesDialog extends JDialog {
 			CurrentStorage.get().storeMimeTypesList();
 		}
 
-		if (!this.enableSoundCB.isSelected())
+		if (!this.enableSoundCB.isSelected()) {
 			Configuration.put("NOTIFY_SOUND", "DISABLED");
-		else if (this.soundDefaultRB.isSelected())
+		} else if (this.soundDefaultRB.isSelected()) {
 			Configuration.put("NOTIFY_SOUND", "DEFAULT");
-		else if (this.soundBeepRB.isSelected())
+		} else if (this.soundBeepRB.isSelected()) {
 			Configuration.put("NOTIFY_SOUND", "BEEP");
-		else if ((this.soundCustomRB.isSelected())
-				&& (this.soundFile.getText().trim().length() > 0))
+		} else if ((this.soundCustomRB.isSelected())
+				&& (this.soundFile.getText().trim().length() > 0)) {
 			Configuration.put("NOTIFY_SOUND", this.soundFile.getText().trim());
+		}
 
-		if (antialiasChB.isSelected())
+		if (antialiasChB.isSelected()) {
 			Configuration.put("ANTIALIAS_TEXT", "yes");
-		else
+		} else {
 			Configuration.put("ANTIALIAS_TEXT", "no");
-		
+		}
+
 		Configuration.put("NORMAL_FONT", normalFontCB.getSelectedItem());
 		Configuration.put("HEADER_FONT", headerFontCB.getSelectedItem());
 		Configuration.put("MONO_FONT", monoFontCB.getSelectedItem());
 		Configuration.put("BASE_FONT_SIZE", baseFontSize.getValue());
-		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.editor.setAntiAlias(antialiasChB.isSelected());
+		App.getFrame().workPanel.dailyItemsPanel.editorPanel.
+		editor.editor.setAntiAlias(antialiasChB.isSelected());
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.initCSS();
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.repaint();
-		
+
 		Configuration.saveConfig();
-		
+
 	}
 
-	void enableCustomLF(boolean is) {
+	void enableCustomLookFeel(boolean is) {
 		this.classNameLabel.setEnabled(is);
 		this.lfClassName.setEnabled(is);
 	}
@@ -736,125 +730,110 @@ public class PreferencesDialog extends JDialog {
 
 	}
 
-	void okB_actionPerformed(ActionEvent e) {
+	void okB_actionPerformed(ActionEvent ex) {
 		apply();
 		this.dispose();
 	}
 
-	void cancelB_actionPerformed(ActionEvent e) {
+	void cancelB_actionPerformed(ActionEvent ex) {
 		this.dispose();
 	}
 
-	void minTaskbarRB_actionPerformed(ActionEvent e) {
+	void minTaskbarRB_actionPerformed(ActionEvent ex) {
 
 	}
 
-	void minHideRB_actionPerformed(ActionEvent e) {
+	void minHideRB_actionPerformed(ActionEvent ex) {
 
 	}
 
-	void closeExitRB_actionPerformed(ActionEvent e) {
+	void closeExitRB_actionPerformed(ActionEvent ex) {
 		// this.askConfirmChB.setEnabled(true);
 	}
 
-	void askConfirmChB_actionPerformed(ActionEvent e) {
+	void askConfirmChB_actionPerformed(ActionEvent ex) {
 
 	}
 
-	void closeHideRB_actionPerformed(ActionEvent e) {
+	void closeHideRB_actionPerformed(ActionEvent ex) {
 		// this.askConfirmChB.setEnabled(false);
 	}
 
-	void lfSystemRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(false);
+	void lfSystemRB_actionPerformed(ActionEvent ex) {
+		this.enableCustomLookFeel(false);
 	}
 
-	void lfJavaRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(false);
+	void lfJavaRB_actionPerformed(ActionEvent ex) {
+		this.enableCustomLookFeel(false);
 	}
 
-	void lfCustomRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(true);
+	void lfCustomRB_actionPerformed(ActionEvent ex) {
+		this.enableCustomLookFeel(true);
 	}
 
-	void enSystrayChB_actionPerformed(ActionEvent e) {
-
-	}
-
-	void enSplashChB_actionPerformed(ActionEvent e) {
+	void enSystrayChB_actionPerformed(ActionEvent ex) {
 
 	}
 
-	void enL10nChB_actionPerformed(ActionEvent e) {
+	void enSplashChB_actionPerformed(ActionEvent ex) {
 
 	}
 
-	void browseB_actionPerformed(ActionEvent e) {
+	void enL10nChB_actionPerformed(ActionEvent ex) {
+
+	}
+
+	void browseB_actionPerformed(ActionEvent ex) {
 		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Look in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
+		UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString("Files of Type:"));
 		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-		UIManager.put("FileChooser.openButtonToolTipText", Local
-				.getString("Open selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
+		UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
+		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
-		chooser.setDialogTitle(Local
-				.getString("Select the web-browser executable"));
+		chooser.setDialogTitle(Local.getString("Select the web-browser executable"));
 		chooser.setAcceptAllFileFilterUsed(true);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setPreferredSize(new Dimension(550, 375));
 		if (System.getProperty("os.name").startsWith("Win")) {
 			chooser.setFileFilter(new AllFilesFilter(AllFilesFilter.EXE));
-			chooser.setCurrentDirectory(new File("C:\\Program Files"));
+			chooser.setCurrentDirectory(new File(System.getenv("ProgramFiles")));
 		}
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			this.browserPath.setText(chooser.getSelectedFile().getPath());
+		}
 	}
 
-	void enableSoundCB_actionPerformed(ActionEvent e) {
+	void enableSoundCB_actionPerformed(ActionEvent ex) {
 		enableSound(enableSoundCB.isSelected());
 	}
 
-	void soundFileBrowseB_actionPerformed(ActionEvent e) {
+	void soundFileBrowseB_actionPerformed(ActionEvent ex) {
 		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Look in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
+		UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", 
+				Local.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", 
+				Local.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", 
+				Local.getString("Files of Type:"));
 		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-		UIManager.put("FileChooser.openButtonToolTipText", Local
-				.getString("Open selected file"));
+		UIManager.put("FileChooser.openButtonToolTipText", 
+				Local.getString("Open selected file"));
 		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
+		.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
@@ -863,32 +842,34 @@ public class PreferencesDialog extends JDialog {
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setPreferredSize(new Dimension(550, 375));
 		chooser.setFileFilter(new AllFilesFilter(AllFilesFilter.WAV));
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			this.soundFile.setText(chooser.getSelectedFile().getPath());
+		}
 	}
 
-	void soundDefaultRB_actionPerformed(ActionEvent e) {
+	void soundDefaultRB_actionPerformed(ActionEvent ex) {
 		this.enableCustomSound(false);
 	}
 
-	void soundBeepRB_actionPerformed(ActionEvent e) {
+	void soundBeepRB_actionPerformed(ActionEvent ex) {
 		this.enableCustomSound(false);
 	}
 
-	void soundCustomRB_actionPerformed(ActionEvent e) {
+	void soundCustomRB_actionPerformed(ActionEvent ex) {
 		this.enableCustomSound(true);
 	}
-	
-	Vector getFontNames() {
-		GraphicsEnvironment gEnv = 
-        	GraphicsEnvironment.getLocalGraphicsEnvironment();
-        String envfonts[] = gEnv.getAvailableFontFamilyNames();
-        Vector fonts = new Vector();
-        fonts.add("serif");
-        fonts.add("sans-serif");
-        fonts.add("monospaced");
-        for (int i = 0; i < envfonts.length; i++)
-            fonts.add(envfonts[i]);
+
+	Vector<String> getFontNames() {
+		GraphicsEnvironment getEnv = 
+				GraphicsEnvironment.getLocalGraphicsEnvironment();
+		String envfonts[] = getEnv.getAvailableFontFamilyNames();
+		Vector<String> fonts = new Vector<String>();
+		fonts.add("serif");
+		fonts.add("sans-serif");
+		fonts.add("monospaced");
+		for (int i = 0; i < envfonts.length; i++) {
+			fonts.add(envfonts[i]);
+		}
 		return fonts;
 	}
 }

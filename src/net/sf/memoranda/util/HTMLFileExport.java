@@ -28,6 +28,7 @@ import org.xml.sax.InputSource;
  * 
  */
 /*$Id: HTMLFileExport.java,v 1.7 2005/07/05 08:17:28 alexeya Exp $*/
+@SuppressWarnings("deprecation")
 public class HTMLFileExport {
     
     String charset = "";

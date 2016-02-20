@@ -1,13 +1,9 @@
 package net.sf.memoranda.util.test;
 
-import static org.junit.Assert.*;
-
 import java.io.*;
 
-import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,8 +13,6 @@ import org.junit.Test;
 import com.itextpdf.text.DocumentException;
 
 import net.sf.memoranda.CurrentNote;
-import net.sf.memoranda.ui.ExceptionDialog;
-import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 import net.sf.memoranda.util.PDFFileExport;
 
 /**
