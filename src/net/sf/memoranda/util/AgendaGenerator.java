@@ -307,10 +307,9 @@ public class AgendaGenerator {
 		if (proj.getEndDate() != null){
 			string += "<br>" + Local.getString("End date")
 			+": <i>"+proj.getEndDate().getMediumDateString()
-			+"</i>\n";        
-		return string + generateTasksInfo(proj, date,expandedTasks);   
+			+"</i>\n"; 
 		}
-		return string + "</td>";
+		return string + generateTasksInfo(proj, date,expandedTasks);   
 	}
 
 	public static String generateAllProjectsInfo(CalendarDate date, Collection expandedTasks) {
