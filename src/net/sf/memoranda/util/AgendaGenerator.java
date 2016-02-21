@@ -358,43 +358,44 @@ public class AgendaGenerator {
 		return s + "</table>";
 	}
 
-	public static String generateStickers(CalendarDate date) {
-		String iurl =
-				net
-				.sf
-				.memoranda
-				.ui
-				.AppFrame
-				.class
-				.getResource("resources/agenda/addsticker.gif")
-				.toExternalForm();
-		String iurl2 =
-				net
-				.sf
-				.memoranda
-				.ui
-				.AppFrame
-				.class
-				.getResource("resources/agenda/removesticker.gif")
-				.toExternalForm();
-/*TJ*/		 String s = "<hr><hr><table border=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td><a href=\"memoranda:importstickers\"><b>"+Local.getString("Import annotation")+"</b></a></td><td><a href=\"memoranda:exportstickerst\"><b>"+Local.getString("Export annotation as .txt")+"</b></a><td><a href=\"memoranda:exportstickersh\"><b>"+Local.getString("Export annotation as .html")+"</b></a></td></tr></table>"
+	/**This Method generates the labels for the buttons, which
+	* are attached to the Annotation Sticker area of the Agenda Panel
+	* Changes were made to this method by Thomas Johnson on 2/20/2016 
+	* for the User Story# 55 - All Tasks.
+	* 
+	* @param CalendarDate
+	* @return sheader1
+	*/
+	public static String generateStickers(CalendarDate date){
+		String iurl = net.sf.memoranda.ui.AppFrame.class.
+				getResource("resources/agenda/addsticker.gif").toExternalForm();
+		String iurl2 =net.sf.memoranda.ui.AppFrame.class.
+				getResource("resources/agenda/removesticker.gif").toExternalForm();
+		//Line 375-379 altered by Thomas Johnson on 2/20/2016, for US-55, Task 58
+		String sheader1 = "<hr><hr><table border=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td><a href=\"memoranda:importstickers\"><b>"+Local.getString("Import annotation")+"</b></a></td></tr></table>"
 				 +   "<table border=\"0\" cellpadding=\"0\" width=\"100%\"><tr><td><a href=\"memoranda:addsticker\"><img align=\"left\" width=\"22\" height=\"22\" src=\""				
 				 + iurl
 				+ "\" border=\"0\"  hspace=\"0\" vspace=\"0\" alt=\"New sticker\"></a></td><td width=\"100%\"><a href=\"memoranda:addsticker\"><b>&nbsp;"
 				+Local.getString("Add sticker")+"</b></a></td></tr></table>";
-		PriorityQueue pQ = sortStickers();
-		while(!pQ.Vacia()){
-		Element el = pQ.extraer();
+		PriorityQueue priQueue = sortStickers();
+		while(!priQueue.Vacia()){
+		Element el = priQueue.extraer();
 		String id = el.getAttributeValue("id");
 		String txt = el.getValue();
-            s += "\n<table border=\"0\" cellpadding=\"0\" width=\"100%\"><table width=\"100%\"><tr bgcolor=\"#E0E0E0\"><td><a href=\"memoranda:editsticker#"+id+"\">"+Local.getString("EDIT")+"</a></td><td width=\"70%\"><a href=\"memoranda:expandsticker#"+id+"\">"+Local.getString("OPEN IN A NEW WINDOW")+"</></td><td align=\"right\">" +
-                    "&nbsp;" + // without this removesticker link takes klicks from whole cell
-                      "<a href=\"memoranda:removesticker#"+id+"\"><img align=\"left\" width=\"14\" height=\"14\" src=\""
-                    + iurl2
-                    + "\" border=\"0\"  hspace=\"0\" vspace=\"0\" alt=\"Remove sticker\"></a></td></table></tr><tr><td>"+txt+"</td></tr></table>";
+		//Line 386-395 altered by Thomas Johnson on 2/20/2016, for US-55, TSK-59 & TSK-60
+		sheader1 += "\n<table border=\"0\" cellpadding=\"0\" width=\"100%\"><table width=\"100%\"><tr bgcolor=\"#E0E0E0\"><td><a href=\"memoranda:editsticker#"+id
+				+"\">"+Local.getString("EDIT")+"</a></td><td width=\"70%\"><a href=\"memoranda:exportstickertxt#"+id
+				+"\">"+Local.getString("EXPORT TXT")+"</a></td><td width=\"70%\"><a href=\"memoranda:exportstickerhtml#"+id
+				+"\">"+Local.getString("EXPORT HTML")+"</a></td><td width=\"70%\"><a href=\"memoranda:expandsticker#"+id
+				+"\">"+Local.getString("OPEN IN A NEW WINDOW")
+				+"</></td><td align=\"right\">" 
+				+"&nbsp;"+"<a href=\"memoranda:removesticker#"+id+"\"><img align=\"left\" width=\"14\" height=\"14\" src=\""
+                + iurl2+ "\" border=\"0\"  "
+                + "hspace=\"0\" vspace=\"0\" alt=\"Remove sticker\"></a></td></table></tr><tr><td>"
+                +txt+"</td></tr></table>";
         }
-        s += "<hr>";
-		return s;
+        sheader1 += "<hr>";
+		return sheader1;
 	}
 
     private static PriorityQueue sortStickers(){

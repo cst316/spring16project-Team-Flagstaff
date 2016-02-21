@@ -34,6 +34,9 @@ public class AllFilesFilter extends FileFilter {
     public static final String JAR = "JAR";
     public static final String ICO = "ICO";
     public static final String WAV = "WAV";
+    //Line 39 Added by Thomas Johnson
+    //For US-55, TSK-59 on 2/20/2016
+	 public static final String TXT = "TXT";
 
     String _type = "";
     /**
@@ -59,6 +62,10 @@ public class AllFilesFilter extends FileFilter {
           	return ext.equals("docx");
         else if (_type.equals(PDF))
           	return ext.equals("pdf");
+        //Lines 67-68 Added by Thomas Johnson
+        //For US-55, TSK-59 on 2/20/2016
+        else if (_type.equals(TXT))
+          	return ext.equals("txt");
         else if (_type.equals(EXE))
             return (ext.equals("exe") || ext.equals("com") || ext.equals("bat"));
         else if (_type.equals(JAR))
@@ -84,6 +91,10 @@ public class AllFilesFilter extends FileFilter {
             return "Word Documents (*.docx)";
         else if (_type.equals(PDF))
             return "PDF Documents (*.pdf)";
+        //Lines 96-97 Added by Thomas Johnson
+        //For US-55, TSK-59 on 2/20/2016
+        else if (_type.equals(TXT))
+            return "Text Documents (*.txt)";
         else if (_type.equals(EXE))
             return Local.getString("Executable Files") + " (*.exe, *.com, *.bat)";
         else if (_type.equals(JAR))

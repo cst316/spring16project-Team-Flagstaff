@@ -4,6 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -11,11 +17,11 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.JOptionPane;
@@ -34,21 +40,34 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.AgendaGenerator;
+import net.sf.memoranda.util.Configuration;
+import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
 import nu.xom.Element;
 
 /*$Id: AgendaPanel.java,v 1.11 2005/02/15 16:58:02 rawsushi Exp $*/
+/** 
+ * AgendaPanel class 
+ * This class handles the building of the Panel which 
+ * pertains to the Agenda GUI objects and their associated items.
+ * 
+ */
 public class AgendaPanel extends JPanel {
+
+   //Line 63 Added by Thomas Johnson
+	//For US-55,TSK-60 on 2/20/2016
+	public HTMLEditor editor = null;
 	BorderLayout borderLayout1 = new BorderLayout();
 	JButton historyBackB = new JButton();
 	JToolBar toolBar = new JToolBar();
 	JButton historyForwardB = new JButton();
 	JButton export = new JButton();
 	JEditorPane viewer = new JEditorPane("text/html", "");
-/*TJ*/	String[] priorities = {"Very High","High","Medium","Low","Very Low"};
+	String[] priorities = {"Very High","High","Medium","Low","Very Low"};
 	JScrollPane scrollPane = new JScrollPane();
 
 	DailyItemsPanel parentPanel = null;
@@ -57,6 +76,11 @@ public class AgendaPanel extends JPanel {
 	//	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 
 	Collection expandedTasks;
+   
+   //Line 82 Added by Thomas Johnson
+	//For US-55,TSK-60 on 2/20/2016
+	editor = new HTMLEditor();
+      
 	String gotoTask = null;
 
 	boolean isActive = true;
@@ -70,6 +94,13 @@ public class AgendaPanel extends JPanel {
 			ex.printStackTrace();
 		}
 	}
+   /** 
+	 * Method jbInit
+	 * This method Initializes the GUI objects for the Agenda Panel
+	 * and handles the events for GUI object actions
+	 * 
+	 * @throws Exception
+	 */
 	void jbInit() throws Exception {
 		expandedTasks = new ArrayList();
 
@@ -189,22 +220,26 @@ public class AgendaPanel extends JPanel {
 							CurrentStorage.get().storeEventsManager();
 						 }
 						 refresh(CurrentDate.get());
-					}else if (d.startsWith("memoranda:exportstickerst")) {
-						 /*  You need to add the export sticker meanwhile..*/
-						 final JFrame parent = new JFrame();
-/*TJ*/						 String name = JOptionPane.showInputDialog(parent,Local.getString("Enter file name to export"),null);
-						 new ExportSticker(name).export("txt");
-						 //JOptionPane.showMessageDialog(null,name);
-					}else if (d.startsWith("memoranda:exportstickersh")) {
-						 /*  You need to add the export sticker meanwhile..*/
-						 final JFrame parent = new JFrame();
-/*TJ*/						 String name = JOptionPane.showInputDialog(parent,Local.getString("Enter file name to export"),null);
-						 new ExportSticker(name).export("html");
-						 //JOptionPane.showMessageDialog(null,name);
+					
+               //Lines 226 & 232 changed, Lines 227-231 & 233-237 Added by Thomas Johnson
+					//For US-55, TSK-59 & TSK-60 on 2/20/2016
+					}else if (d.startsWith("memoranda:exportstickerhtml")) {
+						String id = d.split("#")[1];
+						Element pre_sticker=(Element)((Map)EventsManager.getStickers()).get(id);
+						String sticker = pre_sticker.getValue();
+						System.out.println("Export Sticker HTML Selection");
+						exportSticker(0, sticker); //0 = HTML Export
+					}else if (d.startsWith("memoranda:exportstickertxt")) {
+						String id = d.split("#")[1];
+						Element pre_sticker=(Element)((Map)EventsManager.getStickers()).get(id);
+						String sticker = pre_sticker.getValue();
+						System.out.println("Export Sticker TXT Selection");
+						exportSticker(1, sticker);//1 = TXT Export
 					}else if (d.startsWith("memoranda:importstickers")) {
-						final JFrame parent = new JFrame();
-/*TJ*/						 String name = JOptionPane.showInputDialog(parent,Local.getString("Enter file name to import"),null);
-						new ImportSticker(name).import_file();
+						//Lines 241-242 Added by Thomas Johnson
+					   //For US-55, TSK-58 on 2/20/2016
+						System.out.println("Import Sticker Selection");
+						importSticker();
 					}
 				}
 			}
@@ -228,6 +263,11 @@ public class AgendaPanel extends JPanel {
 		historyForwardB.setMinimumSize(new Dimension(24, 24));
 		historyForwardB.setMaximumSize(new Dimension(24, 24));
 		historyForwardB.setText("");
+      
+      //Lines 269-270 Added by Thomas Johnson
+		//For US-55, TSK-60 on 2/20/2016
+		initCSS();
+		editor.editor.setAntiAlias(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
 
 		this.setLayout(borderLayout1);
 		scrollPane.getViewport().setBackground(Color.white);
@@ -241,6 +281,14 @@ public class AgendaPanel extends JPanel {
 		this.add(toolBar, BorderLayout.NORTH);
 
 		CurrentDate.addDateListener(new DateListener() {
+      
+         /** 
+			 * Method dateChange
+			 * This method handles the refreshing of a date change
+			 * within the AgendaPanel
+			 * 
+			 * @param d
+			 */
 			public void dateChange(CalendarDate d) {
 				if (isActive)
 					refresh(d);
@@ -248,6 +296,11 @@ public class AgendaPanel extends JPanel {
 		});
 		CurrentProject.addProjectListener(new ProjectListener() {
 
+         /** 
+			 * Method projectChange
+			 * This method handles the variable re-initialization
+			 * within the AgendaPanel for a changed project
+			 */
 			public void projectChange(
 					Project prj,
 					NoteList nl,
@@ -255,16 +308,34 @@ public class AgendaPanel extends JPanel {
 					ResourcesList rl) {
 			}
 
+         /** 
+			 * Method projectWasChanged
+			 * This method handles the currentDate refresh
+			 * within the AgendaPanel for a changed project
+			 */
 			public void projectWasChanged() {
 				if (isActive)
 					refresh(CurrentDate.get());
 			}});
 		EventsScheduler.addListener(new EventNotificationListener() {
+         /** 
+			 * Method eventIsOccurred
+			 * This method handles the currentDate refresh
+			 * within the AgendaPanel for an event occurrence
+			 * 
+			 * @param ev
+			 */
 			public void eventIsOccured(net.sf.memoranda.Event ev) {
 				if (isActive)
 					refresh(CurrentDate.get());
 			}
 
+         
+          /** 
+			 * Method eventsChanged
+			 * This method handles the currentDate refresh
+			 * within the AgendaPanel for when events have changed
+			 */
 			public void eventsChanged() {
 				if (isActive)
 					refresh(CurrentDate.get());
@@ -290,7 +361,62 @@ public class AgendaPanel extends JPanel {
 		//		ppShowActiveOnlyChB.setSelected(isShao);
 		//		toggleShowActiveOnly_actionPerformed(null);		
 	}
+   
+   /** 
+	 * Method initCSS Added by Thomas Johnson
+	 * For US-55, TSK-60 on 2/20/2016 *(Copied from EditorPanel.java)*
+	 * This method handles the initialization of the CSS resource,
+	 * which is used for the HTMLEditor object
+	 * 
+	 */
+	public void initCSS() {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				net.sf.memoranda.ui.EditorPanel.class
+						.getResourceAsStream("resources/css/default.css")));
+		String css = "";
+		try {
+			String s = br.readLine();
+			while (s != null) {
+				css = css + s + "\n";
+				s = br.readLine();
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		String NORMAL_FONT = Configuration.get("NORMAL_FONT").toString();
+		String HEADER_FONT = Configuration.get("HEADER_FONT").toString();
+		String MONO_FONT = Configuration.get("MONO_FONT").toString();
+		String BASE_FONT_SIZE = Configuration.get("BASE_FONT_SIZE").toString();
+		css = css.replaceAll("%NORMAL_FONT%", NORMAL_FONT.length() > 0 ? "\""+NORMAL_FONT+"\""
+				: "serif");
+		css = css.replaceAll("%HEADER_FONT%", HEADER_FONT.length() > 0 ? "\""+HEADER_FONT+"\""
+				: "sans-serif");
+		css = css.replaceAll("%MONO_FONT%", MONO_FONT.length() > 0 ? "\""+MONO_FONT+"\""
+				: "monospaced");
+		css = css.replaceAll("%BASE_FONT_SIZE%",
+				BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");		
+		editor.setStyleSheet(new StringReader(css));
+		String usercss = (String) Configuration.get("USER_CSS");
+		if (usercss.length() > 0)
+			try {
+				// DEBUG
+				System.out.println("***[DEBUG] User css used: " + usercss);
+				editor.setStyleSheet(new InputStreamReader(
+						new java.io.FileInputStream(usercss)));
+			} catch (Exception ex) {
+				System.out.println("***[DEBUG] Failed to open: " + usercss);
+				ex.printStackTrace();
+			}
 
+	}
+
+   /** 
+	 * Method refresh
+	 * This method handles the refreshing/updating 
+	 * of the calendar date.
+	 * 
+	 * @param date
+	 */
 	public void refresh(CalendarDate date) {
 		viewer.setText(AgendaGenerator.getAgenda(date,expandedTasks));
 		SwingUtilities.invokeLater(new Runnable() {
@@ -306,8 +432,152 @@ public class AgendaPanel extends JPanel {
 		Util.debug("Summary updated.");
 	}
 
+   /** 
+	 * Method setActive
+	 * This method handles the setting of the isActive
+	 * boolean variable.
+	 * 
+	 * @param isa
+	 */
 	public void setActive(boolean isa) {
 		isActive = isa;
+	}
+   
+   /** 
+	 * Method Export Sticker Added by Thomas Johnson
+	 * For US-55, TSK-59 & TSK-60 on 2/20/2016
+	 * This method handles the export GUI file chooser 
+	 * and event handlers for the export GUI actions
+	 * for the Annotation Sticker object export.
+	 * 
+	 * @param type, sticker
+	 */
+	void exportSticker(int type, String sticker) {
+		
+		UIManager.put("FileChooser.lookInLabelText", Local
+				.getString("Save in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local
+				.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local
+				.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local
+				.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+				.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local
+				.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local
+				.getString("Files of Type:"));
+		UIManager.put("FileChooser.saveButtonText", Local.getString("Save"));
+		UIManager.put("FileChooser.saveButtonToolTipText", Local
+				.getString("Save selected file"));
+		UIManager
+				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local
+				.getString("Cancel"));
+
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileHidingEnabled(false);
+		chooser.setDialogTitle(Local.getString("Export Annotation Sticker"));
+		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		if(type == 0){
+			chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+		}else if(type == 1){
+			chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.TXT));
+		}
+		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
+		if (lastSel != null)
+			chooser.setCurrentDirectory(new File(lastSel));
+
+		AnnotationExportDialog slg = new AnnotationExportDialog(App.getFrame(), Local
+				.getString("Export Sticker"), chooser);
+		
+		Dimension dlgSize = new Dimension(550, 475);
+		slg.setSize(dlgSize);
+		Dimension frmSize = App.getFrame().getSize();
+		Point loc = App.getFrame().getLocation();
+		slg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x,
+				(frmSize.height - dlgSize.height) / 2 + loc.y);
+		slg.setVisible(true);
+		if (slg.CANCELLED)
+			return;
+
+		Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile()
+				.getPath());
+    	
+    	if (type == 0)
+		{
+    		File f = chooser.getSelectedFile();
+    		ExportSticker stickerExport = new ExportSticker();
+    		stickerExport.exportHTML(f, sticker);
+		}
+		if (type == 1)
+		{
+			File f = chooser.getSelectedFile();
+			ExportSticker stickerExport = new ExportSticker();
+    		stickerExport.exportTXT(f, sticker);
+		}
+	}
+	
+	/** 
+	 * Method Export Sticker Added by Thomas Johnson
+	 * For US-55, TSK-58 on 2/20/2016
+	 * This method handles the import GUI file chooser 
+	 * and event handlers for the import GUI actions
+	 * for the Annotation Sticker object import.
+	 * 
+	 */
+	void importSticker() {
+		UIManager.put("FileChooser.lookInLabelText", Local
+				.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local
+				.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local
+				.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local
+				.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+				.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local
+				.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local
+				.getString("Files of Type:"));
+		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
+		UIManager.put("FileChooser.openButtonToolTipText", Local
+				.getString("Open selected file"));
+		UIManager
+				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local
+				.getString("Cancel"));
+
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileHidingEnabled(false);
+		chooser.setDialogTitle(Local.getString("Import Annotation Sticker"));
+		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+		chooser.setPreferredSize(new Dimension(550, 375));
+		String lastSel = (String) Context.get("LAST_SELECTED_IMPORT_FILE");
+		if (lastSel != null)
+			chooser.setCurrentDirectory(new java.io.File(lastSel));
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+			return;
+
+		Context.put("LAST_SELECTED_IMPORT_FILE", chooser.getSelectedFile()
+				.getPath());
+
+		File f = chooser.getSelectedFile();
+		
+		ImportSticker tempImport = new ImportSticker();
+		
+		String txt = tempImport.HTMLAnnotationImport(f);
+		
+		EventsManager.createSticker(txt, 1);
+		CurrentStorage.get().storeEventsManager();
+		refresh(CurrentDate.get());
+		JOptionPane.showMessageDialog(null,Local.getString("Your Sticker has been successfully imported from: " + f.getAbsolutePath()));
+		
 	}
 
 	//	void toggleShowActiveOnly_actionPerformed(ActionEvent e) {

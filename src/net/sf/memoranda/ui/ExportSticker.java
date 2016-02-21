@@ -15,9 +15,13 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+/** 
+ * ExportSticker class 
+ * This class handles the Exporting of the Annotation objects
+ * in text and html document formats
+ */
 public class ExportSticker {
 
-        private String name; 
         
         /*public static Document _doc = null;
         static Element _root = null;
@@ -34,64 +38,97 @@ public class ExportSticker {
                         _root = _doc.getRootElement();
 
         }*/
-        
-        public ExportSticker(String x) {
-                this.name = remove1(x);
+        public ExportSticker() {
         }
-
-        /**
-         * Function to eliminate special chars from a string
+        
+        /** 
+         * Method exportTXT Added by Thomas Johnson
+         * For US-55, TSK-59 on 2/20/2016
+         * Handles exporting of Annotation object as a Text document
+         * 
+         * @param f, sticker
+         * @return result
          */
-        public static String remove1(String input) {
-            
-            String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
-            
-            String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
-            String output = input;
-            for (int i=0; i<original.length(); i++) {
-            
-                output = output.replace(original.charAt(i), ascii.charAt(i));
-            }
-            return output;
-        }
-        
-        public boolean export(String src){
+        public boolean exportTXT(File f, String sticker){
+        	
+        	if(f.getName().indexOf(".tx") == -1)
+			{
+				String dir = f.getPath();
+				String ext = ".txt";
+
+				String nfile = dir + ext;
+	
+				f = new File(nfile);                    	
+			}
                 boolean result = true;
                 String fs = System.getProperty("file.separator");
                 
-                String contents = getSticker();
+                
+                String nohtml = sticker.toString().replaceAll("\\<.*?>","");
+                    
                 try {
-                File file = new File(this.name+"."+src);
+                //File file = new File(this.name+"."+txt);
+                    
+                    
+                        FileWriter fwrite=new FileWriter(f,false);
                 
-                
-                        FileWriter fwrite=new FileWriter(file,true);
-            
-                        fwrite.write(contents);
-                        
+                        fwrite.write(nohtml);
+                            
                         fwrite.close();
-/*TJ*/                        JOptionPane.showMessageDialog(null,Local.getString("Document created with success in its Memoranda folder =D"));
-            
-            
+                        JOptionPane.showMessageDialog(null,Local.getString("Text Document created with success in: " + f.getAbsolutePath()));
+                
+                
         } catch (IOException e) {
             e.printStackTrace();
-/*TJ*/            JOptionPane.showMessageDialog(null,Local.getString("We failed to create your document =(..."));
-        }
-                
+            JOptionPane.showMessageDialog(null,Local.getString("We failed to create your Text document =(..."));
+        }        
                 
                         
-                return result;
+            return result;
         }
         
-        public String getSticker(){
-                Map stickers = EventsManager.getStickers();
-        String result = "";
-        String nl = System.getProperty("line.separator"); 
-                for (Iterator i = stickers.keySet().iterator(); i.hasNext();) {
-            String id = (String)i.next();
-            result += (String)(((Element)stickers.get(id)).getValue())+nl;
-            }
+        /** 
+         * Method exportHTML Added by Thomas Johnson
+         * For US-55, TSK-60 on 2/20/2016
+         * Handles exporting of Annotation object as an HTML document
+         * 
+         * @param f, sticker
+         * @return result
+         */
+        public boolean exportHTML(File f, String sticker){
+        	
+        	if(f.getName().indexOf(".htm") == -1)
+			{
+				String dir = f.getPath();
+				String ext = ".html";
+
+				String nfile = dir + ext;
+	
+				f = new File(nfile);                    	
+			}
+        	
+            boolean result = true;
+            String fs = System.getProperty("file.separator");
+                
+            try {
+            //File file = new File(this.name+"."+txt);
+                
+                
+                    FileWriter fwrite=new FileWriter(f,false);
             
-                return result;
+                    fwrite.write(sticker);
+                        
+                    fwrite.close();
+                    JOptionPane.showMessageDialog(null,Local.getString("HTML Document created with success in: " + f.getAbsolutePath()));
+            
+            
+            } catch (IOException e) {
+            	e.printStackTrace();
+       	JOptionPane.showMessageDialog(null,Local.getString("We failed to create your HTML document =(..."));
+            }        
+            
+                    
+            return result;
         }
         
         /*public static String getStickers() {
@@ -103,7 +140,5 @@ public class ExportSticker {
                 }
                 return m;
         }*/
-        
-        
-        
+   
 }
