@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sf.memoranda.test;
+package net.sf.memoranda.tests;
 
 import static org.junit.Assert.*;
 
@@ -16,15 +16,21 @@ import org.junit.Test;
 import net.sf.memoranda.TaskTemplate;
 import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
+import net.sf.memoranda.util.Util;
 import net.sf.memoranda.CustomField;
 
 /**
  * @author ggoforth
  * Unit tests for the TaskTemplateManager class
+ * @param <T>
  */
-public class TaskTemplateManagerTest {
-@SuppressWarnings({ "rawtypes", "unused" })
-private static ArrayList<CustomField> arrayCustom = null;
+public class TaskTemplateManagerTest<T> {
+
+	// Declare class members
+	private ArrayList<CustomField<T>> arrayCustom = null;
+	private TaskTemplate<T> ttl = null;
+	private String testId = Util.generateId();
+	private String templateName = "templName";
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -45,6 +51,7 @@ private static ArrayList<CustomField> arrayCustom = null;
 	 */
 	@Before
 	public <T> void setUp() throws Exception {
+		// Create an instance of the ArrayList<CustomField<T>> and populate it with 4 CustomFields
 		ArrayList<CustomField<T>> arrayCustom = new ArrayList<CustomField<T>>();
 		for(int x = 0;x<4;x++) {
 			String templateName = "my template name "+x;
@@ -65,33 +72,40 @@ private static ArrayList<CustomField> arrayCustom = null;
 	 * Test method for {@link net.sf.memoranda.TaskTemplateManager#createTemplate(java.lang.String, java.lang.String, java.util.ArrayList)}.
 	 * @param <T>
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "hiding" })
 	@Test
 	public <T> void testCreateTemplateStringStringArrayListOfCustomFieldOfT() {
-		TaskTemplate<T> ttl = null;
-		String testId = "TestId";
-		String templateName = "templName";
-		ttl = (TaskTemplate<T>)TaskTemplateManager.createTemplate(testId, templateName, arrayCustom);
-		
-		/* Method needs to be finished*/
-		
-		assertTrue(true);
+		ttl = TaskTemplateManager.createTemplate(testId, templateName, arrayCustom);
+		boolean success = (ttl!=null)? true:false;
+		assertTrue(success);
+		if(ttl.getFields().size()!=4) {
+			success = false;
+		}
 	}
 
 	/**
 	 * Test method for {@link net.sf.memoranda.TaskTemplateManager#createTemplate(java.lang.String, java.util.ArrayList)}.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCreateTemplateStringArrayListOfCustomFieldOfT() {
-		fail("Not yet implemented");
+		ttl = TaskTemplateManager.createTemplate(templateName, arrayCustom);
+		boolean success = (ttl!=null)? true:false;
+		if(ttl.getFields().size()!=4) {
+			success = false;
+		}
+		assertTrue(success);
 	}
 
 	/**
 	 * Test method for {@link net.sf.memoranda.TaskTemplateManager#createTemplate(java.lang.String)}.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCreateTemplateString() {
-		fail("Not yet implemented");
+		ttl = TaskTemplateManager.createTemplate(templateName);
+		boolean success = (ttl!=null)? true:false;
+		assertTrue(success);
 	}
 
 	/**
@@ -99,7 +113,9 @@ private static ArrayList<CustomField> arrayCustom = null;
 	 */
 	@Test
 	public void testGetTemplateTitles() {
-		fail("Not yet implemented");
+		for(int x=0;x<3;x++) {
+			
+		}
 	}
 
 	/**

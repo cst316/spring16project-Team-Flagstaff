@@ -59,18 +59,18 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	 * @param fields
 	 */
 	@Override
-	public void setFields(ArrayList<CustomField<T>> fields) {
+	public void setFields(ArrayList fields) {
 		this.fields=fields;
 	}
+
 	/**
 	 * adds a CustomField<T> to the custom fields list of the Task Template 
 	 * @param field
 	 */
-	@Override
-	public void addField(CustomField<T> field) {
+	public void addField(CustomField field) {
 		fields.add(field);
-		
 	}
+
 	/**
 	 * Returns the CustomField object at the given index
 	 */
@@ -94,4 +94,5 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	public void setName(String name) {
 		this.name=name;		
 	}
+
 }
