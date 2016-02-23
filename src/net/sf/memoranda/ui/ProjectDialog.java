@@ -48,6 +48,7 @@ import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 /*$Id: ProjectDialog.java,v 1.26 2004/10/18 19:09:10 ivanrise Exp $*/
@@ -409,10 +410,10 @@ public class ProjectDialog extends JDialog {
 					removeTaskTemplate(this.lstTemplateList.getSelectedValue());
 					setListItems(currentTemplate);
 				}else{
-					// Set dialog message here for no delete of default template
+					JOptionPane.showMessageDialog(this.getContentPane(), "You can't delete the default template", "Remove Template Error", JOptionPane.ERROR_MESSAGE );
 				}
 			}else{
-				// Set dialog message here for no delete of the current template
+				JOptionPane.showMessageDialog(this.getContentPane(), "You can't delete the current template","Remove Template Error", JOptionPane.ERROR_MESSAGE );
 			}
 
 		}
