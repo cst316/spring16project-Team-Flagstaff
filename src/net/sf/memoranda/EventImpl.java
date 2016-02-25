@@ -122,12 +122,18 @@ public class EventImpl implements Event, Comparable {
 		//End deprecated methods
 
 		Date d = new Date(); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
-		Calendar calendar = new GregorianCalendar(Local.getCurrentLocale()); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
-		calendar.setTime(d); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
-		calendar.set(Calendar.HOUR_OF_DAY, getHour()); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
-		calendar.set(Calendar.MINUTE, getMinute()); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
-		calendar.set(Calendar.SECOND, 0); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
-		d = calendar.getTime(); //Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
+		Calendar calendar = new GregorianCalendar(Local.getCurrentLocale()); 
+		//Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
+		calendar.setTime(d); 
+		//Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
+		calendar.set(Calendar.HOUR_OF_DAY, getHour()); 
+		//Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
+		calendar.set(Calendar.MINUTE, getMinute()); 
+		//Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
+		calendar.set(Calendar.SECOND, 0); 
+		//Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
+		d = calendar.getTime(); 
+		//Revision to fix deprecated methods (jcscoobyrs) 12-NOV-2003 14:26:00
         return d;
     }
 	

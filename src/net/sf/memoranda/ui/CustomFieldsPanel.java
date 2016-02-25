@@ -43,7 +43,8 @@ public class CustomFieldsPanel extends JPanel {
 	 * @param <T>
 	 * @param customField
 	 */
-	public <T> void addField(CustomField<T> customField, int xIndex, int yIndex) throws InvalidClassException{	
+	public <T> void addField(CustomField<T> customField, int xIndex, 
+			int yIndex) throws InvalidClassException{	
 		DisplayField newField = null;
 		GridBagConstraints cs = new GridBagConstraints();
 	    cs.anchor = GridBagConstraints.BOTH;
@@ -62,10 +63,15 @@ public class CustomFieldsPanel extends JPanel {
 				newField.createDataControl(customField.getData());
 			}
 		}else{
-			throw new InvalidClassException("There is a field in the XML template that is not a supported data type.\n"
-					+"Fix the XML Template for this project or select a different template.\n"
-					+ "CustomFieldsPanel.java: 62/naddField(CustomField<T> customField) parameter type not supported\n"
-					+ "Parameter type= " +customField.getClass().toGenericString());	
+			throw new InvalidClassException(
+					"There is a field in the XML template that is not"
+					+ " a supported data type.\n"
+					+"Fix the XML Template for this project or select "
+					+ "a different template.\n"
+					+ "CustomFieldsPanel.java: 62/naddField(CustomField<T> "
+					+ "customField) parameter type not supported\n"
+					+ "Parameter type= " +customField.getClass().
+					toGenericString());	
 		}
 		newField.setFieldName(customField.getFieldName());
 		customPanels.add(newField);
@@ -108,13 +114,15 @@ public class CustomFieldsPanel extends JPanel {
 	 * @param layout
 	 * @param isDoubleBuffered
 	 */
-	public CustomFieldsPanel(LayoutManager layout, boolean isDoubleBuffered) {
+	public CustomFieldsPanel(LayoutManager layout, 
+			boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
 		customPanels = new ArrayList<DisplayField>();
 	}
 	
 	/**
-	 * Adds the custom fields to the panel from an array list of CustomField types
+	 * Adds the custom fields to the panel from an array 
+	 * list of CustomField types
 	 * @param <T>
 	 * @param fld
 	 */
@@ -157,7 +165,8 @@ public class CustomFieldsPanel extends JPanel {
 			int x=0;
 			boolean isFound = false;
 			while(x<customPanels.size() && !isFound){
-				if(customPanels.get(x).getFieldName().compareTo(fieldName)==0){
+				if(customPanels.get(x).getFieldName().
+						compareTo(fieldName)==0){
 					customPanels.get(x).createDataControl(data);
 					isFound=true;
 				}

@@ -19,14 +19,19 @@ package net.sf.memoranda;
 public interface CustomFieldInterface<T>{
 	
 	public String getFieldName();
+	
 	public void setFieldName(String fieldName);
 
 	public T getData();
+	
 	public void setData(T data);
 	
 	public int getMin();
+	
 	public void setMin(int min);
+	
 	public int getMax();
+	
 	public void setMax(int min);
 	
 	public boolean isRequired();

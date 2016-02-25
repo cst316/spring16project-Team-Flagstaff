@@ -19,6 +19,7 @@ import net.sf.memoranda.date.CalendarDate;
  * @param <T> Generic Type
  */
 public class CustomField<T> implements CustomFieldInterface<T>{
+	
 	private String fieldName;		
 	private int minValue;
 	private int maxValue;
@@ -82,11 +83,13 @@ public class CustomField<T> implements CustomFieldInterface<T>{
 	 * @param fieldName String
 	 */
 	public void setFieldName(String fieldName) {this.fieldName=fieldName;}
+	
 	/**
 	 * Gets the data member of a CustomField object
 	 * @return data T
 	 */
 	public T getData() {return data;}
+	
 	/**
 	 * Set the data member of the CustomField
 	 * @param data T
@@ -99,6 +102,7 @@ public class CustomField<T> implements CustomFieldInterface<T>{
 	 * @return int
 	 */
 	public int getMin() {return minValue;}
+	
 	/**
 	 * If the instance has a min value than this is what that value is set to.
 	 * NOTE: if the data type is String then this represents the min # of characters that can be used
@@ -112,12 +116,14 @@ public class CustomField<T> implements CustomFieldInterface<T>{
 	 * @return int
 	 */
 	public int getMax() {return maxValue;}
+	
 	/**
 	 * If the instance has a max value than this is what that value is set to.
 	 *  ***NOTE: if the data type is String then this represents the max # of characters that can be used
 	 * @return int
 	 */
 	public void setMax(int max) {this.maxValue = max;}
+	
 	/**
 	 * @return boolean
 	 */

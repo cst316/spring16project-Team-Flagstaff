@@ -8,8 +8,8 @@
  */
 package net.sf.memoranda;
 
-import java.util.Vector;
 import java.io.File;
+import java.util.Vector;
 
 import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
@@ -46,7 +46,9 @@ public class ResourcesListImpl implements ResourcesList {
         Vector v = new Vector();
         Elements rs = _root.getChildElements("resource");
         for (int i = 0; i < rs.size(); i++)
-            v.add(new Resource(rs.get(i).getAttribute("path").getValue(), rs.get(i).getAttribute("isInetShortcut") != null, rs.get(i).getAttribute("isProjectFile") != null));
+            v.add(new Resource(rs.get(i).getAttribute("path").getValue(), 
+            		rs.get(i).getAttribute("isInetShortcut") != null, 
+            		rs.get(i).getAttribute("isProjectFile") != null));
         return v;
     }
 
@@ -57,7 +59,9 @@ public class ResourcesListImpl implements ResourcesList {
         Elements rs = _root.getChildElements("resource");
         for (int i = 0; i < rs.size(); i++)
             if (rs.get(i).getAttribute("path").getValue().equals(path))
-                return new Resource(rs.get(i).getAttribute("path").getValue(), rs.get(i).getAttribute("isInetShortcut") != null, rs.get(i).getAttribute("isProjectFile") != null);
+                return new Resource(rs.get(i).getAttribute("path").getValue(), 
+                		rs.get(i).getAttribute("isInetShortcut") != null, 
+                		rs.get(i).getAttribute("isProjectFile") != null);
         return null;
     }
 

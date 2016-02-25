@@ -21,8 +21,8 @@ package net.sf.memoranda.ui.table;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
-import java.util.Vector;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;

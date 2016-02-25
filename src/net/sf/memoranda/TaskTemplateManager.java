@@ -260,7 +260,8 @@ public class TaskTemplateManager {
 			d = elements.get(x);
 			x++;
 			if(d.getAttribute("id").getValue().compareTo(id)==0){
-				if(d.getAttribute("name").getValue().compareTo(template.getName())!=0){
+				if(d.getAttribute("name").getValue().
+						compareTo(template.getName())!=0){
 					_nameMap.remove(d.getAttribute("name").getValue());
 					_nameMap.put(template.getName(), id);
 					d.getAttribute("name").setValue(template.getName());
@@ -283,7 +284,8 @@ public class TaskTemplateManager {
 	}
 	
 	/**
-	 * Adds a TaskTemplateListener to the list of methods to be notified if there are changes made to the task templates list in storage
+	 * Adds a TaskTemplateListener to the list of methods to be notified 
+	 * if there are changes made to the task templates list in storage
 	 * @param listener
 	 */
 	public static void addTemplateListener(TaskTemplateListener listener){
@@ -291,14 +293,16 @@ public class TaskTemplateManager {
 	}
 	
 	/**
-	 * Returns a list of the methods to be notified if there are changes made to the task templates list in storage
+	 * Returns a list of the methods to be notified if there are
+	 *  changes made to the task templates list in storage
 	 * @return
 	 */
 	public static ArrayList<TaskTemplateListener> getTemplateListeners(){
 		return _templateListeners;
 	}
 	/**
-	 * Notify the template listener methods that there was a new template added to the template list
+	 * Notify the template listener methods that there was a
+	 *  new template added to the template list
 	 * @param newId
 	 */
 	public static void addNotify(String newId){
@@ -308,17 +312,19 @@ public class TaskTemplateManager {
 	}
 
 	/**
-	 * Notify the template listener methods that there was a template removed from the list
+	 * Notify the template listener methods that there was a template 
+	 * removed from the list
 	 * @param removeId
 	 */
 	public static void removeNotify(String removedId){
 		for (int i = 0; i < _templateListeners.size(); i++) {
-			_templateListeners.get(i).TaskTemplateRemoved(removedId);         
+			_templateListeners.get(i).TaskTemplateRemoved(removedId); 
 		}
 	}
 
 	/**
-	 * Notify the template listener methods that there was a change to a template in the list
+	 * Notify the template listener methods that there was a change 
+	 * to a template in the list
 	 * @param modId
 	 */
 	public static void modNotify(String modId){
@@ -328,9 +334,9 @@ public class TaskTemplateManager {
 	}
 
 
-	// *******************************************************************************************
-	// ---------------------------   Private Methods Below Here   --------------------------------
-	// *******************************************************************************************
+	// *********************************************************
+	// ----  Private Methods Below Here   ----------------------
+	// *********************************************************
 
 	/**
 	 * Create the hash table for efficient lookup of templates from name

@@ -3,6 +3,7 @@ package net.sf.memoranda.util;
 import java.io.*;
 import java.util.Date;
 import java.util.regex.Pattern;
+import java.util.List;
 import net.sf.memoranda.util.Configuration;
 
 import javax.swing.text.Document;
@@ -21,7 +22,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.helpers.ParserFactory;
 
-import java.util.List;
+
 
 import org.docx4j.dml.CTBlip;
 import org.docx4j.openpackaging.io.SaveToZipFile;
@@ -49,9 +50,9 @@ import org.docx4j.openpackaging.parts.PartName;
 import org.docx4j.jaxb.Context;
 import org.docx4j.Docx4jProperties;
 import org.docx4j.openpackaging.contenttype.ContentTypeManager;
-
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 
 import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;

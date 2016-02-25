@@ -224,7 +224,8 @@ public class EventDialog extends JDialog implements WindowListener {
             }
         });
         setStartDateB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(
+            		"resources/icons/calendar.png")));
         setStartDateB.setText("");
         setStartDateB.setPreferredSize(new Dimension(24, 24));
 
@@ -303,7 +304,8 @@ public class EventDialog extends JDialog implements WindowListener {
         setEndDateB.setPreferredSize(new Dimension(24, 24));
         setEndDateB.setText("");
         setEndDateB.setIcon(
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(
+            		"resources/icons/calendar.png")));
         setEndDateB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setEndDateB_actionPerformed(e);
@@ -316,7 +318,8 @@ public class EventDialog extends JDialog implements WindowListener {
         repeatPanel.add(setEndDateB, gbc);
         monthlyRepeatRB.setActionCommand("daily");
         monthlyRepeatRB.setText(Local.getString("Every"));
-        monthlyRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+        monthlyRepeatRB.addActionListener(new java.awt.event.
+        		ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 monthlyRepeatRB_actionPerformed(e);
             }
@@ -340,7 +343,8 @@ public class EventDialog extends JDialog implements WindowListener {
         repeatPanel.add(lblDoM, gbc);
 		yearlyRepeatRB.setActionCommand("yearly");
 		yearlyRepeatRB.setText(Local.getString("Yearly"));
-		yearlyRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+		yearlyRepeatRB.addActionListener(new java.awt.event.
+				ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				yearlyRepeatRB_actionPerformed(e);
 			}
@@ -393,18 +397,21 @@ public class EventDialog extends JDialog implements WindowListener {
         startCalFrame.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreStartChanged) return;
-                startDate.getModel().setValue(startCalFrame.cal.get().getCalendar().getTime());
+                startDate.getModel().setValue(startCalFrame.cal.
+                		get().getCalendar().getTime());
             }
         });
         endCalFrame.cal.addSelectionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ignoreEndChanged)
                     return;
-                endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
+                endDate.getModel().setValue(endCalFrame.cal.
+                		get().getCalendar().getTime());
             }
         });
         disableElements();
-        ((JSpinner.DateEditor) timeSpin.getEditor()).getFormat().applyPattern("HH:mm");
+        ((JSpinner.DateEditor) timeSpin.getEditor()).
+        getFormat().applyPattern("HH:mm");
         enableEndDateCB_actionPerformed(null);
         
     }

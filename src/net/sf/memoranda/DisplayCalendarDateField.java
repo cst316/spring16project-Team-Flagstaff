@@ -5,6 +5,7 @@
  * 
  * @author ggoforth -> Galen Goforth -- Email: ghgofort@asu.ed -- 2/11/16
  */
+
 package net.sf.memoranda;
 
 import java.awt.GridBagConstraints;
@@ -31,6 +32,7 @@ public class DisplayCalendarDateField extends JPanel implements DisplayField {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblName;
 	private JSpinner spnDate=null;
+	
 	/**
 	 * 
 	 */

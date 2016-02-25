@@ -5,6 +5,7 @@
  * @author Alex V. Alishevskikh, alex@openmechanics.net Copyright (c) 2003
  *         Memoranda Team. http://memoranda.sf.net
  */
+
 package net.sf.memoranda;
 
 import net.sf.memoranda.ui.EventNotificationDialog;
@@ -31,6 +32,7 @@ public class DefaultEventNotifier implements EventNotificationListener {
 			ev.getTimeString(),
 			ev.getText());
 	}
+	
 	/**
 	 * @see net.sf.memoranda.EventNotificationListener#eventsChanged()
 	 */

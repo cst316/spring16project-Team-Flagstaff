@@ -1,23 +1,24 @@
 package net.sf.memoranda.ui;
 
 import java.awt.AWTEvent;
-import java.awt.Desktop;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.Frame;
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -693,8 +694,13 @@ public class AppFrame extends JFrame {
                         Dimension frmSize = this.getSize();
                         Point loc = this.getLocation();
                         
-                        ExitConfirmationDialog dlg = new ExitConfirmationDialog(this,Local.getString("Exit"));
-                        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+                        ExitConfirmationDialog dlg = 
+                        		new ExitConfirmationDialog(
+                        				this,Local.getString("Exit"));
+                        dlg.setLocation((frmSize.width - 
+                        		dlg.getSize().width) / 2 + loc.x, 
+                        		(frmSize.height - 
+                        				dlg.getSize().height) / 2 + loc.y);
                         dlg.setVisible(true);
                         if(dlg.CANCELLED) return;
         }
@@ -718,7 +724,8 @@ public class AppFrame extends JFrame {
          Dimension dlgSize = dlg.getSize();
          Dimension frmSize = getSize();
          Point loc = getLocation();
-         dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
+         dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x,
+        		 (frmSize.height - dlgSize.height) / 2 + loc.y);
          dlg.setModal(true);
          dlg.setVisible(true);
     }
@@ -955,8 +962,10 @@ public class AppFrame extends JFrame {
                         Context.put(
                                 "LAST_SELECTED_EXPORT_FILE",
                                 chooser.getSelectedFile().getPath());
-                        Context.put("EXPORT_SPLIT_NOTES", new Boolean(dlg.splitChB.isSelected()).toString());
-                        Context.put("EXPORT_TITLES_AS_HEADERS", new Boolean(dlg.titlesAsHeadersChB.isSelected()).toString());
+                        Context.put("EXPORT_SPLIT_NOTES", new Boolean(
+                        		dlg.splitChB.isSelected()).toString());
+                        Context.put("EXPORT_TITLES_AS_HEADERS", new Boolean(
+                        		dlg.titlesAsHeadersChB.isSelected()).toString());
                 
                 int ei = dlg.encCB.getSelectedIndex();
                 enc = null;
@@ -965,10 +974,13 @@ public class AppFrame extends JFrame {
                 boolean nument = (ei == 2);
                 File f = chooser.getSelectedFile();
                 boolean xhtml =
-                        chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
+                        chooser.getFileFilter().getDescription().
+                        indexOf("XHTML") > -1;
                  CurrentProject.save();
-                 ProjectExporter.export(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml, 
-                                 dlg.splitChB.isSelected(), true, nument, dlg.titlesAsHeadersChB.isSelected(), false); 
+                 ProjectExporter.export(CurrentProject.get(), 
+                		 chooser.getSelectedFile(), enc, xhtml, 
+                                 dlg.splitChB.isSelected(), true, nument, 
+                                 dlg.titlesAsHeadersChB.isSelected(), false); 
                 }
             
             protected void ppImport_actionPerformed(ActionEvent e) {
@@ -1024,14 +1036,18 @@ public class AppFrame extends JFrame {
             String id="", name="", content = "";
             try{
                     Document document = parser.build(f);
-                    Element body = document.getRootElement().getFirstChildElement("body");
-                    Element names = body.getFirstChildElement("div").getFirstChildElement("ul");
+                    Element body = document.getRootElement().
+                    		getFirstChildElement("body");
+                    Element names = body.getFirstChildElement("div").
+                    		getFirstChildElement("ul");
                     Elements namelist = names.getChildElements("li");
                     Element item;
                     
                     for(int i = 0;i<namelist.size();i++){
                             item = namelist.get(i);
-                            id = item.getFirstChildElement("a").getAttributeValue("href").replace("\"","").replace("#","");
+                            id = item.getFirstChildElement("a").
+                            		getAttributeValue("href").
+                            		replace("\"","").replace("#","");
                             name = item.getValue();
                             notesName.put(id,name);
                     }
@@ -1053,7 +1069,8 @@ public class AppFrame extends JFrame {
                             content = notesContent.get(id);
                             p.setText(content);
                             HTMLDocument doc = (HTMLDocument)p.getDocument();
-                            Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+                            Note note = CurrentProject.getNoteList().
+                            		createNoteForDate(CurrentDate.get());
                     note.setTitle(name);
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);
@@ -1093,7 +1110,8 @@ public class AppFrame extends JFrame {
             chooser.setDialogTitle(Local.getString("Import notes"));
             chooser.setAcceptAllFileFilterUsed(false);
             chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+                chooser.addChoosableFileFilter(
+                		new AllFilesFilter(AllFilesFilter.HTML));
             chooser.setPreferredSize(new Dimension(550, 375));
 
             File lastSel = null;
@@ -1118,10 +1136,14 @@ public class AppFrame extends JFrame {
             String id="", name="", content = "";
             try{
                     Document document = parser.build(f);
-                    content = document.getRootElement().getFirstChildElement("body").getValue();
-                    content = content.substring(content.indexOf("\n", content.indexOf("-")));
-                    content = content.replace("<p>","").replace("</p>","\n");
-                    name = f.getName().substring(0,f.getName().lastIndexOf("."));	
+                    content = document.getRootElement().
+                    		getFirstChildElement("body").getValue();
+                    content = content.substring(content.
+                    		indexOf("\n", content.indexOf("-")));
+                    content = content.replace("<p>","").
+                    		replace("</p>","\n");
+                    name = f.getName().substring(0,f.getName().
+                    		lastIndexOf("."));	
                     Element item;
                     id=Util.generateId();
                     System.out.println(id+" "+name+" "+content);
@@ -1135,7 +1157,8 @@ public class AppFrame extends JFrame {
                             System.out.println(id+" "+name+" "+content);
                             p.setText(content);
                             HTMLDocument doc = (HTMLDocument)p.getDocument();
-                            Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+                            Note note = CurrentProject.getNoteList().
+                            		createNoteForDate(CurrentDate.get());
                     note.setTitle(name);
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);

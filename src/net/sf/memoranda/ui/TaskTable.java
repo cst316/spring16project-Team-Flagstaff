@@ -28,17 +28,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Hashtable;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;

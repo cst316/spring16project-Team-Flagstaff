@@ -102,13 +102,17 @@ public class NoteListImpl implements NoteList {
                 Vector months = y.getMonths();
                 for (int mi = 0; mi < months.size(); mi++) {
                     Month m = (Month) months.get(mi);
-                    if (!((y.getValue() == startDate.getYear()) && (m.getValue() < startDate.getMonth()))
-                        || !((y.getValue() == endDate.getYear()) && (m.getValue() > endDate.getMonth()))) {
+                    if (!((y.getValue() == startDate.getYear()) &&
+                    		(m.getValue() < startDate.getMonth()))
+                        || !((y.getValue() == endDate.getYear()) &&
+                        		(m.getValue() > endDate.getMonth()))) {
                         Vector days = m.getDays();
                         for (int di = 0; di < days.size(); di++) {
                             Day d = (Day) days.get(di);
-                            if (!((m.getValue() == startDate.getMonth()) && (d.getValue() < startDate.getDay()))
-							|| !((m.getValue() == endDate.getMonth()) && (d.getValue() > endDate.getDay()))) {
+                            if (!((m.getValue() == startDate.getMonth()) &&
+                            		(d.getValue() < startDate.getDay()))
+							|| !((m.getValue() == endDate.getMonth()) &&
+									(d.getValue() > endDate.getDay()))) {
 								Vector ns = d.getNotes();
 								for(int ni = 0; ni < ns.size(); ni++) {
 									NoteElement n = (NoteElement) ns.get(ni);
@@ -173,7 +177,8 @@ public class NoteListImpl implements NoteList {
 		for(int i=0;i<ns.size();i++) {
 			NoteElement n = (NoteElement) ns.get(i);
 			Element ne = n.getElement();
-			if(ne.getAttribute("refid").getValue().equals(id)) d.getElement().removeChild(n.getElement());
+			if(ne.getAttribute("refid").getValue().equals(id)) 
+				d.getElement().removeChild(n.getElement());
 		}
 //		CurrentNote.set(null);
     }

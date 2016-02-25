@@ -8,13 +8,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
-import javax.swing.filechooser.FileFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.text.DateFormat;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -25,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.text.html.HTMLDocument;
 
 import net.sf.memoranda.History;
@@ -341,9 +340,11 @@ public class EditorPanel extends JPanel {
 		titleBar.add(titleLabel, null);
 		titleBar.add(titleField, null);
 		initCSS();
-		editor.editor.setAntiAlias(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
+		editor.editor.setAntiAlias(Configuration.get(
+				"ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
 		// editor.editor.enableInputMethods(false);
-		// editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
+		// editor.editor.getInputContext().selectInputMethod(
+		Locale.getDefault());
 		titleField.addKeyListener(new KeyListener() {
 
 			public void keyPressed(KeyEvent ke) {
@@ -360,9 +361,11 @@ public class EditorPanel extends JPanel {
 	}
 
 	public void initCSS() {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
+		BufferedReader br = new BufferedReader(
+				new InputStreamReader(
 				net.sf.memoranda.ui.EditorPanel.class
-						.getResourceAsStream("resources/css/default.css")));
+						.getResourceAsStream(
+								"resources/css/default.css")));
 		String css = "";
 		try {
 			String s = br.readLine();

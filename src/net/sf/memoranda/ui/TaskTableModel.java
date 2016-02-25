@@ -21,6 +21,7 @@
 package net.sf.memoranda.ui;
 
 import javax.swing.event.*;
+import java.util.Hashtable;
 import javax.swing.tree.TreePath;
 
 import net.sf.memoranda.*;
@@ -30,7 +31,6 @@ import net.sf.memoranda.ui.treetable.TreeTableModel;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Context;
 
-import java.util.Hashtable;
 
 /**
  * JAVADOC:

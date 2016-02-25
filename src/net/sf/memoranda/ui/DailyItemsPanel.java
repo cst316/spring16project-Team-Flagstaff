@@ -65,9 +65,12 @@ public class DailyItemsPanel extends JPanel {
     TaskPanel tasksPanel = new TaskPanel(this);
     EventsPanel eventsPanel = new EventsPanel(this);
     AgendaPanel agendaPanel = new AgendaPanel(this);
-    ImageIcon expIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/exp_right.png"));
-    ImageIcon collIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/exp_left.png"));
-    ImageIcon bookmarkIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/star8.png"));
+    ImageIcon expIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.
+    		getResource("resources/icons/exp_right.png"));
+    ImageIcon collIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.
+    		getResource("resources/icons/exp_left.png"));
+    ImageIcon bookmarkIcon = new ImageIcon(net.sf.memoranda.ui.
+    		AppFrame.class.getResource("resources/icons/star8.png"));
     boolean expanded = true;
 
     Note currentNote;
@@ -112,8 +115,10 @@ public class DailyItemsPanel extends JPanel {
         }
     }
     void jbInit() throws Exception {
-        border1 = BorderFactory.createEtchedBorder(Color.white, Color.gray);
-        border2 = BorderFactory.createEtchedBorder(Color.white, new Color(161, 161, 161));
+        border1 = BorderFactory.
+        		createEtchedBorder(Color.white, Color.gray);
+        border2 = BorderFactory.
+        		createEtchedBorder(Color.white, new Color(161, 161, 161));
         this.setLayout(borderLayout1);
         splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setBorder(null);
@@ -173,7 +178,8 @@ public class DailyItemsPanel extends JPanel {
                 alarmB_actionPerformed(e);
             }
         });
-        alarmB.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/alarm.png")));
+        alarmB.setIcon(new ImageIcon(net.sf.memoranda.ui.
+        		AppFrame.class.getResource("resources/icons/alarm.png")));
         flowLayout1.setAlignment(FlowLayout.RIGHT);
         flowLayout1.setVgap(0);
         taskB.setMargin(new Insets(0, 0, 0, 0));
@@ -187,7 +193,8 @@ public class DailyItemsPanel extends JPanel {
         taskB.setBorderPainted(false);
         taskB.setMaximumSize(new Dimension(24, 24));
         taskB.setOpaque(false);
-        taskB.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/task.png")));
+        taskB.setIcon(new ImageIcon(net.sf.memoranda.ui.
+        		AppFrame.class.getResource("resources/icons/task.png")));
 
         notesControlPane.setFont(new java.awt.Font("Dialog", 1, 10));
         mainTabsPanel.setLayout(cardLayout2);
@@ -212,7 +219,8 @@ public class DailyItemsPanel extends JPanel {
         controlPanel.add(toggleToolBar, BorderLayout.SOUTH);
         toggleToolBar.add(toggleButton, null);
 
-        splitPane.setDividerLocation((int) controlPanel.getPreferredSize().getWidth());
+        splitPane.setDividerLocation((int) controlPanel.
+        		getPreferredSize().getWidth());
         //splitPane.setResizeWeight(0.0);
 
         CurrentDate.addDateListener(new DateListener() {
@@ -222,24 +230,31 @@ public class DailyItemsPanel extends JPanel {
         });
 
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
-//            	Util.debug("DailyItemsPanel Project Listener: Project is going to be changed!");				
-//            	Util.debug("current project is " + CurrentProject.get().getTitle());
+            public void projectChange(Project p, NoteList nl, 
+            		TaskList tl, ResourcesList rl) {
+//            	Util.debug("DailyItemsPanel Project Listener: 
+            	//Project is going to be changed!");				
+//            	Util.debug("current project is " +
+            	//CurrentProject.get().getTitle());
 
             	currentProjectChanged(p, nl, tl, rl);
             }
             public void projectWasChanged() {
-//            	Util.debug("DailyItemsPanel Project Listener: Project has been changed!");            	
-//            	Util.debug("current project is " + CurrentProject.get().getTitle());
+//            	Util.debug("DailyItemsPanel Project Listener: 
+            	//Project has been changed!");            	
+//            	Util.debug("current project is " + 
+            	//CurrentProject.get().getTitle());
             	
             	// cannot save note here, changing to new project
-            	currentNote = CurrentProject.getNoteList().getNoteForDate(CurrentDate.get());
+            	currentNote = CurrentProject.getNoteList().
+            			getNoteForDate(CurrentDate.get());
         		CurrentNote.set(currentNote,false);
                 editorPanel.setDocument(currentNote);        
                 
 //                // DEBUG
 //                if (currentNote != null) {
-//                    Util.debug("currentNote has been set to " + currentNote.getTitle());        	
+//                    Util.debug("currentNote has been set to " + 
+                //currentNote.getTitle());        	
 //                }
 //                else {
 //                    Util.debug("currentNote has been set to null");
@@ -268,7 +283,8 @@ public class DailyItemsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (editorPanel.isDocumentChanged()) {
                     saveNote();
-                    CurrentStorage.get().storeNoteList(CurrentProject.getNoteList(), CurrentProject.get());
+                    CurrentStorage.get().storeNoteList(
+                    		CurrentProject.getNoteList(), CurrentProject.get());
                 }
             }
         });
@@ -292,16 +308,19 @@ public class DailyItemsPanel extends JPanel {
         });
 
 		currentDate = CurrentDate.get();
-        currentNote = CurrentProject.getNoteList().getNoteForDate(CurrentDate.get());
+        currentNote = CurrentProject.getNoteList().
+        		getNoteForDate(CurrentDate.get());
 		CurrentNote.set(currentNote,true);
         editorPanel.setDocument(currentNote);
-        History.add(new HistoryItem(CurrentDate.get(), CurrentProject.get()));
+        History.add(new HistoryItem(CurrentDate.get(), 
+        		CurrentProject.get()));
         cmainPanel.add(mainTabsPanel, BorderLayout.CENTER);
         mainTabsPanel.add(eventsTabbedPane, "EVENTSTAB");
         mainTabsPanel.add(tasksTabbedPane, "TASKSTAB");
         mainTabsPanel.add(notesControlPane, "NOTESTAB");
 		mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
-        updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
+        updateIndicators(CurrentDate.get(), 
+        		CurrentProject.getTaskList());
         mainPanel.setBorder(null);
     }
 
@@ -362,7 +381,8 @@ public class DailyItemsPanel extends JPanel {
 		editorPanel.editor.requestFocus();		
 	}
 	
-    void currentProjectChanged(Project newprj, NoteList nl, TaskList tl, ResourcesList rl) {
+    void currentProjectChanged(Project newprj, NoteList nl, 
+    		TaskList tl, ResourcesList rl) {
 //		Util.debug("currentProjectChanged");
 
         Cursor cur = App.getFrame().getCursor();
@@ -396,10 +416,12 @@ public class DailyItemsPanel extends JPanel {
 
     public void saveNote() {
         if (currentNote == null)
-            currentNote = CurrentProject.getNoteList().createNoteForDate(currentDate);
+            currentNote = CurrentProject.getNoteList().
+            createNoteForDate(currentDate);
         currentNote.setTitle(editorPanel.titleField.getText());
 		currentNote.setId(Util.generateId());
-        CurrentStorage.get().storeNote(currentNote, editorPanel.getDocument());
+        CurrentStorage.get().storeNote(currentNote, 
+        		editorPanel.getDocument());
         /*DEBUG* System.out.println("Save");*/
     }
 
@@ -409,7 +431,8 @@ public class DailyItemsPanel extends JPanel {
             toggleButton.setIcon(expIcon);
             controlPanel.remove(toggleToolBar);
             controlPanel.add(toggleToolBar, BorderLayout.EAST);
-            splitPane.setDividerLocation((int) controlPanel.getMinimumSize().getWidth());
+            splitPane.setDividerLocation((int) controlPanel.
+            		getMinimumSize().getWidth());
 
         }
         else {
@@ -417,7 +440,8 @@ public class DailyItemsPanel extends JPanel {
             toggleButton.setIcon(collIcon);
             controlPanel.remove(toggleToolBar);
             controlPanel.add(toggleToolBar, BorderLayout.SOUTH);
-            splitPane.setDividerLocation((int) controlPanel.getPreferredSize().getWidth());
+            splitPane.setDividerLocation((int) controlPanel.
+            		getPreferredSize().getWidth());
         }
     }
 
@@ -428,12 +452,15 @@ public class DailyItemsPanel extends JPanel {
                 indicatorsPanel.add(taskB, null);
             if (EventsScheduler.isEventScheduled()) {
                 /*String evlist = "";
-                for (Iterator it = EventsScheduler.getScheduledEvents().iterator(); it.hasNext();) {
+                for (Iterator it = EventsScheduler.
+                	getScheduledEvents().iterator(); it.hasNext();) {
                     net.sf.memoranda.Event ev = (net.sf.memoranda.Event)it.next();   
                     evlist += ev.getTimeString()+" - "+ev.getText()+"\n";
                 } */
-                net.sf.memoranda.Event ev = EventsScheduler.getFirstScheduledEvent();
-                alarmB.setToolTipText(ev.getTimeString() + " - " + ev.getText());
+                net.sf.memoranda.Event ev = EventsScheduler.
+                		getFirstScheduledEvent();
+                alarmB.setToolTipText(ev.getTimeString() + 
+                		" - " + ev.getText());
                 indicatorsPanel.add(alarmB, null);
             }
         }

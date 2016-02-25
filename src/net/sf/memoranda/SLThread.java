@@ -20,8 +20,11 @@ public class SLThread extends Thread {
         } catch (Exception e) {
             System.err.println("Port:"+Start.DEFAULT_PORT);
             e.printStackTrace();
-            new ExceptionDialog(e, "Cannot create a socket connection on localhost:"+Start.DEFAULT_PORT,
-            "Make sure that other software does not use the port "+Start.DEFAULT_PORT+" and examine your security settings.");
+            new ExceptionDialog(e, "Cannot create a socket connection"
+            		+ " on localhost:"+Start.DEFAULT_PORT,
+            "Make sure that other software does not use the port "
+            		+Start.DEFAULT_PORT
+            		+" and examine your security settings.");
         }
     }
 }

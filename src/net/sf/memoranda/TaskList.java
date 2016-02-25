@@ -21,7 +21,8 @@ public interface TaskList {
     Task getTask(String id);
 
     <T> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, 
-    		int priority, long effort, String description, String parentTaskId, ArrayList<CustomField<T>> customFields);
+    		int priority, long effort, String description, String parentTaskId, 
+    		ArrayList<CustomField<T>> customFields);
 
     void removeTask(Task task);
 

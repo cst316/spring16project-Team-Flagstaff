@@ -87,19 +87,24 @@ public class EditTypeDialog extends JDialog {
     void jbInit() throws Exception {
 	this.setResizable(false);
         border1 = BorderFactory.createLineBorder(Color.gray, 1);
-        titledBorder1 = new TitledBorder(BorderFactory.createEmptyBorder(), Local.getString("File type extensions"));
+        titledBorder1 = new TitledBorder(BorderFactory.createEmptyBorder(), 
+        		Local.getString("File type extensions"));
         border2 = BorderFactory.createLineBorder(Color.gray, 1);
         titledBorder2 = new TitledBorder(border2, Local.getString("Description"));
         border3 = BorderFactory.createLineBorder(Color.gray, 1);
-        titledBorder3 = new TitledBorder(BorderFactory.createEmptyBorder(), Local.getString("Command line"));
+        titledBorder3 = new TitledBorder(BorderFactory.createEmptyBorder(), 
+        		Local.getString("Command line"));
         border4 = BorderFactory.createEmptyBorder();
-        titledBorder4 = new TitledBorder(BorderFactory.createEmptyBorder(), Local.getString("Description"));
+        titledBorder4 = new TitledBorder(BorderFactory.createEmptyBorder(), 
+        		Local.getString("Description"));
         border5 = BorderFactory.createLineBorder(Color.gray, 1);
         titledBorder5 = new TitledBorder(border5, Local.getString("Application"));
         border6 = BorderFactory.createEmptyBorder();
-        titledBorder6 = new TitledBorder(BorderFactory.createEmptyBorder(), Local.getString("Icon")+":");
+        titledBorder6 = new TitledBorder(BorderFactory.createEmptyBorder(), 
+        		Local.getString("Icon")+":");
         border7 = BorderFactory.createEmptyBorder();
-        titledBorder7 = new TitledBorder(BorderFactory.createEmptyBorder(), Local.getString("MIME-type")+":");
+        titledBorder7 = new TitledBorder(BorderFactory.createEmptyBorder(), 
+        		Local.getString("MIME-type")+":");
         border8 = BorderFactory.createLineBorder(Color.gray, 1);
         border9 = BorderFactory.createEmptyBorder(0, 5, 0, 5);
         buttonsPanel.setLayout(flowLayout1);
@@ -116,7 +121,8 @@ public class EditTypeDialog extends JDialog {
         header.setFont(new java.awt.Font("Dialog", 0, 20));
         header.setForeground(new Color(0, 0, 124));
         header.setText(Local.getString("Resource type"));
-        header.setIcon(new ImageIcon(net.sf.memoranda.ui.EditTypeDialog.class.getResource(
+        header.setIcon(new ImageIcon(net.sf.memoranda.ui.
+        		EditTypeDialog.class.getResource(
             "resources/icons/resource48.png")));
         jPanel1.setLayout(borderLayout1);
         dialogTitlePanel.setBackground(Color.WHITE); 
@@ -149,7 +155,8 @@ public class EditTypeDialog extends JDialog {
         });
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 11));
         jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
-        jLabel1.setText(Local.getString("List of file extensions, divided by spaces"));
+        jLabel1.setText(Local.getString("List of file extensions, "
+        		+ "divided by spaces"));
         descField.setPreferredSize(new Dimension(300, 24));
         descField.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(CaretEvent e) {
@@ -219,18 +226,30 @@ public class EditTypeDialog extends JDialog {
 
     void setIconB_actionPerformed(ActionEvent e) {
         // Fix until Sun's JVM supports more locales...
-        UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
-        UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
-        UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
-        UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
-        UIManager.put("FileChooser.detailsViewButtonToolTipText", Local.getString("Details"));
-        UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
-        UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString("Files of Type:"));
-        UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-        UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
-        UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-        UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
-        UIManager.put("FileChooser.acceptAllFileFilterText", Local.getString("All Files") + " (*.*)");
+        UIManager.put("FileChooser.lookInLabelText", 
+        		Local.getString("Look in:"));
+        UIManager.put("FileChooser.upFolderToolTipText", 
+        		Local.getString("Up One Level"));
+        UIManager.put("FileChooser.newFolderToolTipText", 
+        		Local.getString("Create New Folder"));
+        UIManager.put("FileChooser.listViewButtonToolTipText", 
+        		Local.getString("List"));
+        UIManager.put("FileChooser.detailsViewButtonToolTipText", 
+        		Local.getString("Details"));
+        UIManager.put("FileChooser.fileNameLabelText", 
+        		Local.getString("File Name:"));
+        UIManager.put("FileChooser.filesOfTypeLabelText", 
+        		Local.getString("Files of Type:"));
+        UIManager.put("FileChooser.openButtonText", 
+        		Local.getString("Open"));
+        UIManager.put("FileChooser.openButtonToolTipText", 
+        		Local.getString("Open selected file"));
+        UIManager.put("FileChooser.cancelButtonText", 
+        		Local.getString("Cancel"));
+        UIManager.put("FileChooser.cancelButtonToolTipText", 
+        		Local.getString("Cancel"));
+        UIManager.put("FileChooser.acceptAllFileFilterText", 
+        		Local.getString("All Files") + " (*.*)");
         
         JFileChooser chooser = new JFileChooser();
         chooser.setPreferredSize(new Dimension(550, 375));
@@ -239,16 +258,19 @@ public class EditTypeDialog extends JDialog {
         //chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setCurrentDirectory(
-            new File(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes").getPath()));
+            new File(net.sf.memoranda.ui.AppFrame.class.getResource(
+            		"resources/icons/mimetypes").getPath()));
         /*if (System.getProperty("os.name").startsWith("Win")) {
             chooser.setFileFilter(new AllFilesFilter(AllFilesFilter.ICO));
             chooser.setCurrentDirectory(new File("C:\\Program Files"));
         }
         else */
-        chooser.addChoosableFileFilter(new net.sf.memoranda.ui.htmleditor.filechooser.ImageFilter());
+        chooser.addChoosableFileFilter(new net.sf.memoranda.ui.
+        		htmleditor.filechooser.ImageFilter());
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
-                iconLabel.setIcon(new ImageIcon(chooser.getSelectedFile().getPath()));
+                iconLabel.setIcon(new ImageIcon(chooser.
+                		getSelectedFile().getPath()));
            }
             catch (Exception ex) {
 		    //ex.printStackTrace();
