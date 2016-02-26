@@ -288,7 +288,7 @@ public class AppFrame extends JFrame {
                 "resources/icons/help.png")));
         jMenuHelpGuide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpGuide_actionPerformed(e);
+                helpGuideActionPerformed(e);
             }
         });
         
@@ -297,14 +297,14 @@ public class AppFrame extends JFrame {
                 "resources/icons/web.png")));
         jMenuHelpWeb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpWeb_actionPerformed(e);
+                helpWebActionPerformed(e);
             }
         });
         
         jMenuHelpBug.setText(Local.getString("Report a bug"));
         jMenuHelpBug.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpBug_actionPerformed(e);
+                helpBugActionPerformed(e);
             }
         });        
         
@@ -651,7 +651,7 @@ public class AppFrame extends JFrame {
     * No Fixbugs found, issues resolved and re-checked - 2/20/2016
     * Thomas Johnson
     */
-    protected void jMenuHelpBug_actionPerformed(ActionEvent event) {
+    public boolean helpBugActionPerformed(ActionEvent event) {
     	URI uri = null;
      	try {
      			uri = new URI(App.BUGS_TRACKER_URL);
@@ -676,7 +676,7 @@ public class AppFrame extends JFrame {
     * No Fixbugs found, issues resolved and re-checked - 2/20/2016
     * Thomas Johnson
     */
-    public void jMenuHelpWeb_actionPerformed(ActionEvent event) {
+    public boolean helpWebActionPerformed(ActionEvent event) {
      	URI uri = null;
      	try {
      			uri = new URI(App.WEBSITE_URL);
@@ -701,7 +701,7 @@ public class AppFrame extends JFrame {
     * No Fixbugs found, issues resolved and re-checked - 2/20/2016
     * Thomas Johnson
     */
-    public void jMenuHelpGuide_actionPerformed(ActionEvent event) { 
+    public boolean helpGuideActionPerformed(ActionEvent event) { 
      	URI uri = null;
      	try {
      			uri = new URI(App.GUIDE_URL);
