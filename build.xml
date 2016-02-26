@@ -247,10 +247,12 @@
 			reportLevel="high"
 			output="html"
 		    outputFile="${tests.findbugs.dir}/findbugs.html" >
+		        warningsProperty="findbugs.warningsfound">
 		    <auxClasspath refid="classpath"/>
 		    <sourcePath path="${source.dir}" />
 		    <class location="${build.classes.dir}" />
 		</findbugs>
+		<fail if="findbugsFailure" />
 	</target>
 	
 	<!-- =================================================================== -->
@@ -269,4 +271,3 @@
 		</checkstyle>
 	</target>
 </project>
-

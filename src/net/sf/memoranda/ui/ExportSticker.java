@@ -25,21 +25,46 @@ import nu.xom.Elements;
  * Found checkstyle issues with indentation, naming, grammar, 
  * and code line length.
  * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+ *
+ * --Implemented Singleton design pattern 2/25/2016--
  */
 public class ExportSticker {
 
-        public ExportSticker() {
-        }
-        
+      //new ExportSticker object created, from which instances will
+	   //be retrieved.
+	   private static ExportSticker exportSticker = new ExportSticker();
+
+	   /** 
+	   * ExportSticker default Constructor.
+	   * 
+	   * --Changed to private for Singleton design pattern 2/25/2016--
+	   */
+       private ExportSticker() {
+         
+       }
+     
+      /** 
+	   * ExportSticker getInstance method
+	   * This method retrieves an instance of the current 
+	   * ExportSticker object.
+	   * 
+	   * @return exportSticker
+	   */
+      public static ExportSticker getInstance( ) {
+         return exportSticker;
+      }        
         /** 
          * Method exportTXT Added by Thomas Johnson.
          * For US-55, TSK-59 on 2/20/2016
          * Handles exporting of Annotation object as a Text document
+         *
+         * --2/25/2016 Added boolean test parameter for silencing 
+         *   message dialog during a JUnit test--
          * 
          * @param f, sticker
          * @return result
          */
-        public boolean exportText(File file, String sticker){
+        public boolean exportText(File file, String sticker, boolean test){
         	
         	if(file.getName().indexOf(".tx") == -1){
 				String dir = file.getPath();
@@ -49,9 +74,7 @@ public class ExportSticker {
 	
 				file = new File(nfile);                    	
 			}
-                boolean result = true;
-                String fs = System.getProperty("file.separator");
-                
+                boolean result = true;              
                 
                 String nohtml = sticker.toString().replaceAll("\\<.*?>","");
                     
@@ -63,9 +86,12 @@ public class ExportSticker {
                         fwrite.write(nohtml);
                             
                         fwrite.close();
+                        
+                        if(test == false){
                         JOptionPane.showMessageDialog(null,Local.
                         		getString("Text Document created with success in: " 
                         				+ file.getAbsolutePath()));
+                        }
                 
                 
         } catch (IOException e) {
@@ -82,11 +108,14 @@ public class ExportSticker {
          * Method exportHTML Added by Thomas Johnson.
          * For US-55, TSK-60 on 2/20/2016
          * Handles exporting of Annotation object as an HTML document
+         *
+         * --2/25/2016 Added boolean test parameter for silencing 
+         *   message dialog during a JUnit test--
          * 
          * @param f, sticker
          * @return result
          */
-        public boolean exportHtml(File file, String sticker){
+        public boolean exportHtml(File file, String sticker, boolean test){
         	
         	if(file.getName().indexOf(".htm") == -1){
 				String dir = file.getPath();
@@ -98,7 +127,6 @@ public class ExportSticker {
 			}
         	
             boolean result = true;
-            String fs = System.getProperty("file.separator");
                 
             try {
                 
@@ -107,9 +135,12 @@ public class ExportSticker {
                     fwrite.write(sticker);
                         
                     fwrite.close();
+                    
+                    if(test == false){
                     JOptionPane.showMessageDialog(null,Local.
                     		getString("HTML Document created with success in: " 
                     				+ file.getAbsolutePath()));
+                    }
             
             
             } catch (IOException e) {
