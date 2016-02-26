@@ -271,6 +271,7 @@ public class TaskTemplateDialog<T> extends JDialog {
 	 * value for the new project dialog.
 	 * Added by: Galen Goforth on 2/5/16
 	 */
+	@SuppressWarnings("unchecked")
 	protected void storeTemplate() {
 		boolean isValid = validateSave();
 		if(isValid){
@@ -353,6 +354,9 @@ public class TaskTemplateDialog<T> extends JDialog {
 				field = (CustomField<T>) new CustomField<String>(txtFieldName.getText(), chkRequired.isSelected(), "");
 			}
 			_customFields.add(field);
+		}
+		if(!txtTemplateName.getText().isEmpty()) {
+			_title = txtTemplateName.getText();
 		}
 		setFields();
 		clearControls();

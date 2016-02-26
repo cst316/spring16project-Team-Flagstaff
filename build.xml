@@ -28,8 +28,6 @@
 	<property name="optimize"    value="off"/>
 	<property name="deprecation" value="off"/>
 	
-	
-	
 	<taskdef resource="org/jacoco/ant/antlib.xml"
 	            uri="antlib:org.jacoco.ant"
 	            classpath="${lib.dir}/jacocoant.jar"/>
@@ -81,7 +79,7 @@
 		<copy file="${source.dir}/net/sf/memoranda/ui/~~App.java" tofile="${source.dir}/net/sf/memoranda/ui/App.java"/>
 		<replace file="${source.dir}/net/sf/memoranda/ui/App.java" token="@VERSION@" value="${version}"/>
 		<replace file="${source.dir}/net/sf/memoranda/ui/App.java" token="@BUILD@" value="${DSTAMP}.${build.number}"/>
-		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" excludes="**/Cvs/**,**/*.ini,**/~*" debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}" deprecation="${deprecation}" failonerror="false" source="1.8" target="1.8" encoding="utf-8" includeantruntime="false">
+		<javac srcdir="${source.dir}" destdir="${build.classes.dir}" excludes="**/Cvs/**,**/*.ini,**/~*" debug="${debug}" debuglevel="${debuglevel}" includeantruntime="false" optimize="${optimize}" deprecation="${deprecation}" failonerror="false" source="1.8" target="1.8" encoding="utf-8">
 			<!-- <compilerarg value="-Xlint:unchecked"/> -->
 			<classpath>
 				<path refid="classpath"/>
@@ -248,13 +246,13 @@
 		<findbugs home="${lib.dir}"
 			reportLevel="high"
 			output="html"
-		    outputFile="${tests.findbugs.dir}/findbugs.html"
-			warningsProperty="findbugs.warningsfound">
+		    outputFile="${tests.findbugs.dir}/findbugs.html" >
+		        warningsProperty="findbugs.warningsfound">
 		    <auxClasspath refid="classpath"/>
 		    <sourcePath path="${source.dir}" />
 		    <class location="${build.classes.dir}" />
 		</findbugs>
-	 	<fail if="findbugsFailure" />
+		<fail if="findbugsFailure" />
 	</target>
 	
 	<!-- =================================================================== -->
@@ -272,5 +270,4 @@
 		    <fileset dir="${source.dir}" includes="**/*.java"/>
 		</checkstyle>
 	</target>
-	
 </project>

@@ -44,7 +44,8 @@ public class CalendarDateTest {
 	@Test
 	public void beforeTest() {
 		assertTrue(cd1.before(cd2));
-		assertTrue(cd2.before(cd1)); //Pass with assertFalse
+		// Fixed to fix build by ghgofort - Galen Goforth - 2/19/16
+		assertFalse(cd2.before(cd1)); //Pass with assertFalse
 	}
 	
 	@Test
