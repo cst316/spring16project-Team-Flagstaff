@@ -488,6 +488,11 @@ public class AgendaPanel extends JPanel {
   * This method handles the export GUI file chooser 
   * and event handlers for the export GUI actions
   * for the Annotation Sticker object export.
+  *
+  * --Edited 2/25/2016 to add test boolean parameter
+  * for stickerExport method calls.--
+  * 
+  * --Edited 2/25/2016 for ImportSticker Singleton design pattern.--
   * 
   * @param type, sticker
   */
@@ -549,13 +554,13 @@ public class AgendaPanel extends JPanel {
     	
     	if (type == 0) {
     		File file = chooser.getSelectedFile();
-    		ExportSticker stickerExport = new ExportSticker();
-    		stickerExport.exportHtml(file, sticker);
+    		ExportSticker stickerExport = ExportSticker.getInstance();
+    		stickerExport.exportHtml(file, sticker, false);
 		}
 		if (type == 1) {
 			File file = chooser.getSelectedFile();
-			ExportSticker stickerExport = new ExportSticker();
-    		stickerExport.exportText(file, sticker);
+			ExportSticker stickerExport = ExportSticker.getInstance();
+    		stickerExport.exportText(file, sticker, false);
 		}
 	}
 	
@@ -565,6 +570,8 @@ public class AgendaPanel extends JPanel {
 	 * This method handles the import GUI file chooser 
 	 * and event handlers for the import GUI actions
 	 * for the Annotation Sticker object import.
+    *
+    * --Edited 2/25/2016 for ImportSticker Singleton design pattern.--
 	 * 
 	 */
 	void importSticker() {
@@ -610,7 +617,7 @@ public class AgendaPanel extends JPanel {
 
 		File file = chooser.getSelectedFile();
 		
-		ImportSticker tempImport = new ImportSticker();
+		ImportSticker tempImport= ImportSticker.getInstance();
 		
 		String txt = tempImport.htmlAnnotationImport(file);
 		
