@@ -15,7 +15,14 @@ import javax.swing.filechooser.FileFilter;
 import net.sf.memoranda.util.Local;
 
 /**
- *
+ * AllFilesFilter class.
+ * This Class establishes the file filters used by the
+ * fileChooser objects to have file types sorted by.
+ * 
+ * Update: Self Checked altered method with Checkstyle, FixBugs, 
+ * and for defects.  
+ * Found checkstyle issues with indentation, naming, and grammar.
+ * No Fixbugs found, issues resolved and re-checked - 2/20/2016
  */
 /*$Id: AllFilesFilter.java,v 1.5 2004/01/30 12:17:41 alexeya Exp $*/
 public class AllFilesFilter extends FileFilter {
@@ -34,75 +41,89 @@ public class AllFilesFilter extends FileFilter {
     public static final String JAR = "JAR";
     public static final String ICO = "ICO";
     public static final String WAV = "WAV";
+  //Line 39 Added by Thomas Johnson
+  //For US-55, TSK-59 on 2/20/2016
+	 public static final String TXT = "TXT";
 
-    String _type = "";
+    String type = "";
     /**
      * Constructor for AllFilesFilter.
      */
-    public AllFilesFilter(String type) {
+    public AllFilesFilter(String typeInput) {
         super();
-        _type = type;
+        type = typeInput;
     }
 
     /**
      * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
      */
-    public boolean accept(File f) {
-        if (f.isDirectory())
+    //Lines 67-68 Added by Thomas Johnson
+    //For US-55, TSK-59 on 2/20/2016
+    public boolean accept(File file) {
+        if (file.isDirectory()){
             return true;
-        String ext = getExtension(f);
-        if (_type.equals(RTF))
+        }
+        String ext = getExtension(file);
+        if (type.equals(RTF)){
             return ext.equals("rtf");
-        else if (_type.equals(ZIP))
+        }else if (type.equals(ZIP)){
             return ext.equals("zip");
-        else if (_type.equals(DOCX))
+        }else if (type.equals(DOCX)){
           	return ext.equals("docx");
-        else if (_type.equals(PDF))
+        }else if (type.equals(PDF)){
           	return ext.equals("pdf");
-        else if (_type.equals(EXE))
+        }else if (type.equals(TXT)){
+          	return ext.equals("txt");
+        }else if (type.equals(EXE)){
             return (ext.equals("exe") || ext.equals("com") || ext.equals("bat"));
-        else if (_type.equals(JAR))
+        }else if (type.equals(JAR)){
             return ext.equals("jar");
-        else if (_type.equals(WAV))
+        }else if (type.equals(WAV)){
             return (ext.equals("wav") || ext.equals("au"));
-        else if (_type.equals(XHTML))
+        }else if (type.equals(XHTML)){
             return (ext.equals("xhtml") || ext.equals("xml"));
-        else if (_type.equals(ICO))
+        }else if (type.equals(ICO)){
             return (ext.equals("ico") || ext.equals("png"));
+        }
         return ext.startsWith("htm");
     }
 
     /**
      * @see javax.swing.filechooser.FileFilter#getDescription()
      */
+    //Lines 96-97 Added by Thomas Johnson
+    //For US-55, TSK-59 on 2/20/2016
     public String getDescription() {
-        if (_type.equals(RTF))
+        if (type.equals(RTF)){
             return "Rich Text Format (*.rtf)";
-        else if (_type.equals(ZIP))
+        }else if (type.equals(ZIP)){
             return "ZIP archives (*.zip)";
-        else if (_type.equals(DOCX))
+        }else if (type.equals(DOCX)){
             return "Word Documents (*.docx)";
-        else if (_type.equals(PDF))
+        }else if (type.equals(PDF)){
             return "PDF Documents (*.pdf)";
-        else if (_type.equals(EXE))
+        }else if (type.equals(TXT)){
+            return "Text Documents (*.txt)";
+        }else if (type.equals(EXE)){
             return Local.getString("Executable Files") + " (*.exe, *.com, *.bat)";
-        else if (_type.equals(JAR))
+        }else if (type.equals(JAR)){
             return "JAR " + Local.getString("Files") + " (*.jar)";
-        else if (_type.equals(WAV))
+        }else if (type.equals(WAV)){
             return Local.getString("Sound files") + " (*.wav, *.au)";
-        else if (_type.equals(XHTML))
+        }else if (type.equals(XHTML)){
             return "XHTML files (*.xhtml, *.xml)";
-        else if (_type.equals(ICO))
+        }else if (type.equals(ICO)){
             return Local.getString("Icon") + " " + Local.getString("Files") + " (*.ico, *.png)";
+        }
         return "HTML files (*.html, *.htm)";
     }
 
-    private static String getExtension(File f) {
+    private static String getExtension(File file) {
         String ext = "";
-        String s = f.getName();
-        int i = s.lastIndexOf('.');
-        if (i > 0 && i < s.length() - 1) {
-            ext = s.substring(i + 1).toLowerCase();
+        String string = file.getName();
+        int index = string.lastIndexOf('.');
+        if (index > 0 && index < string.length() - 1) {
+            ext = string.substring(index + 1).toLowerCase();
         }
         return ext;
     }
