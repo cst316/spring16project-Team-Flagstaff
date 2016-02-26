@@ -658,8 +658,8 @@ public class AppFrame extends JFrame {
      			System.out.println("URI created: " + uri);
      			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
-               return true;
      			}
+            return true;
      		}catch (IOException | URISyntaxException exception) {
      			 System.out.println("URI Syntax Error: " + exception.getMessage());
              return false;
@@ -685,8 +685,8 @@ public class AppFrame extends JFrame {
      			System.out.println("URI created: " + uri);
      			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
-               return true;
      			}
+            return true;
      		}catch (IOException | URISyntaxException exception) {
      			 System.out.println("URI Syntax Error: " + exception.getMessage());
              return false;
@@ -712,8 +712,8 @@ public class AppFrame extends JFrame {
      			System.out.println("URI created: " + uri);
      			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
-               return true;
      			}
+            return true;
      		}catch (IOException | URISyntaxException exception) {
      			 System.out.println("URI Syntax Error: " + exception.getMessage());
              return false;
