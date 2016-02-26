@@ -14,15 +14,34 @@ import java.io.InputStreamReader;
  * and for defects.
  * Found checkstyle issues with indentation, naming, and grammar.
  * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+ *
+ * --Implemented Singleton design pattern 2/25/2016--
  */
 public class ImportSticker {       
         
-	       /** 
-	        * ImportSticker default Constructor.
-	        */
-        public ImportSticker() {
+	    //new ImportSticker object created, from which instances will
+		 //be retrieved.
+		 private static ImportSticker importSticker = new ImportSticker();
+        
+	    /** 
+	    * ImportSticker default Constructor.
+	    * 
+	    * --Changed to private for Singleton design pattern 2/25/2016--
+	    */
+        private ImportSticker() {
             
         }
+        
+        /** 
+ 	    * ImportSticker getInstance method
+ 	    * This method retrieves an instance of the current 
+ 	    * ImportSticker object.
+ 	    * 
+ 	    * @return importSticker
+ 	    */
+        public static ImportSticker getInstance( ) {
+            return importSticker;
+         }
         
         /** 
          * Method HTMLStickerImport Added by Thomas Johnson.

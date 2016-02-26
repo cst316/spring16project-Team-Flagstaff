@@ -639,51 +639,78 @@ public class AppFrame extends JFrame {
 
     }
    
-    protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.BUGS_TRACKER_URL);
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the BUGS_TRACKER_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+    */
+    protected void jMenuHelpBug_actionPerformed(ActionEvent event) {
     	URI uri = null;
      	try {
      			uri = new URI(App.BUGS_TRACKER_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
+     			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
+     		}catch (IOException | URISyntaxException exception) {
+     			 System.out.println("URI Syntax Error: " + exception.getMessage());
      		}
      }
    
-    protected void jMenuHelpWeb_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.WEBSITE_URL); 
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the WEBSITE_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Update: Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+    */
+    public void jMenuHelpWeb_actionPerformed(ActionEvent event) {
      	URI uri = null;
      	try {
      			uri = new URI(App.WEBSITE_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
+     			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
+     		}catch (IOException | URISyntaxException exception) {
+     			 System.out.println("URI Syntax Error: " + exception.getMessage());
     		}
      }
    
-    protected void jMenuHelpGuide_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.GUIDE_URL);  
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the GUIDE_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+    */
+    public void jMenuHelpGuide_actionPerformed(ActionEvent event) { 
      	URI uri = null;
      	try {
      			uri = new URI(App.GUIDE_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
+     			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
+     		}catch (IOException | URISyntaxException exception) {
+     			 System.out.println("URI Syntax Error: " + exception.getMessage());
      		}	
      }
     
