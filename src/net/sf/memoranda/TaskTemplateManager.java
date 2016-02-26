@@ -72,6 +72,9 @@ public class TaskTemplateManager {
 		el.addAttribute(new Attribute("id", id));
 		el.addAttribute(new Attribute("name", templateName));
 		// Loop through the CustomFields and add the values to the XML element for the task template
+		if(fields==null) {
+			fields = new ArrayList<CustomField<T>>();
+		}
 		for(int x=0;x<fields.size();x++){
 			Element child = new Element("customField");
 			Element type = new Element("dataType");
@@ -148,8 +151,14 @@ public class TaskTemplateManager {
 	 * @return TaskTemplate 
 	 */
 	public static <T> TaskTemplate<T> getTemplateFromName(String name){
-		String id = _nameMap.get(name);
-		return getTemplate(id);
+		if(_nameMap.containsKey(name)) {
+			String id = _nameMap.get(name);
+			return getTemplate(id);
+		}else {
+			// Returns null if the name cannot be found in the name map
+			return null;
+		}
+		
 	}
 
 	/**
@@ -171,16 +180,18 @@ public class TaskTemplateManager {
 	public static <T> TaskTemplate<T> getTemplate(String id){
 		TaskTemplate<T> tt = null;
 		Element d = null;
+		Element c = null;
 		Elements elements = _root.getChildElements();
 		int size = elements.size();
 		int x =0;
 		while(x<size){
-			d = elements.get(x);
-			String eleId = d.getAttributeValue("id");
+			c = elements.get(x);
+			String eleId = c.getAttributeValue("id");
 			if(eleId.compareTo(id)!=0){	
 				x++;
 			}
 			else{
+				d=c;
 				x=size;
 			}
 		}
