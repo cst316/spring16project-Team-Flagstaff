@@ -12,6 +12,7 @@ import net.sf.memoranda.util.Local;
  */
 
 import java.io.File;
+import java.util.Locale;
 
 import javax.swing.filechooser.FileFilter;
 
@@ -125,7 +126,7 @@ public class AllFilesFilter extends FileFilter {
     String string = file.getName();
     int index = string.lastIndexOf('.');
     if (index > 0 && index < string.length() - 1) {
-      ext = string.substring(index + 1).toLowerCase();
+      ext = string.substring(index + 1).toLowerCase(Locale.getDefault());
     }
     return ext;
   }

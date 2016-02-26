@@ -72,20 +72,21 @@ public class AppFrameAboutBox extends JDialog implements ActionListener {
   }
   
   //Component initialization
-  private void jbInit() throws Exception {    
-    String text = "<html>";
-    text += "<b>" + product + "</b><br><br>";
-    text += copyright + "<br>" + url + "<br><br>";
-    text += "<b>" + developersHead + "</b><br>";    
+  private void jbInit() throws Exception {   
+	StringBuffer buf = new StringBuffer();
+	buf.append("<html>")
+	   .append("<b>" + product + "</b><br><br>")
+	   .append(copyright + "<br>" + url + "<br><br>")
+	   .append("<b>" + developersHead + "</b><br>");
     for (int i = 0; i < developers.length; i++) {
-      text += developers[i] + "<br>";    
+      buf.append(developers[i] + "<br>");  
     }
-    text += "<br><b>" + othersHead + "</b><br>";    
+    buf.append("<br><b>" + othersHead + "</b><br>");    
     for (int i = 0; i < others.length; i++) {
-      text += others[i] + "<br>"; 
+      buf.append(others[i] + "<br>"); 
     }
-    
-    text += "</html>";
+    buf.append("</html>");
+    String text = buf.toString();
     
     image = new ImageIcon(AppFrameAboutBox.class.getResource("resources/memoranda.png"));
     this.setTitle(Local.getString("About Memoranda"));
@@ -106,9 +107,9 @@ public class AppFrameAboutBox extends JDialog implements ActionListener {
     //layeredPane.setPreferredSize(new Dimension(300, 300));
     imgLabel = new JLabel(image);
     imgLabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
-    layeredPane.add(imgLabel, new Integer(1));
-    layeredPane.add(lblText, new Integer(2));    
-    layeredPane.add(button1, new Integer(2));
+    layeredPane.add(imgLabel, Integer.valueOf(1));
+    layeredPane.add(lblText, Integer.valueOf(2));    
+    layeredPane.add(button1, Integer.valueOf(2));
     this.getContentPane().setBackground(new Color(251, 197, 63));
   }
   

@@ -21,7 +21,7 @@ import javax.swing.UIManager;
 public class App {
   // boolean packFrame = false;
 
-  static AppFrame frame = null;
+  public static final AppFrame frame = new AppFrame();
   
   public static final String GUIDE_URL = "http://memoranda.sourceforge.net/guide.html";
   public static final String BUGS_TRACKER_URL = "http://sourceforge.net/tracker/?group_id=90997&atid=595566";
@@ -86,6 +86,8 @@ public class App {
             Configuration.get("LOOK_AND_FEEL").toString());
       }
 
+    } catch (RuntimeException e) {
+        throw e;
     } catch (Exception e) {        
       new ExceptionDialog(e, 
           "Error when initializing a pluggable look-and-feel. Default LF will be used.", 
@@ -105,7 +107,7 @@ public class App {
     }
 
     EventsScheduler.init();
-    frame = new AppFrame();
+    //frame = new AppFrame();
     if (fullmode) {
       init();
     }

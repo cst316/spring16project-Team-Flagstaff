@@ -367,8 +367,9 @@ public class EditorPanel extends JPanel {
 
   /**
    * Method initCSS.
+   * @throws IOException 
    */
-  public void initCSS() {
+  public void initCSS() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(
         net.sf.memoranda.ui.EditorPanel.class
             .getResourceAsStream("resources/css/default.css")));
@@ -379,9 +380,11 @@ public class EditorPanel extends JPanel {
         css = css + line + "\n";
         line = br.readLine();
       }
+      br.close();
     } catch (IOException ex) {
+      br.close();
       ex.printStackTrace();
-    }
+    } 
     String normalFont = Configuration.get("NORMAL_FONT").toString();
     String headerFont = Configuration.get("HEADER_FONT").toString();
     String monoFont = Configuration.get("MONO_FONT").toString();
