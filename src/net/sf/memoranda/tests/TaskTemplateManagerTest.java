@@ -199,8 +199,9 @@ public class TaskTemplateManagerTest<T> {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetTemplateFromName() {
+		TaskTemplateManager.createTemplate("New Template");
 		boolean success = true;
-		ttl = TaskTemplateManager.getTemplateFromName("Default Template");
+		ttl = TaskTemplateManager.getTemplateFromName("New Template");
 		if(ttl==null) {
 			success = false;
 		}else {

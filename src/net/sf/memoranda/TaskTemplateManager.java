@@ -72,6 +72,9 @@ public class TaskTemplateManager {
 		el.addAttribute(new Attribute("id", id));
 		el.addAttribute(new Attribute("name", templateName));
 		// Loop through the CustomFields and add the values to the XML element for the task template
+		if(fields==null) {
+			fields = new ArrayList<CustomField<T>>();
+		}
 		for(int x=0;x<fields.size();x++){
 			Element child = new Element("customField");
 			Element type = new Element("dataType");
