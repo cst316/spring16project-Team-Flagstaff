@@ -1,5 +1,7 @@
 package net.sf.memoranda.ui;
 
+import net.sf.memoranda.util.Local;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,23 +10,24 @@ import javax.swing.BorderFactory;
 import javax.swing.JInternalFrame;
 import javax.swing.border.Border;
 
-import net.sf.memoranda.util.Local;
-
 /*$Id: CalendarFrame.java,v 1.5 2004/04/05 10:05:44 alexeya Exp $*/
 public class CalendarFrame extends JInternalFrame {
 
   public JNCalendarPanel cal = new JNCalendarPanel();
   Border border1;
 
+  /**
+   * Method CalendarFrame.
+   */
   public CalendarFrame() {
     try {
       jbInit();
-    }
-    catch(Exception e) {
+    } catch (Exception e) {
       new ExceptionDialog(e);
     }
 
   }
+  
   private void jbInit() throws Exception {
     border1 = BorderFactory.createLineBorder(Color.gray,1);
     this.setClosable(true);
@@ -33,7 +36,7 @@ public class CalendarFrame extends JInternalFrame {
     //this.setPreferredSize(new Dimension(200, 200));
     this.setToolTipText("");
     cal.setPreferredSize(new Dimension(this.getContentPane().getWidth(),
-    this.getContentPane().getHeight()));
+        this.getContentPane().getHeight()));
     this.getContentPane().add(cal,  BorderLayout.CENTER);
   }
 }

@@ -2,11 +2,8 @@ package net.sf.memoranda.ui;
 
 import java.awt.AWTEvent;
 import java.awt.Desktop;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -699,10 +696,10 @@ public class AppFrame extends JFrame {
                         if(dlg.CANCELLED) return;
         }
 
-        Context.put("FRAME_WIDTH", new Integer(this.getWidth()));
-        Context.put("FRAME_HEIGHT", new Integer(this.getHeight()));
-        Context.put("FRAME_XPOS", new Integer(this.getLocation().x));
-        Context.put("FRAME_YPOS", new Integer(this.getLocation().y));
+        Context.put("FRAME_WIDTH", Integer.valueOf(this.getWidth()));
+        Context.put("FRAME_HEIGHT", Integer.valueOf(this.getHeight()));
+        Context.put("FRAME_XPOS", Integer.valueOf(this.getLocation().x));
+        Context.put("FRAME_YPOS", Integer.valueOf(this.getLocation().y));
         exitNotify();
         System.exit(0);
     }
@@ -714,7 +711,7 @@ public class AppFrame extends JFrame {
 
     //Help | About action performed
     public void jMenuHelpAbout_actionPerformed(ActionEvent e) {
-         AppFrame_AboutBox dlg = new AppFrame_AboutBox(this);        
+         AppFrameAboutBox dlg = new AppFrameAboutBox(this);        
          Dimension dlgSize = dlg.getSize();
          Dimension frmSize = getSize();
          Point loc = getLocation();
@@ -955,15 +952,14 @@ public class AppFrame extends JFrame {
                         Context.put(
                                 "LAST_SELECTED_EXPORT_FILE",
                                 chooser.getSelectedFile().getPath());
-                        Context.put("EXPORT_SPLIT_NOTES", new Boolean(dlg.splitChB.isSelected()).toString());
-                        Context.put("EXPORT_TITLES_AS_HEADERS", new Boolean(dlg.titlesAsHeadersChB.isSelected()).toString());
+                        Context.put("EXPORT_SPLIT_NOTES", Boolean.valueOf(dlg.splitChB.isSelected()).toString());
+                        Context.put("EXPORT_TITLES_AS_HEADERS", Boolean.valueOf(dlg.titlesAsHeadersChB.isSelected()).toString());
                 
                 int ei = dlg.encCB.getSelectedIndex();
                 enc = null;
                 if (ei == 1)
                         enc = "UTF-8";
                 boolean nument = (ei == 2);
-                File f = chooser.getSelectedFile();
                 boolean xhtml =
                         chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
                  CurrentProject.save();
@@ -1060,7 +1056,9 @@ public class AppFrame extends JFrame {
                     }
                     workPanel.dailyItemsPanel.notesControlPane.refresh();
                     
-            }catch(Exception exc){
+            } catch (RuntimeException ext) {
+                throw ext;
+            } catch(Exception exc){
                     exc.printStackTrace();
             }
         }
@@ -1142,7 +1140,9 @@ public class AppFrame extends JFrame {
                     }
                     workPanel.dailyItemsPanel.notesControlPane.refresh();
                     
-            }catch(Exception exc){
+            } catch (RuntimeException exc) {
+                throw exc;
+            } catch(Exception exc){
                     exc.printStackTrace();
             }
         }
