@@ -195,20 +195,16 @@ public class ProjectImpl implements Project {
 	}
 	/**
 	 * Sets the task template to the Project implementation
+	 * Changed so that the saving of a new task template will work
 	 * @param templateId
 	 */
 	@Override
 	public void setTaskTemplate(String templateId) {
-		Element tt = _root.getFirstChildElement("taskTemplate");
-		if(tt==null){
-			tt = new Element("taskTemplate");
-			tt.appendChild(templateId);
-			_root.appendChild(tt);
-		}else{
-			tt.removeChildren();
-			tt.appendChild(templateId);
+		if(_root.getAttribute("taskTemplateId")!=null) {
+			_root.getAttribute("taskTemplateId").setValue(templateId);
+		}else {
+			_root.addAttribute(new Attribute("taskTemplateId", templateId));
 		}
-		
 	}
         
     /**

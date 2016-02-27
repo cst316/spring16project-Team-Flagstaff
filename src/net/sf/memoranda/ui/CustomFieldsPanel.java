@@ -41,6 +41,7 @@ public class CustomFieldsPanel extends JPanel {
   public CustomFieldsPanel() {
     customPanels = new ArrayList<DisplayField>();
   }
+
   
   /**
    * Add a field to the panel.
@@ -52,7 +53,6 @@ public class CustomFieldsPanel extends JPanel {
           throws InvalidClassException {
     DisplayField newField = null;
     GridBagConstraints cs = new GridBagConstraints();
-    cs.anchor = GridBagConstraints.BOTH;
     cs.insets = new Insets(3, 2, 3, 2);
     cs.gridx = xIndex;
     cs.gridy = yIndex;
@@ -138,11 +138,19 @@ public class CustomFieldsPanel extends JPanel {
     this.removeAll();
     int column = fld.size() / 2;
     for (int x = 0;x < fld.size();x++) {
+
       try {
+      	/* switched the x and y parameters to the addField method.
+      	 * Changed from x-(column+1) to x-column -> adjustment for 0 
+      	 * beginning index.
+      	 * This was Task #75 from Taiga.io
+      	 *  Galen Goforth - ghgofort - 2/27/16
+      	 */
+      	
         if (x < column) {
-          addField(fld.get(x),0,x );
+        	addField(fld.get(x),0,x );
         } else {
-          addField(fld.get(x),1,(x - (column + 1)));
+          addField(fld.get(x),3,(x - (column)));
         }
       } catch (InvalidClassException e) {
         e.printStackTrace();
