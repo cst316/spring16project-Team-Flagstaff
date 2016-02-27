@@ -280,7 +280,7 @@ public class EventsPanel extends JPanel {
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
         dlg.setVisible(true);
-        if (dlg.CANCELLED)
+        if (dlg.cancelled)
             return;
         EventsManager.removeEvent(ev);
         
@@ -327,7 +327,7 @@ public class EventsPanel extends JPanel {
     	dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
     	dlg.setEventDate(startDate);
 		dlg.setVisible(true);
-    	if (dlg.CANCELLED)
+    	if (dlg.cancelled)
     		return;
     	Calendar calendar = new GregorianCalendar(Local.getCurrentLocale()); //Fix deprecated methods to get hours
     	//by (jcscoobyrs) 14-Nov-2003 at 10:24:38 AM
