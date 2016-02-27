@@ -449,6 +449,14 @@ public class ProjectsPanel extends JPanel implements IExpandablePanel {
 				new CalendarDate((Date) dlg.endDate.getModel().getValue()));
 		else
 			prj.setEndDate(null);
+		/*
+		 * Set the value for the task template to the 
+		 * value of the selected list item before saving
+		 */
+		String selectedVal = (String) dlg.lstTemplateList.getSelectedValue();
+		String selectedId = TaskTemplateManager.getIdFromName(selectedVal);
+		prj.setTaskTemplate(selectedId);
+
 		prjTablePanel.updateUI();
 		/*
 		 * if (dlg.freezeChB.isSelected()) prj.freeze(); else

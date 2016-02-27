@@ -367,12 +367,17 @@ public class ProjectDialog extends JDialog {
 			}
 		});
 
+		/*
+		 * Implementation of the observer method used for setting the list items once items removed.
+		 * added by ggoforth 
+		 */
 		// add listeners for changes to the task template list
 		TaskTemplateManager.addTemplateListener(new ITaskTemplateListener(){
 
 			@Override
 			public void TaskTemplateChanged(String id) {
-
+				Util.debug("[DEBUG] Task Template Changed listener reached");
+				setListItems(id);
 			}
 
 			@Override
@@ -383,7 +388,8 @@ public class ProjectDialog extends JDialog {
 
 			@Override
 			public void TaskTemplateRemoved(String id) {
-
+				Util.debug("[DEBUG] Task Template Removed listener reached");
+				setListItems(id);
 			}
 
 		});
