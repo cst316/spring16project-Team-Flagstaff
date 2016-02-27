@@ -246,13 +246,13 @@
 		<findbugs home="${lib.dir}"
 			reportLevel="high"
 			output="html"
-		    outputFile="${tests.findbugs.dir}/findbugs.html" >
-		        warningsProperty="findbugs.warningsfound">
+		    outputFile="${tests.findbugs.dir}/findbugs.html" 
+			warningsProperty="findbugsFailure">
 		    <auxClasspath refid="classpath"/>
 		    <sourcePath path="${source.dir}" />
 		    <class location="${build.classes.dir}" />
 		</findbugs>
-		<fail if="findbugsFailure" />
+		<fail if="findbugsFailure"/>
 	</target>
 	
 	<!-- =================================================================== -->

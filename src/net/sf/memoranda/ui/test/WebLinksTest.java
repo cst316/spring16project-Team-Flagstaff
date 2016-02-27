@@ -66,7 +66,7 @@ public class WebLinksTest {
 	 */
 	@Test
 	public final void testJMenuHelpBug_actionPerformed() {
-		assertTrue(testAppFrame.helpBugActionPerformed(event));
+		assertTrue(testAppFrame.helpBugActionPerformed(event, true));
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class WebLinksTest {
 	 */
 	@Test
 	public final void testJMenuHelpWeb_actionPerformed() {
-		assertTrue(testAppFrame.helpWebActionPerformed(event));
+		assertTrue(testAppFrame.helpWebActionPerformed(event, true));
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class WebLinksTest {
 	 */
 	@Test
 	public final void testJMenuHelpGuide_actionPerformed() {
-		assertTrue(testAppFrame.helpGuideActionPerformed(event));
+		assertTrue(testAppFrame.helpGuideActionPerformed(event, true));
 	}
 
 }

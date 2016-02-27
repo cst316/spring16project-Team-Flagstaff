@@ -285,7 +285,7 @@ public class AppFrame extends JFrame {
                 "resources/icons/help.png")));
         jMenuHelpGuide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                helpGuideActionPerformed(e);
+                helpGuideActionPerformed(e, false);
             }
         });
         
@@ -294,14 +294,14 @@ public class AppFrame extends JFrame {
                 "resources/icons/web.png")));
         jMenuHelpWeb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                helpWebActionPerformed(e);
+                helpWebActionPerformed(e, false);
             }
         });
         
         jMenuHelpBug.setText(Local.getString("Report a bug"));
         jMenuHelpBug.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                helpBugActionPerformed(e);
+                helpBugActionPerformed(e, false);
             }
         });        
         
@@ -647,20 +647,28 @@ public class AppFrame extends JFrame {
     * Found checkstyle issues with indentation, brackets, naming, and grammar.
     * No Fixbugs found, issues resolved and re-checked - 2/20/2016
     * Thomas Johnson
+     * @param test 
     */
-    public boolean helpBugActionPerformed(ActionEvent event) {
-    	URI uri = null;
+    public boolean helpBugActionPerformed(ActionEvent event, boolean test) { 
+     	URI uri = null;
+     	boolean result = false;
      	try {
      			uri = new URI(App.BUGS_TRACKER_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) {
-     				Desktop.getDesktop().browse(uri);
+     			if(test==false){
+     					if (Desktop.isDesktopSupported()) {
+     						Desktop.getDesktop().browse(uri);
+     					}
+     					result = true;
      			}
-            return true;
-     		}catch (IOException | URISyntaxException exception) {
-     			 System.out.println("URI Syntax Error: " + exception.getMessage());
-             return false;
-     		}
+     			if(test==true){
+     				result = true;
+     			}
+     			}catch (IOException | URISyntaxException exception) {
+     				System.out.println("URI Syntax Error: " + exception.getMessage());
+     				result = false;
+     			}
+		return result;
      }
    
     /**
@@ -674,20 +682,28 @@ public class AppFrame extends JFrame {
     * Found checkstyle issues with indentation, brackets, naming, and grammar.
     * No Fixbugs found, issues resolved and re-checked - 2/20/2016
     * Thomas Johnson
+     * @param event, test
     */
-    public boolean helpWebActionPerformed(ActionEvent event) {
+    public boolean helpWebActionPerformed(ActionEvent event, boolean test) { 
      	URI uri = null;
+     	boolean result = false;
      	try {
      			uri = new URI(App.WEBSITE_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) {
-     				Desktop.getDesktop().browse(uri);
+     			if(test==false){
+     					if (Desktop.isDesktopSupported()) {
+     						Desktop.getDesktop().browse(uri);
+     					}
+     					result = true;
      			}
-            return true;
-     		}catch (IOException | URISyntaxException exception) {
-     			 System.out.println("URI Syntax Error: " + exception.getMessage());
-             return false;
-    		}
+     			if(test==true){
+     				result = true;
+     			}
+     			}catch (IOException | URISyntaxException exception) {
+     				System.out.println("URI Syntax Error: " + exception.getMessage());
+     				result = false;
+     			}
+		return result;
      }
    
     /**
@@ -701,20 +717,28 @@ public class AppFrame extends JFrame {
     * Found checkstyle issues with indentation, brackets, naming, and grammar.
     * No Fixbugs found, issues resolved and re-checked - 2/20/2016
     * Thomas Johnson
+     * @param event, test 
     */
-    public boolean helpGuideActionPerformed(ActionEvent event) { 
+    public boolean helpGuideActionPerformed(ActionEvent event, boolean test) { 
      	URI uri = null;
+     	boolean result = false;
      	try {
      			uri = new URI(App.GUIDE_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) {
-     				Desktop.getDesktop().browse(uri);
+     			if(test==false){
+     					if (Desktop.isDesktopSupported()) {
+     						Desktop.getDesktop().browse(uri);
+     					}
+     					result = true;
      			}
-            return true;
-     		}catch (IOException | URISyntaxException exception) {
-     			 System.out.println("URI Syntax Error: " + exception.getMessage());
-             return false;
-     		}	
+     			if(test==true){
+     				result = true;
+     			}
+     			}catch (IOException | URISyntaxException exception) {
+     				System.out.println("URI Syntax Error: " + exception.getMessage());
+     				result = false;
+     			}
+		return result;
      }
     
     //File | Exit action performed
