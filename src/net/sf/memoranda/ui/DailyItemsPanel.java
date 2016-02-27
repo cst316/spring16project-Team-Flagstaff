@@ -2,22 +2,22 @@ package net.sf.memoranda.ui;
 
 import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.EventNotificationListener;
+import net.sf.memoranda.IEventNotificationListener;
 import net.sf.memoranda.EventsScheduler;
 import net.sf.memoranda.History;
 import net.sf.memoranda.HistoryItem;
-import net.sf.memoranda.HistoryListener;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.NoteListener;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.Task;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.IHistoryListener;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.INoteListener;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITask;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
@@ -76,7 +76,7 @@ public class DailyItemsPanel extends JPanel {
   );
   boolean expanded = true;
 
-  Note currentNote;
+  INote currentNote;
   CalendarDate currentDate;
 
   boolean calendarIgnoreChange = false;
@@ -230,14 +230,14 @@ public class DailyItemsPanel extends JPanel {
     splitPane.setDividerLocation((int) controlPanel.getPreferredSize().getWidth());
     //splitPane.setResizeWeight(0.0);
 
-    CurrentDate.addDateListener(new DateListener() {
+    CurrentDate.addDateListener(new IDateListener() {
       public void dateChange(CalendarDate date) {
         currentDateChanged(date);
       }
     });
 
-    CurrentProject.addProjectListener(new ProjectListener() {
-      public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
+    CurrentProject.addProjectListener(new IProjectListener() {
+      public void projectChange(IProject p, INoteList nl, ITaskList tl, IResourcesList rl) {
         currentProjectChanged(p, nl, tl, rl);
       }
       
@@ -250,8 +250,8 @@ public class DailyItemsPanel extends JPanel {
       }
     });
 
-    CurrentNote.addNoteListener(new NoteListener() {
-      public void noteChange(Note note, boolean toSaveCurrentNote) {
+    CurrentNote.addNoteListener(new INoteListener() {
+      public void noteChange(INote note, boolean toSaveCurrentNote) {
         currentNoteChanged(note, toSaveCurrentNote);
       }
     });
@@ -276,14 +276,14 @@ public class DailyItemsPanel extends JPanel {
       }
     });
 
-    History.addHistoryListener(new HistoryListener() {
+    History.addHistoryListener(new IHistoryListener() {
       public void historyWasRolledTo(HistoryItem hi) {
         historyChanged(hi);
       }
     });
 
-    EventsScheduler.addListener(new EventNotificationListener() {
-      public void eventIsOccured(net.sf.memoranda.Event ev) {
+    EventsScheduler.addListener(new IEventNotificationListener() {
+      public void eventIsOccured(net.sf.memoranda.IEvent ev) {
         /*DEBUG*/
         System.out.println(ev.getTimeString() + " " + ev.getText());
         updateIndicators();
@@ -349,7 +349,7 @@ public class DailyItemsPanel extends JPanel {
     App.getFrame().setCursor(cur);
   }
 
-  void currentNoteChanged(Note note, boolean toSaveCurrentNote) {
+  void currentNoteChanged(INote note, boolean toSaveCurrentNote) {
     //  Util.debug("currentNoteChanged");
   
     if (editorPanel.isDocumentChanged()) {
@@ -364,7 +364,7 @@ public class DailyItemsPanel extends JPanel {
     editorPanel.editor.requestFocus();  
   }
   
-  void currentProjectChanged(Project newprj, NoteList nl, TaskList tl, ResourcesList rl) {
+  void currentProjectChanged(IProject newprj, INoteList nl, ITaskList tl, IResourcesList rl) {
     //  Util.debug("currentProjectChanged");
     Cursor cur = App.getFrame().getCursor();
     App.getFrame().setCursor(waitCursor);
@@ -432,7 +432,7 @@ public class DailyItemsPanel extends JPanel {
    * @param date
    * @param tl
    */
-  public void updateIndicators(CalendarDate date, TaskList tl) {
+  public void updateIndicators(CalendarDate date, ITaskList tl) {
     indicatorsPanel.removeAll();
     if (date.equals(CalendarDate.today())) {
       if (tl.getActiveSubTasks(null,date).size() > 0) {
@@ -444,7 +444,7 @@ public class DailyItemsPanel extends JPanel {
           net.sf.memoranda.Event ev = (net.sf.memoranda.Event)it.next();   
           evlist += ev.getTimeString()+" - "+ev.getText()+"\n";
         } */
-        net.sf.memoranda.Event ev = EventsScheduler.getFirstScheduledEvent();
+        net.sf.memoranda.IEvent ev = EventsScheduler.getFirstScheduledEvent();
         alarmB.setToolTipText(ev.getTimeString() + " - " + ev.getText());
         indicatorsPanel.add(alarmB, null);
       }
@@ -468,7 +468,7 @@ public class DailyItemsPanel extends JPanel {
     }
     
     if (pan.equals("TASKS") && (tasksPanel.taskTable.getSelectedRow() > -1)) {
-      Task t = CurrentProject.getTaskList().getTask(
+      ITask t = CurrentProject.getTaskList().getTask(
           tasksPanel.taskTable.getModel().getValueAt(tasksPanel.taskTable.getSelectedRow(), 
             TaskTable.TASK_ID).toString());
       calendar.jnCalendar.renderer.setTask(t);

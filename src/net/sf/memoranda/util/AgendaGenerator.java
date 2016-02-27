@@ -14,13 +14,13 @@ import java.util.Vector;
 import java.util.Collections;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Event;
+import net.sf.memoranda.IEvent;
 import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.EventsScheduler;
-import net.sf.memoranda.Project;
+import net.sf.memoranda.IProject;
 import net.sf.memoranda.ProjectManager;
-import net.sf.memoranda.Task;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.ITask;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CalendarDate;
 import nu.xom.Element;
 /**
@@ -56,8 +56,8 @@ public class AgendaGenerator {
 					+ "<tr>\n";
 	static String footer = "</td></tr></table></body></html>";
 
-	public static String generateTasksInfo(Project proj, CalendarDate date, Collection expandedTasks) {    	    	
-		TaskList tl;
+	public static String generateTasksInfo(IProject proj, CalendarDate date, Collection expandedTasks) {    	    	
+		ITaskList tl;
 		if (proj.getID().equals(CurrentProject.get().getID())) {
 			tl = CurrentProject.getTaskList();        	
 		}
@@ -79,7 +79,7 @@ public class AgendaGenerator {
 
 			Collections.sort(tasks);
 			for (Iterator index = tasks.iterator(); index.hasNext();) {
-				Task tsk = (Task) index.next();
+				ITask tsk = (ITask) index.next();
 				// Always show active tasks only on agenda page from now on.
 				// If it's not active, then it's probably 
 				//  "not on the agenda" isn't it?
@@ -113,7 +113,7 @@ public class AgendaGenerator {
 	 * @param t
 	 * @param expandedTasks
 	 */
-	private static String expandRecursively(Project proj,CalendarDate date, TaskList tl,Task tsk, Collection expandedTasks, int level) {
+	private static String expandRecursively(IProject proj,CalendarDate date, ITaskList tl,ITask tsk, Collection expandedTasks, int level) {
 		Util.debug("Expanding task " + tsk.getText() + " level " + level);
 
 		Collection st = tl.getActiveSubTasks(tsk.getID(),date);
@@ -123,7 +123,7 @@ public class AgendaGenerator {
 		String string = "\n<ul>\n";
 
 		for (Iterator iter = st.iterator(); iter.hasNext();) {
-			Task subTask = (Task) iter.next();
+			ITask subTask = (ITask) iter.next();
 			//			if(Context.get("SHOW_ACTIVE_TASKS_ONLY").
 			//               equals(new Boolean(true))) {
 			//                if (!((subTask.getStatus() == Task.ACTIVE) || 
@@ -151,7 +151,7 @@ public class AgendaGenerator {
 	 * @param t
 	 * @return
 	 */
-	private static String renderTask(Project proj, CalendarDate date, TaskList tl, Task tsk, int level, Collection expandedTasks) {
+	private static String renderTask(IProject proj, CalendarDate date, ITaskList tl, ITask tsk, int level, Collection expandedTasks) {
 		String string = "";
 
 		int pg = tsk.getProgress();
@@ -265,14 +265,14 @@ public class AgendaGenerator {
 		return string;
 	}
 
-	public static int getProgress(TaskList tl) {
+	public static int getProgress(ITaskList tl) {
 		Vector vect = (Vector) tl.getAllSubTasks(null);
 		if (vect.size() == 0){
 			return -1;
 		}
 		int progress = 0;
 		for (Enumeration en = vect.elements(); en.hasMoreElements();) {
-			Task tsk = (Task) en.nextElement();
+			ITask tsk = (ITask) en.nextElement();
 			progress += tsk.getProgress();
 		}
 		return (progress * 100) / (vect.size() * 100);
@@ -280,21 +280,21 @@ public class AgendaGenerator {
 
 	public static String getPriorityString(int priority) {
 		switch (priority) {
-		case Task.PRIORITY_NORMAL :
+		case ITask.PRIORITY_NORMAL :
 			return "<font color=\"green\">"+Local.getString("Normal")+"</font>";
-		case Task.PRIORITY_LOW :
+		case ITask.PRIORITY_LOW :
 			return "<font color=\"#3333CC\">"+Local.getString("Low")+"</font>";
-		case Task.PRIORITY_LOWEST :
+		case ITask.PRIORITY_LOWEST :
 			return "<font color=\"#666699\">"+Local.getString("Lowest")+"</font>";
-		case Task.PRIORITY_HIGH :
+		case ITask.PRIORITY_HIGH :
 			return "<font color=\"#FF9900\">"+Local.getString("High")+"</font>";
-		case Task.PRIORITY_HIGHEST :
+		case ITask.PRIORITY_HIGHEST :
 			return "<font color=\"red\">"+Local.getString("Highest")+"</font>";
 		}
 		return "";
 	}
 
-	public static String generateProjectInfo(Project proj, CalendarDate date, Collection expandedTasks) {
+	public static String generateProjectInfo(IProject proj, CalendarDate date, Collection expandedTasks) {
 		String string = "<h2><a href=\"memoranda:project#"
 				+ proj.getID()
 				+ "\">"
@@ -322,7 +322,7 @@ public class AgendaGenerator {
 		for (Iterator i = ProjectManager.getActiveProjects().iterator();
 				i.hasNext();
 				) {
-			Project proj = (Project) i.next();
+			IProject proj = (IProject) i.next();
 			if (!proj.getID().equals(CurrentProject.get().getID())){
 				string += generateProjectInfo(proj, date, expandedTasks);
 			}
@@ -341,7 +341,7 @@ public class AgendaGenerator {
 		Vector vect = (Vector) EventsManager.getEventsForDate(date);
 		int number = 0;
 		for (Iterator index = vect.iterator(); index.hasNext();) {
-			Event evt = (Event) index.next();
+			IEvent evt = (IEvent) index.next();
 			String txt = evt.getText();
 			String iurl =
 					net.

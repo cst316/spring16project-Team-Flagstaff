@@ -2,7 +2,7 @@ package net.sf.memoranda.ui;
 
 import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.History;
-import net.sf.memoranda.Note;
+import net.sf.memoranda.INote;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
@@ -16,6 +16,7 @@ import net.sf.memoranda.util.PDFFileExport;
 import net.sf.memoranda.util.Util;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 
 import javax.swing.AbstractAction;
@@ -156,7 +159,11 @@ public class EditorPanel extends JPanel {
       net.sf.memoranda.ui.AppFrame.class
           .getResource("resources/icons/preview.png"))) {
     public void actionPerformed(ActionEvent event) {
-      previewB_actionPerformed(event);
+      try {
+		previewB_actionPerformed(event);
+	} catch (IOException exception) {
+		exception.printStackTrace();
+	}
     }
   };
 
@@ -558,7 +565,7 @@ public class EditorPanel extends JPanel {
    * 
    * @param note
    */
-  public void setDocument(Note note) {
+  public void setDocument(INote note) {
     // Note note = CurrentProject.getNoteList().getActiveNote();
     // try {
     // this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
@@ -643,15 +650,43 @@ public class EditorPanel extends JPanel {
     this.titleField.requestFocus();
   }
 
-  void previewB_actionPerformed(ActionEvent event) {
-    File file;
-    try {
-      file = Util.getTempFile();
-      new HTMLFileExport(file, editor.document, CurrentNote.get(), "UTF-8",
+  /**
+   * Method for previewing an HTML Note object
+   * This method was modified on 2/26/2016 by Thomas Johnson
+   * so as to initiate a preview in the default system
+   * web browser of the Note, in stead of requiring a 
+   * browser executable to be located by the user.
+   *
+   * Self Checked altered method with Checkstyle, FixBugs, 
+   * and for defects.
+   * Found checkstyle issues with indentation, brackets, naming, and grammar.
+   * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+   * Thomas Johnson
+    * @param event
+ * @throws IOException 
+   */
+  void previewB_actionPerformed(ActionEvent event) throws IOException {
+    File file = Util.getTempFile();
+    URI uri = null;
+    new HTMLFileExport(file, editor.document, CurrentNote.get(), "UTF-8",
           false, null, false);
-      Util.runBrowser("file:" + file.getAbsolutePath());
-    } catch (IOException ioe) {
-      new ExceptionDialog(ioe, "Cannot create temporary file", null);
-    }
+      //Util.runBrowser("file:" + file.getAbsolutePath());
+    try {
+    		String filePath = "file:" + file.getAbsolutePath();
+    		filePath = filePath.replace("\\", "/");
+    		uri = new URI(filePath);
+    		System.out.println("URI created: " + uri);
+				if (Desktop.isDesktopSupported()) {
+					Desktop.getDesktop().browse(uri);
+				}
+	} catch (URISyntaxException exception) {
+		file = null;
+		System.out.println("URI Syntax Error: " + exception.getMessage());
+		exception.printStackTrace();
+	} catch (IOException IOExcept) {
+		file = null;
+		System.out.println("IO Error: " + IOExcept.getMessage());
+		IOExcept.printStackTrace();
+	}
   }
 }

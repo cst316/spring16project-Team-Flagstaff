@@ -14,6 +14,7 @@ import com.itextpdf.text.DocumentException;
 
 import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.util.PDFFileExport;
+import net.sf.memoranda.util.IPdfHandler;
 
 /**
  * @author Thomas J - 2/14/2016
@@ -25,7 +26,7 @@ public class PDFFileExportTest {
 	File f = new File(System.getProperty("user.dir") + "test");
 	static HTMLDocument testDoc = new HTMLDocument();
 	String enc = "UTF-8";
-	String template = null;
+	String template = "";
 	String in = "<html>";
 	String XHTML = "<xhtml>";
 
@@ -48,9 +49,11 @@ public class PDFFileExportTest {
 	/**
 	 * Test method for {@link net.sf.memoranda.util.PDFFileExport#PDFFileExport(java.io.File, javax.swing.text.Document, net.sf.memoranda.Note, java.lang.String, boolean, java.lang.String, boolean)}.
 	 */
+	//Dead Store bug is a false positive, testPDFExport is the test object being created
+	@SuppressWarnings("unused")
 	@Test
 	public final void testPDFFileExport() {
-		PDFFileExport testPDFExport = new PDFFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);
+		IPdfHandler testPDFExport = new PDFFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);
 	}
 
 	/**
@@ -66,8 +69,8 @@ public class PDFFileExportTest {
 	 */
 	@Test (expected=com.itextpdf.text.ExceptionConverter.class)
 	public final void testXHTMLToPDF() throws IOException, DocumentException {
-		PDFFileExport testXHTMLToPDF = new PDFFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);
-		testXHTMLToPDF.XHTMLToPDF(XHTML);
+		IPdfHandler testXHTMLToPDF = new PDFFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);
+		testXHTMLToPDF.xhtmlToPdf(XHTML);
 	}
 
 	/**
@@ -75,7 +78,7 @@ public class PDFFileExportTest {
 	 */
 	@Test (expected=com.itextpdf.text.ExceptionConverter.class)
 	public final void testCreatePdf() throws IOException, DocumentException {
-		PDFFileExport testCreatePDF = new PDFFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);
+		IPdfHandler testCreatePDF = new PDFFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);
 		testCreatePDF.createPdf(f.getAbsolutePath(), XHTML);
 	}
 
