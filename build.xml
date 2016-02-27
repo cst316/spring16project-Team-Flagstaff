@@ -269,5 +269,6 @@
 		    <formatter type="xml" tofile="${tests.checkstyle.dir}/checkstyle_report.xml"/>
 		    <fileset dir="${source.dir}" includes="**/*.java"/>
 		</checkstyle>
+        <echo>Report can be found at ${tests.checkstyle.dir}/checkstyle_report.xml</echo>
 	</target>
 </project>
