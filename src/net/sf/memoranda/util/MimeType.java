@@ -126,29 +126,37 @@ public class MimeType {
         try {
           icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(ip));
         }
-        catch (Exception ex) {
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
           ip = "resources/icons/mimetypes/"+getMimeTypeId().split("/")[0]+"/default.png";
           try {
             icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(ip));
           }
-          catch (Exception ex2) {
-            icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
+          catch (Exception e) {
+        	  System.out.println(e.toString());
+        	  e.printStackTrace();
+        	  icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
           }
         }
       }
       else
         try {
             icon = new ImageIcon(ip);
+          	}
+          	catch (Exception e) {
+        	  System.out.println(e.toString());
+        	  e.printStackTrace();
+        	  ip = "resources/icons/mimetypes/"+getMimeTypeId().split("/")[0]+"/default.png";
+        	  try {
+        		  icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(ip));
+        	  }
+        	  catch (Exception e) {
+        		  System.out.println(e.toString());
+        		  e.printStackTrace();
+        		  icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
+        	  }
           }
-          catch (Exception ex) {
-          ip = "resources/icons/mimetypes/"+getMimeTypeId().split("/")[0]+"/default.png";
-          try {
-            icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(ip));
-          }
-          catch (Exception ex2) {
-            icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
-          }
-        }
       return icon;
     }
 }

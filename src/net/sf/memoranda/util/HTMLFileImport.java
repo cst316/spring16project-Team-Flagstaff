@@ -39,6 +39,8 @@ public class HTMLFileImport {
             in.close();            
         }
         catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             new ExceptionDialog(e, "Failed to import "+f.getPath(), "");
             return;
         }

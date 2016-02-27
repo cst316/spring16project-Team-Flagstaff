@@ -74,8 +74,9 @@ public class TableDialog extends JDialog {
 		try {
 			jbInit();
 			pack();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 

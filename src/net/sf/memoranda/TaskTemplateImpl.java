@@ -89,7 +89,8 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 			success=true;
 			
 		}catch(Exception e){
-			
+			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return success;
 	}

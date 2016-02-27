@@ -32,10 +32,11 @@ public class Local {
 	        			Configuration.get("LOCALES_DIR")+File.separator+fn));
 	        		System.out.println(" - found");
 	        	}
-	        	catch (IOException ex) {
+	        	catch (IOException e) {
+	        		System.out.println(e.toString());
+	    			e.printStackTrace();
 	        		// Do nothing ...
 	        		System.out.println(" - not found");
-	        		ex.printStackTrace();
 	        	}
 	        }
 	        if (messages.size() == 0) {
@@ -45,6 +46,8 @@ public class Local {
 		                    "localmessages/"+fn));            
 		        }
 		        catch (Exception e) {
+		        	System.out.println(e.toString());
+					e.printStackTrace();
 		            // Do nothing ...
 		        }
 	        }
@@ -241,7 +244,9 @@ public class Local {
                 time[0] = 0;
             }
         }
-        catch (NumberFormatException nfe) {
+        catch (NumberFormatException e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             return null;
         }
         try {
@@ -250,7 +255,9 @@ public class Local {
                 time[1] = 0;
             }
         }
-        catch (NumberFormatException nfe) {
+        catch (NumberFormatException e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             return null;
         }
         return time;

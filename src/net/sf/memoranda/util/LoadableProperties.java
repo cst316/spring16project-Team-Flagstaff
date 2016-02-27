@@ -97,6 +97,8 @@ public class LoadableProperties extends Hashtable {
             return br.readLine();
         }
         catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             return null;
         }
 

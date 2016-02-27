@@ -26,7 +26,9 @@ public class Configuration {
      config.load(new FileInputStream(configPath));
      System.out.println("Loaded from " + configPath);
     }
-    catch (Exception e) {      
+    catch (Exception e) {
+    	System.out.println(e.toString());
+		e.printStackTrace();
       File f = new File(configPath);
       new File(f.getParent()).mkdirs();      
       /*DEBUG*/System.out.println("New configuration created: "+configPath);
@@ -34,8 +36,10 @@ public class Configuration {
         config.load(Configuration.class.getResourceAsStream("resources/memoranda.default.properties"));
         saveConfig();      
       }
-      catch (Exception e2) {
-        new ExceptionDialog(e2, "Failed to load default configuration from resources.", "");
+      catch (Exception e) {
+    	System.out.println(e.toString());
+		e.printStackTrace();
+        new ExceptionDialog(e, "Failed to load default configuration from resources.", "");
         config = null;
       }
     }
@@ -58,6 +62,8 @@ public class Configuration {
     config.save(new FileOutputStream(configPath));
     }
     catch (Exception e) {
+    	System.out.println(e.toString());
+		e.printStackTrace();
      new ExceptionDialog(e, "Failed to save a configuration file:<br>"+configPath, "");
     }
   }

@@ -50,8 +50,9 @@ public class Finder extends Thread {
         try {
             pattern = Pattern.compile(_find, flags);
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             pattern = null;
         }
         _replace = replace;
@@ -68,8 +69,9 @@ public class Finder extends Thread {
         try {
             text = editor.editor.getDocument().getText(0, editor.editor.getDocument().getLength() - 1);
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             return;
         }
         ContinueSearchDialog cdlg = new ContinueSearchDialog(this, dispText);
@@ -137,8 +139,9 @@ public class Finder extends Thread {
             try {
                 text = editor.editor.getDocument().getText(0, editor.editor.getDocument().getLength() - 1);
             }
-            catch (Exception ex) {
-                ex.printStackTrace();
+            catch (Exception e) {
+            	System.out.println(e.toString());
+    			e.printStackTrace();
                 return;
             }
             matcher = pattern.matcher(text);

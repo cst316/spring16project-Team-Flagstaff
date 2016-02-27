@@ -62,8 +62,10 @@ public class ProjectPackager {
             
             zip.close();
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to write to "+zipfile, "");
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e, "Failed to write to "+zipfile, "");
         }
     }
 
@@ -122,8 +124,10 @@ public class ProjectPackager {
             zip.close();
             CurrentStorage.get().storeProjectManager();             
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to read from "+zipfile, "Make sure that this file is a Memoranda project archive.");
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e, "Failed to read from "+zipfile, "Make sure that this file is a Memoranda project archive.");
         }
     }
     
