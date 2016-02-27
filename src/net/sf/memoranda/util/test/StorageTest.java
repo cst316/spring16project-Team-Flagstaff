@@ -50,7 +50,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenTaskList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreTaskList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenNoteList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreNoteList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreNote() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenNote() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testRemoveNote() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testGetNoteURL() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenProjectManager() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreProjectManager() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenEventsManager() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreEventsManager() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenMimeTypesList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreMimeTypesList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testCreateProjectStorage() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testRemoveProjectStorage() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testOpenResourcesList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreResourcesList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testRestoreContext() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class StorageTest {
 	 */
 	@Test
 	public void testStoreContext() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

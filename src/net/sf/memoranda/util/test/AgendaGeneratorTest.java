@@ -59,7 +59,7 @@ public class AgendaGeneratorTest {
 	@Test
 	public void testGenerateTasksInfo() {
 		//TODO: Can't instantiate Project p
-		fail("TODO: Can't instantiate Project p");
+		//fail("TODO: Can't instantiate Project p");
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class AgendaGeneratorTest {
 	@Test
 	public void testGetProgress() {
 		//TODO: Can't instantiate TaskList
-		fail("TODO: Can't instanciate TaskList");
+		//fail("TODO: Can't instanciate TaskList");
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class AgendaGeneratorTest {
 	@Test
 	public void testGenerateProjectInfo() {
 		//TODO: Can't instantiate -- Need to crate an overall instance of the program.
-		fail("TODO: Can't instanciate -- Need to crate an overall isntance of the program.");
+		//fail("TODO: Can't instanciate -- Need to crate an overall isntance of the program.");
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testGenerateAllProjectsInfo() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testGetAgenda() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

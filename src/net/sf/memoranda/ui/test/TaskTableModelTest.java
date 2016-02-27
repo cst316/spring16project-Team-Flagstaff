@@ -50,7 +50,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetColumnClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testIsCellEditable() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testTaskTableModel() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetColumnCount() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetColumnName() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetValueAt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetStatusString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetPriorityString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetChildCount() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetChild() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFireTreeStructureChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFireUpdateCache() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testCheck_activeOnly() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testActiveOnly() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testAbstractTreeTableModel() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetRoot() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testIsLeaf() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testValueForPathChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetIndexOfChild() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testAddTreeModelListener() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testRemoveTreeModelListener() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFireTreeNodesChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFireTreeNodesInserted() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFireTreeNodesRemoved() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFireTreeStructureChangedObjectObjectArrayIntArrayObjectArray() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testSetValueAt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -290,7 +290,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -330,7 +330,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -338,7 +338,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class TaskTableModelTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

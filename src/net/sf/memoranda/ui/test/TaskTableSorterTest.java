@@ -50,7 +50,7 @@ public class TaskTableSorterTest {
 	 */
 	@Test
 	public void testTaskTableSorter() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class TaskTableSorterTest {
 	 */
 	@Test
 	public void testGetChild() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

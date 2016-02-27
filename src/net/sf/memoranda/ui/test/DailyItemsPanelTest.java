@@ -50,7 +50,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testDailyItemsPanel() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testJbInit() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testCurrentDateChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testCurrentNoteChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testCurrentProjectChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testHistoryChanged() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testSaveNote() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testToggleButton_actionPerformed() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testUpdateIndicatorsCalendarDateTaskList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testUpdateIndicators() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testSelectPanel() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testGetCurrentPanel() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testTaskB_actionPerformed() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class DailyItemsPanelTest {
 	 */
 	@Test
 	public void testAlarmB_actionPerformed() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

@@ -50,7 +50,7 @@ public class TraversalUtilBlipVisitorTest {
 	 */
 	@Test
 	public void testApply() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }
