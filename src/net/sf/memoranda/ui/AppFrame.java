@@ -285,7 +285,7 @@ public class AppFrame extends JFrame {
                 "resources/icons/help.png")));
         jMenuHelpGuide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpGuide_actionPerformed(e);
+                helpGuideActionPerformed(e);
             }
         });
         
@@ -294,14 +294,14 @@ public class AppFrame extends JFrame {
                 "resources/icons/web.png")));
         jMenuHelpWeb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpWeb_actionPerformed(e);
+                helpWebActionPerformed(e);
             }
         });
         
         jMenuHelpBug.setText(Local.getString("Report a bug"));
         jMenuHelpBug.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpBug_actionPerformed(e);
+                helpBugActionPerformed(e);
             }
         });        
         
@@ -636,51 +636,84 @@ public class AppFrame extends JFrame {
 
     }
    
-    protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.BUGS_TRACKER_URL);
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the BUGS_TRACKER_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+    */
+    public boolean helpBugActionPerformed(ActionEvent event) {
     	URI uri = null;
      	try {
      			uri = new URI(App.BUGS_TRACKER_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
+     			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
+            return true;
+     		}catch (IOException | URISyntaxException exception) {
+     			 System.out.println("URI Syntax Error: " + exception.getMessage());
+             return false;
      		}
      }
    
-    protected void jMenuHelpWeb_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.WEBSITE_URL); 
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the WEBSITE_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Update: Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+    */
+    public boolean helpWebActionPerformed(ActionEvent event) {
      	URI uri = null;
      	try {
      			uri = new URI(App.WEBSITE_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
+     			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
+            return true;
+     		}catch (IOException | URISyntaxException exception) {
+     			 System.out.println("URI Syntax Error: " + exception.getMessage());
+             return false;
     		}
      }
    
-    protected void jMenuHelpGuide_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.GUIDE_URL);  
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the GUIDE_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+    */
+    public boolean helpGuideActionPerformed(ActionEvent event) { 
      	URI uri = null;
      	try {
      			uri = new URI(App.GUIDE_URL);
      			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
+     			if (Desktop.isDesktopSupported()) {
      				Desktop.getDesktop().browse(uri);
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
+            return true;
+     		}catch (IOException | URISyntaxException exception) {
+     			 System.out.println("URI Syntax Error: " + exception.getMessage());
+             return false;
      		}	
      }
     
