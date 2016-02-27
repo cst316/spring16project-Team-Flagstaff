@@ -44,9 +44,11 @@ public class ResourcesTable extends JTable {
         initColumsWidth();
         //this.setModel(new ResourcesTableModel());
         CurrentProject.addProjectListener(new ProjectListener() {
+        	
             public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {                
                
             }
+            
             public void projectWasChanged() {
                  tableChanged();
             }
@@ -80,11 +82,12 @@ public class ResourcesTable extends JTable {
             Resource r = (Resource)v.get(i);
             if (!r.isInetShortcut()) {
                 File f = new File(r.getPath());
-                if (f.isFile())
+                if (f.isFile()){
                     files.add(r);
-            }
-            else 
+                }
+            }else {
                 files.add(r);
+            }
         }
 
     }
@@ -106,10 +109,11 @@ public class ResourcesTable extends JTable {
                 comp = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (column == 0) {
                   Resource r = (Resource)getModel().getValueAt(row, _RESOURCE);
-                  if (!r.isInetShortcut())  
+                  if (!r.isInetShortcut())  {
                     comp.setIcon(MimeTypesList.getMimeTypeForFile((String)value).getIcon());
-                  else 
+                  }else {
                     comp.setIcon(inetIcon);
+                  }
                 }
                 return comp;
             }
@@ -141,15 +145,19 @@ public class ResourcesTable extends JTable {
         
         public Object getValueAt(int row, int col) {
             Resource r = (Resource)files.get(row);
-            if (col == _RESOURCE)
+            if (col == _RESOURCE){
                 return r;
+            }
             if (!r.isInetShortcut())  {
                 File f = new File(r.getPath());
                 switch (col) {
                     case 0: return f.getName();
                     case 1: MimeType mt = MimeTypesList.getMimeTypeForFile(f.getName());
-                            if (mt != null) return mt.getLabel();
-                            else return "unknown";
+                            if (mt != null) {
+                            	return mt.getLabel();
+                            } else {
+                            	return "unknown";
+                            }
                     case 2: Date d = new Date(f.lastModified());
                             return d;/*Local.getDateString(d, java.text.DateFormat.SHORT) +" "+
                                    Local.getTimeString(d);*/

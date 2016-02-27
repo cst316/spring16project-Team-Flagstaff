@@ -5,15 +5,17 @@
  * @author Alex V. Alishevskikh, alex@openmechanics.net Copyright (c) 2003
  *         Memoranda Team. http://memoranda.sf.net
  */
+
 package net.sf.memoranda;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import java.util.Collections;
+
 
 
 

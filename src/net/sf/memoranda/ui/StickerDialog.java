@@ -324,21 +324,25 @@ public class StickerDialog extends JDialog {
 	public String getStickerText() {
 		return stickerText.getText();
 	}
+	
 	public String getStickerTextSize() {
 		return ""+stickerText.getFont().getSize();
 	}
+	
 	public String getStickerTextColor(){
 		return "#"
 				+ Integer
 					.toHexString(stickerText.getForeground().getRGB() - 0xFF000000)
 					.toUpperCase();	
 		}
+	
 	public String getStickerColor() {
 		return "#"
 			+ Integer
 				.toHexString(stickerText.getBackground().getRGB() - 0xFF000000)
 				.toUpperCase();
 	}
+	
 	int getPriority(){
 		return priorityList.getSelectedIndex();
 	}
@@ -351,30 +355,35 @@ public class StickerDialog extends JDialog {
 		CANCELLED = false;
 		this.dispose();
 	}
+	
 	void boldButton_actionPerformed(ActionEvent e) {
 		int pos=stickerText.getCaretPosition();
 		stickerText.insert("<b></b>", pos);
 		stickerText.requestFocusInWindow();
 		stickerText.setCaretPosition(pos+3);
 	}
+	
 	void italicButton_actionPerformed(ActionEvent e) {
 		int pos=stickerText.getCaretPosition();
 		stickerText.insert("<i></i>", pos);
 		stickerText.requestFocusInWindow();
 		stickerText.setCaretPosition(pos+3);
 	}
+	
 	protected void underlineButton_actionPerformed(ActionEvent e) {
 		int pos=stickerText.getCaretPosition();
 		stickerText.insert("<u></u>", pos);
 		stickerText.requestFocusInWindow();
 		stickerText.setCaretPosition(pos+3);
 	}
+	
 	void unorderedListButton_actionPerformed(ActionEvent e) {
 		int pos=stickerText.getCaretPosition();
 		stickerText.insert("<li></li>", pos);
 		stickerText.requestFocusInWindow();
 		stickerText.setCaretPosition(pos+4);
 	}
+	
 	void stickerColor_actionPerformed(ActionEvent e) {
 		int i=stickerColor.getSelectedIndex();
 		if (i< colors.length){
@@ -400,6 +409,7 @@ public class StickerDialog extends JDialog {
 		}
 		Context.put("STICKER_COLOR", new Integer(stickerText.getBackground().getRGB()));
 	}
+	
 	void textColor_actionPerformed(ActionEvent e) {
 		int i=textColor.getSelectedIndex();
 		if (i < colors.length){
@@ -425,6 +435,7 @@ public class StickerDialog extends JDialog {
 		}
 		Context.put("TEXT_COLOR", new Integer(stickerText.getForeground().getRGB()));		
 	}
+	
 	protected void fontSize_actionPerformed(ActionEvent e) {
 		int i=fontSize.getSelectedIndex();
 		if (i < fontLabels.length){
@@ -463,6 +474,7 @@ public class StickerDialog extends JDialog {
 		}
 	}
 	class ComboBoxRenderer2 extends JLabel implements ListCellRenderer {
+		
 		public ComboBoxRenderer2() {
 			setOpaque(true);
 

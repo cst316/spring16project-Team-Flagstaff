@@ -34,16 +34,19 @@ public class AgendaGenerator {
 			"<html><head><title></title>\n"
 					+ "<style>\n"
 					+ "    body, td {font: 12pt sans-serif}\n"
-					+ "    h1 {font:20pt sans-serif; background-color:#E0E0E0; margin-top:0}\n"
+					+ "    h1 {font:20pt sans-serif; "
+					+ "background-color:#E0E0E0; margin-top:0}\n"
 					+ "    h2 {font:16pt sans-serif; margin-bottom:0}\n"
 					+ "    li {margin-bottom:5px}\n"
 					+ " a {color:black; text-decoration:none}\n"             
 					+ "</style></head>\n"
-					+ "<body><table width=\"100%\" height=\"100%\" border=\"0\" cellpadding=\"4\" cellspacing=\"4\">\n"
+					+ "<body><table width=\"100%\" height=\"100%\" "
+					+ "border=\"0\" cellpadding=\"4\" cellspacing=\"4\">\n"
 					+ "<tr>\n";
 	static String FOOTER = "</td></tr></table></body></html>";
 
-	public static String generateTasksInfo(Project p, CalendarDate date, Collection expandedTasks) {    	    	
+	public static String generateTasksInfo(
+			Project p, CalendarDate date, Collection expandedTasks) {    	    	
 		TaskList tl;
 		if (p.getID().equals(CurrentProject.get().getID())) {
 			tl = CurrentProject.getTaskList();        	
@@ -54,7 +57,7 @@ public class AgendaGenerator {
 		String s = "";
 		int k = getProgress(tl);
 		if (k > -1) {
-			s += "<br>" + Local.getString("Total progress") + ": " + k + "%";        	
+			s += "<br>" + Local.getString("Total progress") + ": " + k + "%"; 
 		}
 		s += "</td></tr></table>\n";
 
@@ -65,7 +68,8 @@ public class AgendaGenerator {
 		else {
 			s += Local.getString("Actual tasks") + ":<br>\n<ul>\n";            
 
-			//            TaskSorter.sort(tasks, date, TaskSorter.BY_IMP_RATE); // TODO: configurable method
+			//            TaskSorter.sort(tasks, date, TaskSorter.BY_IMP_RATE); 
+			// 								TODO: configurable method
 			Collections.sort(tasks);
 			for (Iterator i = tasks.iterator(); i.hasNext();) {
 				Task t = (Task) i.next();
@@ -418,6 +422,7 @@ public class AgendaGenerator {
 		return ret;
 	}
 	private static String addEditHyperLink(String txt, String id) {
+		
 		String ret="";
 		int first=txt.indexOf(">");
 		int last=txt.lastIndexOf("<");

@@ -4,19 +4,15 @@ import java.io.*;
 import java.util.Date;
 import java.util.regex.Pattern;
 import net.sf.memoranda.util.Configuration;
-
 import java.io.File;
 import java.io.OutputStream;
-
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBContext;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
-
 import org.docx4j.utils.SingleTraversalUtilVisitorCallback;
 import org.docx4j.utils.TraversalUtilVisitor;
 import org.docx4j.wml.Body;
 import org.docx4j.dml.CTBlip;
-
 import java.util.List;
 
 /** The TraversalUtilBlipVisitor Class, previously created by Thomas Johnson.

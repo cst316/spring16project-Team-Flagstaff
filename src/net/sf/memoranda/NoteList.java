@@ -1,5 +1,6 @@
 /**
  * NoteList.java
+
  * Created on 21.02.2003, 15:40:46 Alex
  * Package: net.sf.memoranda
  * 
@@ -7,9 +8,10 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda;
-import java.util.Collection;
 
+import java.util.Collection;
 import net.sf.memoranda.date.CalendarDate;
+
 /**
  * 
  */

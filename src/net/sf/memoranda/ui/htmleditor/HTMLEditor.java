@@ -97,6 +97,7 @@ public class HTMLEditor extends JPanel {
 			super(name, icon);
 			super.putValue(Action.SHORT_DESCRIPTION, name);
 		}
+		
 		HTMLEditorAction(String name) {
 			super(name);
 			super.putValue(Action.SHORT_DESCRIPTION, name);
@@ -2115,7 +2116,8 @@ public class HTMLEditor extends JPanel {
 			try {
 				Integer i =
 					new Integer(
-						tda.getAttribute(HTML.Attribute.COLSPAN).toString());
+						tda.getAttribute(HTML.Attribute.COLSPAN).
+						toString());
 				dlg.tdColspan.setValue(i);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -2124,7 +2126,8 @@ public class HTMLEditor extends JPanel {
 			try {
 				Integer i =
 					new Integer(
-						tda.getAttribute(HTML.Attribute.ROWSPAN).toString());
+						tda.getAttribute(HTML.Attribute.ROWSPAN).
+						toString());
 				dlg.tdRowspan.setValue(i);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -2189,7 +2192,8 @@ public class HTMLEditor extends JPanel {
 			try {
 				Integer i =
 					new Integer(
-						ta.getAttribute(HTML.Attribute.CELLPADDING).toString());
+						ta.getAttribute(HTML.Attribute.CELLPADDING).
+						toString());
 				dlg.cellpadding.setValue(i);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -2198,7 +2202,8 @@ public class HTMLEditor extends JPanel {
 			try {
 				Integer i =
 					new Integer(
-						ta.getAttribute(HTML.Attribute.CELLSPACING).toString());
+						ta.getAttribute(HTML.Attribute.CELLSPACING).
+						toString());
 				dlg.cellspacing.setValue(i);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -2359,7 +2364,8 @@ public class HTMLEditor extends JPanel {
 		int sel = blockCB.getSelectedIndex();
 		/*
 		 * HTML.Tag parentTag =
-		 * HTML.getTag(document.getParagraphElement(editor.getCaretPosition()).getParentElement().getName());
+		 * HTML.getTag(document.getParagraphElement(
+		 * editor.getCaretPosition()).getParentElement().getName());
 		 * HTML.Tag tag = null; String tagText = ""; switch (sel) { case T_P:
 		 * tag = HTML.Tag.P; tagText=" <p></p> ";break; //case T_PRE: tag =
 		 * HTML.Tag.PRE; tagText=" <pre></pre> ";break; case T_H1: tag =

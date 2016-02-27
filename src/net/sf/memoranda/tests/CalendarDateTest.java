@@ -2,12 +2,11 @@ package net.sf.memoranda.tests;
 
 import static org.junit.Assert.*;
 
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import net.sf.memoranda.date.CalendarDate;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CalendarDateTest {

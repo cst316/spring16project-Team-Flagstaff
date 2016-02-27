@@ -19,6 +19,7 @@ public class NotesListPanel extends JPanel {
       new ExceptionDialog(ex);
     }
   }
+  
   void jbInit() throws Exception {
     this.setLayout(borderLayout1);
     this.add(scrollPane, BorderLayout.CENTER);

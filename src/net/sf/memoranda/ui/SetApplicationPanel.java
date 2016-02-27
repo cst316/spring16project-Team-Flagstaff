@@ -44,6 +44,7 @@ public class SetApplicationPanel extends JPanel {
             new ExceptionDialog(ex);
         }
     }
+    
     void jbInit() throws Exception {
         border1 = BorderFactory.createEmptyBorder();
         titledBorder1 = new TitledBorder(BorderFactory.createEmptyBorder(),Local.getString("Path to executable"));

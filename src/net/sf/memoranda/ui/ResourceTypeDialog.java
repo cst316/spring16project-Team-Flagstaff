@@ -92,6 +92,7 @@ public class ResourceTypeDialog extends JDialog {
     void cancelB_actionPerformed(ActionEvent e) {
         this.dispose();
     }
+    
     void okB_actionPerformed(ActionEvent e) {
         CANCELLED = false;
         this.dispose();

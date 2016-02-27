@@ -79,6 +79,7 @@ public class ProjectsTablePanel extends JPanel {
             new ExceptionDialog(ex);
         }
     }
+    
     void jbInit() throws Exception {
         projectsTable.getTableHeader().setFont(new java.awt.Font("Dialog", 1, 10));
         projectsTable.setFont(new java.awt.Font("Dialog", 0, 11));
@@ -159,10 +160,11 @@ public class ProjectsTablePanel extends JPanel {
                     return pr.getStartDate().getShortDateString();
                 case 2 :
                     CalendarDate d = pr.getEndDate();
-                    if (d == null)
+                    if (d == null){
                         return "-";
-                    else
+                    } else{
                         return d.getShortDateString();
+                    }
                 //case 3 :   return pr.getProgress() + "%";
                 case 3 :
                     return getStatusString(pr.getStatus());
@@ -175,8 +177,9 @@ public class ProjectsTablePanel extends JPanel {
         }
 
         public int getRowCount() {
-            if (activeOnly)
+            if (activeOnly){
                 return ProjectManager.getActiveProjectsNumber();
+            }
             return ProjectManager.getAllProjectsNumber();
         }
 

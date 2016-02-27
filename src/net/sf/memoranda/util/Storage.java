@@ -20,36 +20,47 @@ import net.sf.memoranda.TaskList;
 public interface Storage {
             
     TaskList openTaskList(Project prj);    
+    
     void storeTaskList(TaskList tl, Project prj);
     
     NoteList openNoteList(Project prj);
+    
     void storeNoteList(NoteList nl, Project prj);
     
     void storeNote(Note note, javax.swing.text.Document doc);    
+    
     javax.swing.text.Document openNote(Note note);
+    
     void removeNote(Note note);
     
     String getNoteURL(Note note);
     
     void openProjectManager();    
+    
     void storeProjectManager();
     
     void openEventsManager();
+    
     void storeEventsManager();
     
     void openMimeTypesList();
+    
     void storeMimeTypesList();
     
     void createProjectStorage(Project prj);
+    
     void removeProjectStorage(Project prj);
    
     ResourcesList openResourcesList(Project prj);
+    
     void storeResourcesList(ResourcesList rl, Project prj);
     
     void restoreContext();
+    
     void storeContext(); 
     
     void openTemplateManger();
+    
     void storeTemplateManger();
        
 }

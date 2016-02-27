@@ -26,6 +26,7 @@ import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
 
 public class StickerExpand extends JDialog{
+	
 	String txt;
 	Color backGroundColor, foreGroundColor;
 	public boolean CANCELLED = true;
@@ -43,6 +44,7 @@ public class StickerExpand extends JDialog{
 
 	Border border1;
 	Border border2;
+	
 	public StickerExpand(Frame frame,String txt, String backcolor, String fontcolor, String priority) {
 		super(frame, Local.getString("Sticker")+" ["+priority+"]" , true);
 		this.txt=txt;
@@ -55,6 +57,7 @@ public class StickerExpand extends JDialog{
 			new ExceptionDialog(ex);
 		}
 	}
+	
 	void jbInit() throws Exception {
 		border1 =
 				BorderFactory.createCompoundBorder(

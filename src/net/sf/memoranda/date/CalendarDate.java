@@ -1,5 +1,6 @@
 /**
  * CalendarDate.java
+
  * Created on 11.02.2003, 18:02:02 Alex
  * Package: net.sf.memoranda
  *

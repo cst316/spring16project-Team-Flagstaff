@@ -7,9 +7,9 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda.util;
+
 import java.io.File;
 import java.io.FileOutputStream;
-
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
 import javax.swing.text.rtf.RTFEditorKit;

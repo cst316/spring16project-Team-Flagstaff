@@ -78,6 +78,7 @@ public class EventImpl implements Event, Comparable {
         if (a != null) return new CalendarDate(a.getValue());
         return null;
     }
+    
     /**
      * @see net.sf.memoranda.Event#getEndDate()
      */
@@ -86,6 +87,7 @@ public class EventImpl implements Event, Comparable {
         if (a != null) return new CalendarDate(a.getValue());
         return null;
     }
+    
     /**
      * @see net.sf.memoranda.Event#getPeriod()
      */
@@ -102,6 +104,7 @@ public class EventImpl implements Event, Comparable {
         if (a != null) return a.getValue();
         return null;
     }
+    
     /**
      * @see net.sf.memoranda.Event#getRepeat()
      */

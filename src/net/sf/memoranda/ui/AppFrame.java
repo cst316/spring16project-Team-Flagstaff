@@ -4,20 +4,20 @@ import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.awt.Frame;
-import java.awt.Point;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -263,6 +263,7 @@ public class AppFrame extends JFrame {
         }
     }
     //Component initialization
+    
     private void jbInit() throws Exception {
         this.setIconImage(new ImageIcon(AppFrame.class.getResource(
                 "resources/icons/jnotes16.png"))

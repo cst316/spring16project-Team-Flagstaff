@@ -188,8 +188,11 @@ public class NotesControlPanel extends JPanel {
 					ppClearNote_actionPerformed(null);
 				}
 			}
+			
 			public void	keyReleased(KeyEvent e){}
+			
 			public void keyTyped(KeyEvent e){} 
+			
 		};
 		
 		notesListPanel.notesList.addKeyListener(delNotes);

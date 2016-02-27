@@ -29,12 +29,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.Collection;
-import java.util.Vector;
-import java.util.Iterator;
+import java.util.EventObject;
 import java.util.Hashtable;
-
+import java.util.Iterator;
+import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
