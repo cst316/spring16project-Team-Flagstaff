@@ -33,7 +33,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import net.sf.memoranda.CustomField;
-import net.sf.memoranda.Project;
+import net.sf.memoranda.IProject;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
@@ -312,7 +312,7 @@ public class TaskTemplateDialog<T> extends JDialog {
 
 	private ArrayList<String> checkUse() {
 		@SuppressWarnings("unchecked")
-		Vector<Project> projects = ProjectManager.getActiveProjects();
+		Vector<IProject> projects = ProjectManager.getActiveProjects();
 		ArrayList<String> useTemplate = new ArrayList<String>();
 		for(int x=0;x<projects.size();x++){
 			if(projects.get(x).getTaskTemplate().compareTo(_id)==0){

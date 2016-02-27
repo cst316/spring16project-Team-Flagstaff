@@ -29,7 +29,7 @@ import net.sf.memoranda.EventsScheduler;
 import net.sf.memoranda.History;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
@@ -182,7 +182,7 @@ public class EventsPanel extends JPanel {
         scrollPane.addMouseListener(ppListener);
         eventsTable.addMouseListener(ppListener);
 
-        CurrentDate.addDateListener(new DateListener() {
+        CurrentDate.addDateListener(new IDateListener() {
             public void dateChange(CalendarDate d) {
                 eventsTable.initTable(d);     
                 boolean enbl = d.after(CalendarDate.today()) || d.equals(CalendarDate.today());
@@ -225,8 +225,8 @@ public class EventsPanel extends JPanel {
 
     void editEventB_actionPerformed(ActionEvent e) {
         EventDialog dlg = new EventDialog(App.getFrame(), Local.getString("Event"));
-        net.sf.memoranda.Event ev =
-            (net.sf.memoranda.Event) eventsTable.getModel().getValueAt(
+        net.sf.memoranda.IEvent ev =
+            (net.sf.memoranda.IEvent) eventsTable.getModel().getValueAt(
                 eventsTable.getSelectedRow(),
                 EventsTable.EVENT);
         
@@ -393,13 +393,13 @@ public class EventsPanel extends JPanel {
 
     void removeEventB_actionPerformed(ActionEvent e) {
 		String msg;
-		net.sf.memoranda.Event ev;
+		net.sf.memoranda.IEvent ev;
 
 		if(eventsTable.getSelectedRows().length > 1) 
 			msg = Local.getString("Remove") + " " + eventsTable.getSelectedRows().length 
 				+ " " + Local.getString("events") + "\n" + Local.getString("Are you sure?");
 		else {
-			ev = (net.sf.memoranda.Event) eventsTable.getModel().getValueAt(
+			ev = (net.sf.memoranda.IEvent) eventsTable.getModel().getValueAt(
                 eventsTable.getSelectedRow(),
                 EventsTable.EVENT);
 			msg = Local.getString("Remove event") + "\n'" 
@@ -415,7 +415,7 @@ public class EventsPanel extends JPanel {
         if (n != JOptionPane.YES_OPTION) return;
 
         for(int i=0; i< eventsTable.getSelectedRows().length;i++) {
-			ev = (net.sf.memoranda.Event) eventsTable.getModel().getValueAt(
+			ev = (net.sf.memoranda.IEvent) eventsTable.getModel().getValueAt(
                   eventsTable.getSelectedRows()[i], EventsTable.EVENT);
         EventsManager.removeEvent(ev);
 		}

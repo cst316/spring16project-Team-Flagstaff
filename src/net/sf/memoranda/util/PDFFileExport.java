@@ -29,7 +29,7 @@ import org.apache.xml.serialize.XMLSerializer;
 import org.cyberneko.html.parsers.SAXParser;
 import org.xml.sax.InputSource;
 
-import net.sf.memoranda.Note;
+import net.sf.memoranda.INote;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 
@@ -40,19 +40,19 @@ import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
  * to the entered or selected filename. - Thomas J, 2/14/2016
  */
 @SuppressWarnings("deprecation")
-public class PDFFileExport {
+public class PDFFileExport implements IPdfHandler {
 
     String charset = "";
     File f = null;
     HTMLDocument doc;
-    Note note = null;
+    INote note = null;
     boolean xhtml = false;
     boolean num = false;
     String templFile = null;
     /**
      * Constructor for PDFFileExport.
      */
-    public PDFFileExport(File f, javax.swing.text.Document doc, Note note, String charset, boolean num, String templFile, boolean xhtml) {
+    public PDFFileExport(File f, javax.swing.text.Document doc, INote note, String charset, boolean num, String templFile, boolean xhtml) {
         this.f = f;
         this.doc = (HTMLDocument)doc;
         this.note = note;
@@ -107,7 +107,7 @@ public class PDFFileExport {
                     if (charset != null) {
 					} else {
 					}
-                    XHTMLToPDF(applyTemplate());
+                    xhtmlToPdf(applyTemplate());
                 }
                 catch (Exception ex) {
                     new ExceptionDialog(ex, "Cannot export file "+f.getPath(), null);
@@ -252,10 +252,14 @@ public class PDFFileExport {
          }
      }
      
-     /* Method to convert XHTML formatted String of Note content to PDF File
+     /** Method to convert XHTML formatted String of Note content to PDF File
      * @param XHTML (String)
      */
-     public void XHTMLToPDF(String XHTML) throws IOException, DocumentException{
+     /* (non-Javadoc)
+	 * @see net.sf.memoranda.util.PdfHandler#XHTMLToPDF(java.lang.String)
+	 */
+    @Override
+	public void xhtmlToPdf(String XHTML) throws IOException, DocumentException{
     	 
     	 String tempinputfilepath = f.getAbsolutePath();
 	     String inputfilepath = tempinputfilepath.replace("\\", "/");;
@@ -269,11 +273,15 @@ public class PDFFileExport {
          createPdf(outputFilePath, XHTML);
      }
   
-     /* Method to create PDF Document
+     /** Method to create PDF Document
      * @param file (String)
      * @param XHTML (String)
      */
-     public void createPdf(String file, String XHTML) throws IOException, DocumentException {
+     /* (non-Javadoc)
+	 * @see net.sf.memoranda.util.PdfHandler#createPdf(java.lang.String, java.lang.String)
+	 */
+    @Override
+	public void createPdf(String file, String XHTML) throws IOException, DocumentException {
   
          Document document = new Document();
          PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));

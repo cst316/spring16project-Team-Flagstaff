@@ -30,7 +30,7 @@ public class DOCXFileExportTest {
 	File f = new File(System.getProperty("user.dir") + "test");
 	static HTMLDocument testDoc = new HTMLDocument();
 	String enc = "UTF-8";
-	String template = null;
+	String template = "";
 	String in = "<html>";
 	String XHTML = "<xhtml>";
 	
@@ -65,6 +65,8 @@ public class DOCXFileExportTest {
 	/**
 	 * Test method for {@link net.sf.memoranda.util.DOCXFileExport#DOCXFileExport(java.io.File, javax.swing.text.Document, net.sf.memoranda.Note, java.lang.String, boolean, java.lang.String, boolean)}.
 	 */
+	@SuppressWarnings("unused")
+	//Dead Store bug is a false positive, testDOCXExport is the test object being created
 	@Test
 	public final void testDOCXFileExport() {
 		DOCXFileExport testDOCXExport = new DOCXFileExport(f, testDoc, CurrentNote.get(), enc, false, template, true);

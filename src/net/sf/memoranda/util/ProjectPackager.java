@@ -21,7 +21,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.swing.JOptionPane;
 
-import net.sf.memoranda.Project;
+import net.sf.memoranda.IProject;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.App;
@@ -40,7 +40,7 @@ public class ProjectPackager {
     private static String JN_DOCPATH = Util.getEnvDir(); 
     // for compatibility with previous installations (jnotes2) [alexeyA]
 
-    public static void pack(Project prj, File zipfile) {
+    public static void pack(IProject prj, File zipfile) {
         ZipOutputStream zip = null;
         
         if(zipfile.getName().indexOf(".zip") == -1)
@@ -90,7 +90,7 @@ public class ProjectPackager {
                 }	
                 ProjectManager.removeProject(pId);
             }
-            Project prj = ProjectManager.createProject(pId, pTitle, new CalendarDate(pStartD), null);
+            IProject prj = ProjectManager.createProject(pId, pTitle, new CalendarDate(pStartD), null);
             if (pEndD != null)
                 prj.setEndDate(new CalendarDate(pEndD));
             //File prDir = new File(JN_DOCPATH + prj.getID());

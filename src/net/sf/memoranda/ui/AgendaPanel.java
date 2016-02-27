@@ -1,19 +1,19 @@
 package net.sf.memoranda.ui;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.EventNotificationListener;
+import net.sf.memoranda.IEventNotificationListener;
 import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.EventsScheduler;
 import net.sf.memoranda.History;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
 import net.sf.memoranda.ProjectManager;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.AgendaGenerator;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
@@ -324,7 +324,7 @@ public class AgendaPanel extends JPanel {
 
     this.add(toolBar, BorderLayout.NORTH);
 
-    CurrentDate.addDateListener(new DateListener() {
+    CurrentDate.addDateListener(new IDateListener() {
 
       /**
        * Method dateChange. This method handles the refreshing of a date
@@ -338,13 +338,13 @@ public class AgendaPanel extends JPanel {
         }
       }
     });
-    CurrentProject.addProjectListener(new ProjectListener() {
+    CurrentProject.addProjectListener(new IProjectListener() {
 
       /**
        * Method projectChange. This method handles the variable
        * re-initialization within the AgendaPanel for a changed project
        */
-      public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl) {
+      public void projectChange(IProject prj, INoteList nl, ITaskList tl, IResourcesList rl) {
       }
 
       /**
@@ -357,14 +357,14 @@ public class AgendaPanel extends JPanel {
         }
       }
     });
-    EventsScheduler.addListener(new EventNotificationListener() {
+    EventsScheduler.addListener(new IEventNotificationListener() {
       /**
        * Method eventIsOccurred. This method handles the currentDate
        * refresh within the AgendaPanel for an event occurrence
        * 
        * @param ev
        */
-      public void eventIsOccured(net.sf.memoranda.Event ev) {
+      public void eventIsOccured(net.sf.memoranda.IEvent ev) {
         if (isActive) {
           refresh(CurrentDate.get());
         }

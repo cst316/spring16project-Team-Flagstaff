@@ -20,16 +20,16 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import net.sf.memoranda.EventsManager;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.INoteList;
 import net.sf.memoranda.NoteListImpl;
-import net.sf.memoranda.Project;
+import net.sf.memoranda.IProject;
 import net.sf.memoranda.ProjectManager;
-import net.sf.memoranda.ResourcesList;
+import net.sf.memoranda.IResourcesList;
 import net.sf.memoranda.ResourcesListImpl;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.TaskListImpl;
-import net.sf.memoranda.TaskTemplate;
+import net.sf.memoranda.ITaskTemplate;
 import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
@@ -44,7 +44,7 @@ import nu.xom.Document;
  *
  */
 /*$Id: FileStorage.java,v 1.15 2006/10/09 23:31:58 alexeya Exp $*/
-public class FileStorage implements Storage {
+public class FileStorage implements IStorage {
 
     public static String JN_DOCPATH = Util.getEnvDir();
     private HTMLEditorKit editorKit = new HTMLEditorKit();
@@ -108,9 +108,9 @@ public class FileStorage implements Storage {
     }
 
     /**
-     * @see net.sf.memoranda.util.Storage#storeNote(net.sf.memoranda.Note)
+     * @see net.sf.memoranda.util.IStorage#storeNote(net.sf.memoranda.INote)
      */
-    public void storeNote(Note note, javax.swing.text.Document doc) {
+    public void storeNote(INote note, javax.swing.text.Document doc) {
         String filename =
             JN_DOCPATH + note.getProject().getID() + File.separator;
         doc.putProperty(
@@ -160,9 +160,9 @@ public class FileStorage implements Storage {
 
     }
     /**
-     * @see net.sf.memoranda.util.Storage#openNote(net.sf.memoranda.Note)
+     * @see net.sf.memoranda.util.IStorage#openNote(net.sf.memoranda.INote)
      */
-    public javax.swing.text.Document openNote(Note note) {
+    public javax.swing.text.Document openNote(INote note) {
 
         HTMLDocument doc = (HTMLDocument) editorKit.createDefaultDocument();
         if (note == null)
@@ -211,11 +211,11 @@ public class FileStorage implements Storage {
         return doc;*/
     }
 
-    public String getNoteURL(Note note) {        
+    public String getNoteURL(INote note) {        
         return "file:" + JN_DOCPATH + note.getProject().getID() + "/" + note.getId();
     }
 
-   public String getNotePath(Note note) {
+   public String getNotePath(INote note) {
         String filename = JN_DOCPATH + note.getProject().getID() + File.separator;
 //        CalendarDate d = note.getDate();
         filename += note.getId();//d.getDay() + "-" + d.getMonth() + "-" + d.getYear();
@@ -223,7 +223,7 @@ public class FileStorage implements Storage {
    }
 
 
-    public void removeNote(Note note) {
+    public void removeNote(INote note) {
         File f = new File(getNotePath(note));
         /*DEBUG*/
         System.out.println("[DEBUG] Remove note:" + getNotePath(note));
@@ -231,7 +231,7 @@ public class FileStorage implements Storage {
     }
 
     /**
-     * @see net.sf.memoranda.util.Storage#openProjectManager()
+     * @see net.sf.memoranda.util.IStorage#openProjectManager()
      */
     public void openProjectManager() {
         if (!new File(JN_DOCPATH + ".projects").exists()) {
@@ -244,7 +244,7 @@ public class FileStorage implements Storage {
         ProjectManager._doc = openDocument(JN_DOCPATH + ".projects");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#storeProjectManager(nu.xom.Document)
+     * @see net.sf.memoranda.util.IStorage#storeProjectManager(nu.xom.Document)
      */
     public void storeProjectManager() {
         /*DEBUG*/
@@ -253,9 +253,9 @@ public class FileStorage implements Storage {
         saveDocument(ProjectManager._doc, JN_DOCPATH + ".projects");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#removeProject(net.sf.memoranda.Project)
+     * @see net.sf.memoranda.util.IStorage#removeProject(net.sf.memoranda.IProject)
      */
-    public void removeProjectStorage(Project prj) {
+    public void removeProjectStorage(IProject prj) {
         String id = prj.getID();
         File f = new File(JN_DOCPATH + id);
         File[] files = f.listFiles();
@@ -265,7 +265,7 @@ public class FileStorage implements Storage {
     }
 
     @SuppressWarnings("unchecked")
-	public TaskList openTaskList(Project prj) {
+	public ITaskList openTaskList(IProject prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".tasklist";
 
         if (documentExists(fn)) {
@@ -298,7 +298,7 @@ public class FileStorage implements Storage {
         }
     }
 
-    public void storeTaskList(TaskList tasklist, Project prj) {
+    public void storeTaskList(ITaskList tasklist, IProject prj) {
         /*DEBUG*/
         System.out.println(
             "[DEBUG] Save task list: "
@@ -311,9 +311,9 @@ public class FileStorage implements Storage {
         saveDocument(tasklistDoc,JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#createProjectStorage(net.sf.memoranda.Project)
+     * @see net.sf.memoranda.util.IStorage#createProjectStorage(net.sf.memoranda.IProject)
      */
-    public void createProjectStorage(Project prj) {
+    public void createProjectStorage(IProject prj) {
         /*DEBUG*/
         System.out.println(
             "[DEBUG] Create project dir: " + JN_DOCPATH + prj.getID());
@@ -321,9 +321,9 @@ public class FileStorage implements Storage {
         dir.mkdirs();
     }
     /**
-     * @see net.sf.memoranda.util.Storage#openNoteList(net.sf.memoranda.Project)
+     * @see net.sf.memoranda.util.IStorage#openNoteList(net.sf.memoranda.IProject)
      */
-    public NoteList openNoteList(Project prj) {
+    public INoteList openNoteList(IProject prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".notes";
         if (documentExists(fn)) {
             /*DEBUG*/
@@ -342,9 +342,9 @@ public class FileStorage implements Storage {
         }
     }
     /**
-     * @see net.sf.memoranda.util.Storage#storeNoteList(net.sf.memoranda.NoteList, net.sf.memoranda.Project)
+     * @see net.sf.memoranda.util.IStorage#storeNoteList(net.sf.memoranda.INoteList, net.sf.memoranda.IProject)
      */
-    public void storeNoteList(NoteList nl, Project prj) {
+    public void storeNoteList(INoteList nl, IProject prj) {
         /*DEBUG*/
         System.out.println(
             "[DEBUG] Save note list: "
@@ -357,7 +357,7 @@ public class FileStorage implements Storage {
             JN_DOCPATH + prj.getID() + File.separator + ".notes");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#openEventsList()
+     * @see net.sf.memoranda.util.IStorage#openEventsList()
      */
     public void openEventsManager() {
         if (!new File(JN_DOCPATH + ".events").exists()) {
@@ -370,7 +370,7 @@ public class FileStorage implements Storage {
         EventsManager._doc = openDocument(JN_DOCPATH + ".events");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#storeEventsList()
+     * @see net.sf.memoranda.util.IStorage#storeEventsList()
      */
     public void storeEventsManager() {
         /*DEBUG*/
@@ -379,7 +379,7 @@ public class FileStorage implements Storage {
         saveDocument(EventsManager._doc, JN_DOCPATH + ".events");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#openMimeTypesList()
+     * @see net.sf.memoranda.util.IStorage#openMimeTypesList()
      */
     public void openMimeTypesList() {
         if (!new File(JN_DOCPATH + ".mimetypes").exists()) {
@@ -403,7 +403,7 @@ public class FileStorage implements Storage {
         MimeTypesList._doc = openDocument(JN_DOCPATH + ".mimetypes");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#storeMimeTypesList()
+     * @see net.sf.memoranda.util.IStorage#storeMimeTypesList()
      */
     public void storeMimeTypesList() {
         /*DEBUG*/
@@ -412,9 +412,9 @@ public class FileStorage implements Storage {
         saveDocument(MimeTypesList._doc, JN_DOCPATH + ".mimetypes");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#openResourcesList(net.sf.memoranda.Project)
+     * @see net.sf.memoranda.util.IStorage#openResourcesList(net.sf.memoranda.IProject)
      */
-    public ResourcesList openResourcesList(Project prj) {
+    public IResourcesList openResourcesList(IProject prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".resources";
         if (documentExists(fn)) {
             /*DEBUG*/
@@ -428,9 +428,9 @@ public class FileStorage implements Storage {
         }
     }
     /**
-     * @see net.sf.memoranda.util.Storage#storeResourcesList(net.sf.memoranda.ResourcesList, net.sf.memoranda.Project)
+     * @see net.sf.memoranda.util.IStorage#storeResourcesList(net.sf.memoranda.IResourcesList, net.sf.memoranda.IProject)
      */
-    public void storeResourcesList(ResourcesList rl, Project prj) {
+    public void storeResourcesList(IResourcesList rl, IProject prj) {
         /*DEBUG*/
         System.out.println(
             "[DEBUG] Save resources list: "
@@ -443,7 +443,7 @@ public class FileStorage implements Storage {
             JN_DOCPATH + prj.getID() + File.separator + ".resources");
     }
     /**
-     * @see net.sf.memoranda.util.Storage#restoreContext()
+     * @see net.sf.memoranda.util.IStorage#restoreContext()
      */
     public void restoreContext() {
         try {
@@ -458,7 +458,7 @@ public class FileStorage implements Storage {
         }
     }
     /**
-     * @see net.sf.memoranda.util.Storage#storeContext()
+     * @see net.sf.memoranda.util.IStorage#storeContext()
      */
     public void storeContext() {
         try {

@@ -9,7 +9,7 @@ package net.sf.memoranda.ui;
  */
 
 import net.sf.memoranda.CustomField;
-import net.sf.memoranda.DisplayField;
+import net.sf.memoranda.IDisplayField;
 import net.sf.memoranda.DisplayFieldFactory;
 import net.sf.memoranda.date.CalendarDate;
 
@@ -33,13 +33,13 @@ import javax.swing.JPanel;
 public class CustomFieldsPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;
-  private ArrayList<DisplayField> customPanels = null;  
+  private ArrayList<IDisplayField> customPanels = null;  
 
   /**
    * Constructor to add all of our fields to the panel.
    */
   public CustomFieldsPanel() {
-    customPanels = new ArrayList<DisplayField>();
+    customPanels = new ArrayList<IDisplayField>();
   }
   
   /**
@@ -50,7 +50,7 @@ public class CustomFieldsPanel extends JPanel {
    */
   public <T> void addField(CustomField<T> customField, int xIndex, int yIndex) 
           throws InvalidClassException {
-    DisplayField newField = null;
+    IDisplayField newField = null;
     GridBagConstraints cs = new GridBagConstraints();
     cs.anchor = GridBagConstraints.BOTH;
     cs.insets = new Insets(3, 2, 3, 2);
@@ -104,7 +104,7 @@ public class CustomFieldsPanel extends JPanel {
    */
   public CustomFieldsPanel(LayoutManager layout) {
     super(layout);
-    customPanels = new ArrayList<DisplayField>();
+    customPanels = new ArrayList<IDisplayField>();
   }
 
   /**
@@ -114,7 +114,7 @@ public class CustomFieldsPanel extends JPanel {
    */
   public CustomFieldsPanel(boolean isDoubleBuffered) {
     super(isDoubleBuffered);
-    customPanels = new ArrayList<DisplayField>();
+    customPanels = new ArrayList<IDisplayField>();
   }
 
   /**
@@ -125,7 +125,7 @@ public class CustomFieldsPanel extends JPanel {
    */
   public CustomFieldsPanel(LayoutManager layout, boolean isDoubleBuffered) {
     super(layout, isDoubleBuffered);
-    customPanels = new ArrayList<DisplayField>();
+    customPanels = new ArrayList<IDisplayField>();
   }
   
   /**
@@ -155,14 +155,14 @@ public class CustomFieldsPanel extends JPanel {
    * 
    * @return the customPanels
    */
-  public ArrayList<DisplayField> getCustomPanels() {
+  public ArrayList<IDisplayField> getCustomPanels() {
     return customPanels;
   }
   
   /**
    * @param customPanels the customPanels to set.
    */
-  public void setCustomPanels(ArrayList<DisplayField> customPanels) {
+  public void setCustomPanels(ArrayList<IDisplayField> customPanels) {
     this.customPanels = customPanels;
   }
   

@@ -18,7 +18,7 @@ import javax.swing.JTable;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.EventsManager;
-import net.sf.memoranda.Task;
+import net.sf.memoranda.ITask;
 import net.sf.memoranda.date.CalendarDate;
 /**
  *
@@ -28,13 +28,13 @@ public class JNCalendarCellRenderer extends javax.swing.table.DefaultTableCellRe
     private CalendarDate d = null;
     boolean disabled = false;
     ImageIcon evIcon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/en.png"));
-    Task t = null;
+    ITask t = null;
     
-    public void setTask(Task _t) {
+    public void setTask(ITask _t) {
         t = _t;
     }
     
-    public Task getTask() {
+    public ITask getTask() {
         return t;
     }
 

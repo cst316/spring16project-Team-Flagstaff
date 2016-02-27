@@ -40,7 +40,7 @@ import javax.swing.event.ChangeListener;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.ProjectManager;
-import net.sf.memoranda.TaskTemplateListener;
+import net.sf.memoranda.ITaskTemplateListener;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
@@ -368,7 +368,7 @@ public class ProjectDialog extends JDialog {
 		});
 
 		// add listeners for changes to the task template list
-		TaskTemplateManager.addTemplateListener(new TaskTemplateListener(){
+		TaskTemplateManager.addTemplateListener(new ITaskTemplateListener(){
 
 			@Override
 			public void TaskTemplateChanged(String id) {

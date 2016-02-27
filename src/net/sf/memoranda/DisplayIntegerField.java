@@ -20,7 +20,7 @@ import javax.swing.border.EtchedBorder;
  * The DisplayField interface is implemented so that this field can be dynamically added to meet the needs of an XML
  * defined task template.
  */
-public class DisplayIntegerField extends JPanel implements DisplayField {
+public class DisplayIntegerField extends JPanel implements IDisplayField {
 	/**
 	 * Default Serial ID
 	 */

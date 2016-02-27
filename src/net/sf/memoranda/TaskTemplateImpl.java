@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @param <T>
  *
  */
-public class TaskTemplateImpl<T> implements TaskTemplate<T> {
+public class TaskTemplateImpl<T> implements ITaskTemplate<T> {
 	private String id;
 	String name;
 	private ArrayList<CustomField<T>> fields;
@@ -32,7 +32,7 @@ public class TaskTemplateImpl<T> implements TaskTemplate<T> {
 	/**
 	 * Returns the id for the TaskTemplate object
 	 * @return
-	 * @see net.sf.memoranda.TaskTemplate#getId()
+	 * @see net.sf.memoranda.ITaskTemplate#getId()
 	 */
 	@Override
 	public String getId() {

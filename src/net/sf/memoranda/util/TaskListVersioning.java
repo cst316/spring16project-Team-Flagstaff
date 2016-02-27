@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Vector;
 
-import net.sf.memoranda.Project;
+import net.sf.memoranda.IProject;
 import net.sf.memoranda.ProjectManager;
 import nu.xom.Attribute;
 import nu.xom.DocType;
@@ -63,7 +63,7 @@ public class TaskListVersioning {
             String[] projectIds = new String[projects.size()];
             int c = 0;
             for (Iterator iter = projects.iterator(); iter.hasNext();) {
-                Project prj = (Project) iter.next();
+                IProject prj = (IProject) iter.next();
                 projectIds[c++] = prj.getID();
             }
             

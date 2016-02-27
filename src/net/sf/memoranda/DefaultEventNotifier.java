@@ -13,7 +13,7 @@ import net.sf.memoranda.ui.EventNotificationDialog;
  *  
  */
 /*$Id: DefaultEventNotifier.java,v 1.4 2004/01/30 12:17:41 alexeya Exp $*/
-public class DefaultEventNotifier implements EventNotificationListener {
+public class DefaultEventNotifier implements IEventNotificationListener {
 
 	/**
 	 * Constructor for DefaultEventNotifier.
@@ -23,16 +23,16 @@ public class DefaultEventNotifier implements EventNotificationListener {
 	}
 
 	/**
-	 * @see net.sf.memoranda.EventNotificationListener#eventIsOccured(net.sf.memoranda.Event)
+	 * @see net.sf.memoranda.IEventNotificationListener#eventIsOccured(net.sf.memoranda.IEvent)
 	 */
-	public void eventIsOccured(Event ev) {		
+	public void eventIsOccured(IEvent ev) {		
 		new EventNotificationDialog(
 			"Memoranda event",
 			ev.getTimeString(),
 			ev.getText());
 	}
 	/**
-	 * @see net.sf.memoranda.EventNotificationListener#eventsChanged()
+	 * @see net.sf.memoranda.IEventNotificationListener#eventsChanged()
 	 */
 	public void eventsChanged() {
 		//
