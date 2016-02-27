@@ -22,12 +22,12 @@ import javax.swing.event.CaretEvent;
 import javax.swing.text.Document;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 
@@ -113,8 +113,8 @@ public class SearchPanel extends JPanel {
         jPanel4.add(wholeWCB, BorderLayout.NORTH);
         jPanel4.add(regexpCB, BorderLayout.CENTER);
         jPanel3.add(searchB, BorderLayout.SOUTH);
-        CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
+        CurrentProject.addProjectListener(new IProjectListener() {
+            public void projectChange(IProject p, INoteList nl, ITaskList tl, IResourcesList rl) {
                 notesList.update(new Vector());
             }
             public void projectWasChanged() {}
@@ -164,7 +164,7 @@ public class SearchPanel extends JPanel {
         this.add(progressBar, BorderLayout.SOUTH);*/
         for (int i = 0; i < notes.size(); i++) {
             //progressBar.setValue(i);
-            Note note = (Note) notes.get(i);
+            INote note = (INote) notes.get(i);
             Document doc = CurrentStorage.get().openNote(note);
             try {
                 String txt = doc.getText(0, doc.getLength());

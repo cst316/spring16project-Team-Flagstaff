@@ -17,7 +17,7 @@ import javax.swing.border.EtchedBorder;
  * @author ggoforth
  *
  */
-public class DisplayStringField extends JPanel implements DisplayField{
+public class DisplayStringField extends JPanel implements IDisplayField{
 	/**
 	 * 
 	 */

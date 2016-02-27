@@ -20,7 +20,7 @@ import nu.xom.Element;
  * 
  */
 /*$Id: EventImpl.java,v 1.9 2004/10/06 16:00:11 ivanrise Exp $*/
-public class EventImpl implements Event, Comparable {
+public class EventImpl implements IEvent, Comparable {
     
     private Element _elem = null;
 
@@ -33,14 +33,14 @@ public class EventImpl implements Event, Comparable {
 
    
     /**
-     * @see net.sf.memoranda.Event#getHour()
+     * @see net.sf.memoranda.IEvent#getHour()
      */
     public int getHour() {
         return new Integer(_elem.getAttribute("hour").getValue()).intValue();
     }
 
     /**
-     * @see net.sf.memoranda.Event#getMinute()
+     * @see net.sf.memoranda.IEvent#getMinute()
      */
     public int getMinute() {
         return new Integer(_elem.getAttribute("min").getValue()).intValue();
@@ -52,26 +52,26 @@ public class EventImpl implements Event, Comparable {
         
   
     /**
-     * @see net.sf.memoranda.Event#getText()
+     * @see net.sf.memoranda.IEvent#getText()
      */
     public String getText() {
         return _elem.getValue();
     }
 
     /**
-     * @see net.sf.memoranda.Event#getContent()
+     * @see net.sf.memoranda.IEvent#getContent()
      */
     public Element getContent() {
         return _elem;
     }
     /**
-     * @see net.sf.memoranda.Event#isRepeatable()
+     * @see net.sf.memoranda.IEvent#isRepeatable()
      */
     public boolean isRepeatable() {
         return getStartDate() != null;
     }
     /**
-     * @see net.sf.memoranda.Event#getStartDate()
+     * @see net.sf.memoranda.IEvent#getStartDate()
      */
     public CalendarDate getStartDate() {
         Attribute a = _elem.getAttribute("startDate");
@@ -79,7 +79,7 @@ public class EventImpl implements Event, Comparable {
         return null;
     }
     /**
-     * @see net.sf.memoranda.Event#getEndDate()
+     * @see net.sf.memoranda.IEvent#getEndDate()
      */
     public CalendarDate getEndDate() {
         Attribute a = _elem.getAttribute("endDate");
@@ -87,7 +87,7 @@ public class EventImpl implements Event, Comparable {
         return null;
     }
     /**
-     * @see net.sf.memoranda.Event#getPeriod()
+     * @see net.sf.memoranda.IEvent#getPeriod()
      */
     public int getPeriod() {
         Attribute a = _elem.getAttribute("period");
@@ -95,7 +95,7 @@ public class EventImpl implements Event, Comparable {
         return 0;
     }
     /**
-     * @see net.sf.memoranda.Event#getId()
+     * @see net.sf.memoranda.IEvent#getId()
      */
     public String getId() {
         Attribute a = _elem.getAttribute("id");
@@ -103,7 +103,7 @@ public class EventImpl implements Event, Comparable {
         return null;
     }
     /**
-     * @see net.sf.memoranda.Event#getRepeat()
+     * @see net.sf.memoranda.IEvent#getRepeat()
      */
     public int getRepeat() {
         Attribute a = _elem.getAttribute("repeat-type");
@@ -111,7 +111,7 @@ public class EventImpl implements Event, Comparable {
         return 0;
     }
     /**
-     * @see net.sf.memoranda.Event#getTime()
+     * @see net.sf.memoranda.IEvent#getTime()
      */
     public Date getTime() {
     	//Deprecated methods
@@ -132,7 +132,7 @@ public class EventImpl implements Event, Comparable {
     }
 	
 	/**
-     * @see net.sf.memoranda.Event#getWorkinDays()
+     * @see net.sf.memoranda.IEvent#getWorkinDays()
      */
 	public boolean getWorkingDays() {
         Attribute a = _elem.getAttribute("workingDays");
@@ -141,7 +141,7 @@ public class EventImpl implements Event, Comparable {
 	}
 	
 	public int compareTo(Object o) {
-		Event event = (Event) o;
+		IEvent event = (IEvent) o;
 		return (getHour() * 60 + getMinute()) - (event.getHour() * 60 + event.getMinute());
 	}
 

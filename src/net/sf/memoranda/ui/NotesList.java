@@ -15,16 +15,16 @@ import javax.swing.ListSelectionModel;
 
 import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.NoteListener;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.INoteListener;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.Configuration;
 //import net.sf.memoranda.util.NotesVectorSorter;
 
@@ -48,20 +48,20 @@ public class NotesList extends JList {
         _type = type;
         this.setFont(new java.awt.Font("Dialog", 0, 11));
         this.setModel(new NotesListModel());
-        CurrentDate.addDateListener(new DateListener() {
+        CurrentDate.addDateListener(new IDateListener() {
             public void dateChange(CalendarDate d) {
                 updateUI();
             }
         });
 		
-        CurrentNote.addNoteListener(new NoteListener() {
-            public void noteChange(Note n, boolean toSaveCurrentNote) {
+        CurrentNote.addNoteListener(new INoteListener() {
+            public void noteChange(INote n, boolean toSaveCurrentNote) {
                 updateUI();
             }
         });
 
-        CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
+        CurrentProject.addProjectListener(new IProjectListener() {
+            public void projectChange(IProject p, INoteList nl, ITaskList tl, IResourcesList rl) {
             }
             public void projectWasChanged() {
                 update();
@@ -83,7 +83,7 @@ public class NotesList extends JList {
 		}
     }
 
-    public void update(NoteList nl) {
+    public void update(INoteList nl) {
         if (_type == ALL)
             notes = (Vector) nl.getAllNotes();
         else
@@ -108,8 +108,8 @@ public class NotesList extends JList {
         updateUI();
     }
 
-    public Note getNote(int index){
-        return (Note) notes.get(index);
+    public INote getNote(int index){
+        return (INote) notes.get(index);
     }
     
     void invertSortOrder() {
@@ -125,7 +125,7 @@ public class NotesListModel extends AbstractListModel {
         }
 
         public Object getElementAt(int i) {
-            Note note = (Note)notes.get(i);
+            INote note = (INote)notes.get(i);
             return note.getDate().getShortDateString() + " " + note.getTitle();
         }
 
@@ -151,7 +151,7 @@ public class NotesListModel extends AbstractListModel {
          String s = value.toString();
          label.setText(s);
          //Note currentNote = CurrentProject.getNoteList().getActiveNote();
-		 Note currentNote = CurrentNote.get();
+		 INote currentNote = CurrentNote.get();
          if (currentNote != null) {
             if (getNote(index).getId().equals(currentNote.getId()))
                 label.setFont(label.getFont().deriveFont(Font.BOLD));

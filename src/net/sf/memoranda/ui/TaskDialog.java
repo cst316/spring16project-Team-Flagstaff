@@ -47,8 +47,8 @@ import javax.swing.JCheckBox;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.CustomField;
-import net.sf.memoranda.DisplayField;
-import net.sf.memoranda.TaskTemplate;
+import net.sf.memoranda.IDisplayField;
+import net.sf.memoranda.ITaskTemplate;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.AllFilesFilter;
@@ -455,7 +455,7 @@ public class TaskDialog extends JDialog {
 			CurrentProject.set_taskTemplate(TaskTemplateManager.getDefaultTemplate());
 		}
 		if(CurrentProject.get_taskTemplate().getFields()!=null){
-			TaskTemplate<T> temp = (TaskTemplate<T>) CurrentProject.get_taskTemplate();
+			ITaskTemplate<T> temp = (ITaskTemplate<T>) CurrentProject.get_taskTemplate();
 			ArrayList<CustomField<T>> fld = temp.getFields();
 			if(fld!=null){
 				pnlCustom.fillPanel(fld);
@@ -469,9 +469,9 @@ public class TaskDialog extends JDialog {
 	 */
 	public <T> ArrayList<CustomField<T>> getCustomFieldValues(){
 		@SuppressWarnings("unchecked")
-		ArrayList<DisplayField> fields =  pnlCustom.getCustomPanels();
+		ArrayList<IDisplayField> fields =  pnlCustom.getCustomPanels();
 		ArrayList<CustomField<T>> custom = new ArrayList<CustomField<T>>();
-		for(DisplayField df:fields){
+		for(IDisplayField df:fields){
 			String name = df.getFieldName();
 			T data = df.getData();
 			CustomField<T> cf = new CustomField<T>(name, false, data);

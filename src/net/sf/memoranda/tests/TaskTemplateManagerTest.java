@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import net.sf.memoranda.TaskTemplate;
+import net.sf.memoranda.ITaskTemplate;
 import net.sf.memoranda.TaskTemplateImpl;
-import net.sf.memoranda.TaskTemplateListener;
+import net.sf.memoranda.ITaskTemplateListener;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.util.Util;
 import net.sf.memoranda.CustomField;
@@ -30,7 +30,7 @@ public class TaskTemplateManagerTest<T> {
 	// Declare class members
 	private ArrayList<CustomField<T>> arrayCustom = null;
 	@SuppressWarnings("rawtypes")
-	private static TaskTemplate ttl = null;
+	private static ITaskTemplate ttl = null;
 	private static ArrayList<String> testIds = new ArrayList<String>();
 	private static ArrayList<String> testNames = new ArrayList<String>();
 	private static String templateName = "templName";
@@ -63,7 +63,7 @@ public class TaskTemplateManagerTest<T> {
 			
 		}
 		// Add a listener for testing the observer pattern 
-		TaskTemplateManager.addTemplateListener(new TaskTemplateListener(){
+		TaskTemplateManager.addTemplateListener(new ITaskTemplateListener(){
 
 			@Override
 			public void TaskTemplateChanged(String id) {
@@ -302,18 +302,18 @@ public class TaskTemplateManagerTest<T> {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.TaskTemplateManager#addTemplateListener(net.sf.memoranda.TaskTemplateListener)}.
+	 * Test method for {@link net.sf.memoranda.TaskTemplateManager#addTemplateListener(net.sf.memoranda.ITaskTemplateListener)}.
 	 * Test method for {@link net.sf.memoranda.TaskTemplateManager#getTemplateListeners()}.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
 	@Test
 	public void testAddGetTemplateListener() {
 		// Get the subscribed listener list
-		ArrayList<TaskTemplateListener> testListeners = TaskTemplateManager.getTemplateListeners();
+		ArrayList<ITaskTemplateListener> testListeners = TaskTemplateManager.getTemplateListeners();
 		int count = testListeners.size();
 		boolean success = true;
 		// Add a listener for testing the observer pattern
-		TaskTemplateManager.addTemplateListener(new TaskTemplateListener(){
+		TaskTemplateManager.addTemplateListener(new ITaskTemplateListener(){
 
 			@Override
 			public void TaskTemplateChanged(String id) {

@@ -40,12 +40,12 @@ import javax.swing.text.html.HTMLDocument;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
@@ -623,10 +623,10 @@ public class AppFrame extends JFrame {
             setEnabledEditorMenus(pan.equalsIgnoreCase("NOTES"));
         }
 
-        CurrentProject.addProjectListener(new ProjectListener() {
+        CurrentProject.addProjectListener(new IProjectListener() {
 
-            public void projectChange(Project prj, NoteList nl, TaskList tl,
-                    ResourcesList rl) {
+            public void projectChange(IProject prj, INoteList nl, ITaskList tl,
+                    IResourcesList rl) {
             }
 
             public void projectWasChanged() {
@@ -1106,7 +1106,7 @@ public class AppFrame extends JFrame {
                             content = notesContent.get(id);
                             p.setText(content);
                             HTMLDocument doc = (HTMLDocument)p.getDocument();
-                            Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+                            INote note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
                     note.setTitle(name);
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);
@@ -1190,7 +1190,7 @@ public class AppFrame extends JFrame {
                             System.out.println(id+" "+name+" "+content);
                             p.setText(content);
                             HTMLDocument doc = (HTMLDocument)p.getDocument();
-                            Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+                            INote note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
                     note.setTitle(name);
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);

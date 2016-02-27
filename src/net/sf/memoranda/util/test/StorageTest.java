@@ -46,7 +46,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openTaskList(net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openTaskList(net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testOpenTaskList() {
@@ -54,7 +54,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeTaskList(net.sf.memoranda.TaskList, net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeTaskList(net.sf.memoranda.TaskList, net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testStoreTaskList() {
@@ -62,7 +62,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openNoteList(net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openNoteList(net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testOpenNoteList() {
@@ -70,7 +70,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeNoteList(net.sf.memoranda.NoteList, net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeNoteList(net.sf.memoranda.NoteList, net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testStoreNoteList() {
@@ -78,7 +78,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeNote(net.sf.memoranda.Note, javax.swing.text.Document)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeNote(net.sf.memoranda.Note, javax.swing.text.Document)}.
 	 */
 	@Test
 	public void testStoreNote() {
@@ -86,7 +86,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openNote(net.sf.memoranda.Note)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openNote(net.sf.memoranda.Note)}.
 	 */
 	@Test
 	public void testOpenNote() {
@@ -94,7 +94,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#removeNote(net.sf.memoranda.Note)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#removeNote(net.sf.memoranda.Note)}.
 	 */
 	@Test
 	public void testRemoveNote() {
@@ -102,7 +102,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#getNoteURL(net.sf.memoranda.Note)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#getNoteURL(net.sf.memoranda.Note)}.
 	 */
 	@Test
 	public void testGetNoteURL() {
@@ -110,7 +110,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openProjectManager()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openProjectManager()}.
 	 */
 	@Test
 	public void testOpenProjectManager() {
@@ -118,7 +118,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeProjectManager()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeProjectManager()}.
 	 */
 	@Test
 	public void testStoreProjectManager() {
@@ -126,7 +126,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openEventsManager()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openEventsManager()}.
 	 */
 	@Test
 	public void testOpenEventsManager() {
@@ -134,7 +134,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeEventsManager()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeEventsManager()}.
 	 */
 	@Test
 	public void testStoreEventsManager() {
@@ -142,7 +142,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openMimeTypesList()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openMimeTypesList()}.
 	 */
 	@Test
 	public void testOpenMimeTypesList() {
@@ -150,7 +150,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeMimeTypesList()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeMimeTypesList()}.
 	 */
 	@Test
 	public void testStoreMimeTypesList() {
@@ -158,7 +158,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#createProjectStorage(net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#createProjectStorage(net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testCreateProjectStorage() {
@@ -166,7 +166,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#removeProjectStorage(net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#removeProjectStorage(net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testRemoveProjectStorage() {
@@ -174,7 +174,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#openResourcesList(net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#openResourcesList(net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testOpenResourcesList() {
@@ -182,7 +182,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeResourcesList(net.sf.memoranda.ResourcesList, net.sf.memoranda.Project)}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeResourcesList(net.sf.memoranda.ResourcesList, net.sf.memoranda.Project)}.
 	 */
 	@Test
 	public void testStoreResourcesList() {
@@ -190,7 +190,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#restoreContext()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#restoreContext()}.
 	 */
 	@Test
 	public void testRestoreContext() {
@@ -198,7 +198,7 @@ public class StorageTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.Storage#storeContext()}.
+	 * Test method for {@link net.sf.memoranda.util.test.IStorage#storeContext()}.
 	 */
 	@Test
 	public void testStoreContext() {

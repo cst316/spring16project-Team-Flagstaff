@@ -24,7 +24,7 @@ import javax.swing.SpinnerDateModel;
 /**
  * @author ggoforth
  */
-public class DisplayCalendarDateField extends JPanel implements DisplayField {
+public class DisplayCalendarDateField extends JPanel implements IDisplayField {
 	/**
 	 * Default Serial ID
 	 */
