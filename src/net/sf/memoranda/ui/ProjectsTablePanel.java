@@ -13,7 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Project;
+import net.sf.memoranda.IProject;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
@@ -121,8 +121,8 @@ public class ProjectsTablePanel extends JPanel {
         return (String) projectsTable.getModel().getValueAt(projectsTable.getSelectedRow(), PROJECT_ID);
     }
 
-    public Project getSelectedProject() {
-        return (Project) projectsTable.getModel().getValueAt(projectsTable.getSelectedRow(), PROJECT);
+    public IProject getSelectedProject() {
+        return (IProject) projectsTable.getModel().getValueAt(projectsTable.getSelectedRow(), PROJECT);
     }
 
     static final int PROJECT = 101;
@@ -148,11 +148,11 @@ public class ProjectsTablePanel extends JPanel {
 
         public Object getValueAt(int row, int col) {
 			if(row==-1) return "";
-			Project pr;
+			IProject pr;
 			if (activeOnly)
-				pr = (Project) ProjectManager.getActiveProjects().get(row);
+				pr = (IProject) ProjectManager.getActiveProjects().get(row);
 			else
-				pr = (Project) ProjectManager.getAllProjects().get(row);
+				pr = (IProject) ProjectManager.getAllProjects().get(row);
             switch (col) {
                 case 0 :
                     return pr.getTitle();
@@ -190,15 +190,15 @@ public class ProjectsTablePanel extends JPanel {
 
     String getStatusString(int status) {
         switch (status) {
-            case Project.ACTIVE :
+            case IProject.ACTIVE :
                 return Local.getString("Active");
-            case Project.COMPLETED :
+            case IProject.COMPLETED :
                 return Local.getString("Completed");
-            case Project.FAILED :
+            case IProject.FAILED :
                 return Local.getString("Failed");
-            case Project.FROZEN :
+            case IProject.FROZEN :
                 return Local.getString("Frozen");
-            case Project.SCHEDULED :
+            case IProject.SCHEDULED :
                 return Local.getString("Scheduled");
         }
         return "";

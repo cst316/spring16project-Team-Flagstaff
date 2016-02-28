@@ -17,11 +17,11 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import net.sf.memoranda.Event;
+import net.sf.memoranda.IEvent;
 import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.Local;
 /**
  *
@@ -42,7 +42,7 @@ public class EventsTable extends JTable {
         setModel(new EventsTableModel());
         initTable(CurrentDate.get());
         this.setShowGrid(false);
-        CurrentDate.addDateListener(new DateListener() {
+        CurrentDate.addDateListener(new IDateListener() {
             public void dateChange(CalendarDate d) {
                 //updateUI();
                 initTable(d);
@@ -74,7 +74,7 @@ public class EventsTable extends JTable {
                 int column) {
                 Component comp;
                 comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                Event ev = (Event)getModel().getValueAt(row, EVENT);
+                IEvent ev = (IEvent)getModel().getValueAt(row, EVENT);
                 comp.setForeground(java.awt.Color.gray);
                 if (ev.isRepeatable())
                     comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
@@ -122,7 +122,7 @@ public class EventsTable extends JTable {
         }
 
         public Object getValueAt(int row, int col) {
-           Event ev = (Event)events.get(row);
+           IEvent ev = (IEvent)events.get(row);
            if (col == 0)
                 //return ev.getHour()+":"+ev.getMinute();
                 return ev.getTimeString();

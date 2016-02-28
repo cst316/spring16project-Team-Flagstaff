@@ -1,5 +1,7 @@
 package net.sf.memoranda.ui;
 
+import net.sf.memoranda.util.Local;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,67 +24,71 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 
-import net.sf.memoranda.util.Local;
 
 /*$Id: EditTypeDialog.java,v 1.9 2005/07/05 08:17:24 alexeya Exp $*/
 public class EditTypeDialog extends JDialog {
-    JButton cancelB = new JButton();
-    JPanel buttonsPanel = new JPanel();
-    FlowLayout flowLayout7 = new FlowLayout();
-    public JLabel header = new JLabel();
-    JPanel jPanel1 = new JPanel();
-    JPanel dialogTitlePanel = new JPanel();
-    JButton okB = new JButton();
-    JPanel areaPanel = new JPanel();
-    JPanel mPanel = new JPanel();
-    FlowLayout flowLayout1 = new FlowLayout();
-    BorderLayout borderLayout2 = new BorderLayout();
-    BorderLayout borderLayout3 = new BorderLayout();
-    JPanel jPanel2 = new JPanel();
-    Border border1;
-    TitledBorder titledBorder1;
-    public JTextField extField = new JTextField();
-    BorderLayout borderLayout4 = new BorderLayout();
-    JLabel jLabel1 = new JLabel();
-    Border border2;
-    TitledBorder titledBorder2;
-    public JTextField descField = new JTextField();
-    JPanel jPanel4 = new JPanel();
-    BorderLayout borderLayout6 = new BorderLayout();
-    Border border3;
-    TitledBorder titledBorder3;
-    BorderLayout borderLayout1 = new BorderLayout();
-    Border border4;
-    TitledBorder titledBorder4;
-    public SetApplicationPanel appPanel = new SetApplicationPanel();
-    Border border5;
-    TitledBorder titledBorder5;
-    Border border6;
-    TitledBorder titledBorder6;
-    public boolean CANCELLED = true;
-    JPanel jPanel5 = new JPanel();
-    Border border7;
-    TitledBorder titledBorder7;
-    String[] mimes = { "application", "audio", "image", "text", "video" };
-    public String iconPath = "";
-    BorderLayout borderLayout7 = new BorderLayout();
-    BorderLayout borderLayout5 = new BorderLayout();
-    JLabel iconLabel = new JLabel();
-    JButton setIconB = new JButton();
-    JPanel jPanel3 = new JPanel();
-    Border border8;
-    Border border9;
+  JButton cancelB = new JButton();
+  JPanel buttonsPanel = new JPanel();
+  FlowLayout flowLayout7 = new FlowLayout();
+  public JLabel header = new JLabel();
+  JPanel jPanel1 = new JPanel();
+  JPanel dialogTitlePanel = new JPanel();
+  JButton okB = new JButton();
+  JPanel areaPanel = new JPanel();
+  JPanel mPanel = new JPanel();
+  FlowLayout flowLayout1 = new FlowLayout();
+  BorderLayout borderLayout2 = new BorderLayout();
+  BorderLayout borderLayout3 = new BorderLayout();
+  JPanel jPanel2 = new JPanel();
+  Border border1;
+  TitledBorder titledBorder1;
+  public JTextField extField = new JTextField();
+  BorderLayout borderLayout4 = new BorderLayout();
+  JLabel jLabel1 = new JLabel();
+  Border border2;
+  TitledBorder titledBorder2;
+  public JTextField descField = new JTextField();
+  JPanel jPanel4 = new JPanel();
+  BorderLayout borderLayout6 = new BorderLayout();
+  Border border3;
+  TitledBorder titledBorder3;
+  BorderLayout borderLayout1 = new BorderLayout();
+  Border border4;
+  TitledBorder titledBorder4;
+  public SetApplicationPanel appPanel = new SetApplicationPanel();
+  Border border5;
+  TitledBorder titledBorder5;
+  Border border6;
+  TitledBorder titledBorder6;
+  public boolean cancelled = true;
+  JPanel jPanel5 = new JPanel();
+  Border border7;
+  TitledBorder titledBorder7;
+  String[] mimes = { "application", "audio", "image", "text", "video" };
+  public String iconPath = "";
+  BorderLayout borderLayout7 = new BorderLayout();
+  BorderLayout borderLayout5 = new BorderLayout();
+  JLabel iconLabel = new JLabel();
+  JButton setIconB = new JButton();
+  JPanel jPanel3 = new JPanel();
+  Border border8;
+  Border border9;
 
-    public EditTypeDialog(Frame frame, String title) {
-        super(frame, title, true);
-        try {
-            jbInit();
-            pack();
-        }
-        catch (Exception ex) {
-            new ExceptionDialog(ex);
-        }
+  /**
+   * Method EditTypeDialog.
+   * 
+   * @param frame
+   * @param title
+   */
+  public EditTypeDialog(Frame frame, String title) {
+    super(frame, title, true);
+    try {
+      jbInit();
+      pack();
+    } catch (Exception ex) {
+      new ExceptionDialog(ex);
     }
+  }
 
     void jbInit() throws Exception {
 	this.setResizable(false);
@@ -205,24 +211,24 @@ public class EditTypeDialog extends JDialog {
         jPanel1.add(jPanel4, BorderLayout.CENTER);
     }
 
-    void cancelB_actionPerformed(ActionEvent e) {
-        this.dispose();
-    }
+  void cancelB_actionPerformed(ActionEvent event) {
+    this.dispose();
+  }
 
-    void okB_actionPerformed(ActionEvent e) {
-        CANCELLED = false;
-        this.dispose();
-    }
+  void okB_actionPerformed(ActionEvent event) {
+    cancelled = false;
+    this.dispose();
+  }
 
-    void extField_caretUpdate(CaretEvent e) {
-        checkOkEnabled();
-    }
+  void extField_caretUpdate(CaretEvent event) {
+    checkOkEnabled();
+  }
 
-    void descField_caretUpdate(CaretEvent e) {}
+  void descField_caretUpdate(CaretEvent event) {}
 
-    void checkOkEnabled() {
-        okB.setEnabled((extField.getText().length() > 0));
-    }
+  void checkOkEnabled() {
+    okB.setEnabled((extField.getText().length() > 0));
+  }
 
     void setIconB_actionPerformed(ActionEvent e) {
         // Fix until Sun's JVM supports more locales...
@@ -273,13 +279,14 @@ public class EditTypeDialog extends JDialog {
                 		getSelectedFile().getPath()));
            }
             catch (Exception ex) {
-		    //ex.printStackTrace();
+		    ex.printStackTrace();
 	    }
             finally {
                 iconPath = chooser.getSelectedFile().getPath();
             }
 
-        }
+
     }
+  }
 
 }

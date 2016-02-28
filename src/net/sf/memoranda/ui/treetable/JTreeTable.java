@@ -14,19 +14,18 @@ package net.sf.memoranda.ui.treetable;
  * you entered into with Sun.
  */
 
-import java.awt.Color;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.tree.*;
+import javax.swing.table.*;
+
+import net.sf.memoranda.ITask;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import javax.swing.tree.*;
-import net.sf.memoranda.Task;
-
 
 /**
  * This example shows how to create a simple JTreeTable component, by using a
@@ -41,13 +40,13 @@ import net.sf.memoranda.Task;
 public class JTreeTable extends JTable {
 	/** A subclass of JTree. */
 	protected TreeTableCellRenderer tree;
-	protected TreeTableModel model;
+	protected ITreeTableModel model;
 
 	public JTreeTable() {
 		super();
 	}
 	
-	public JTreeTable(TreeTableModel treeTableModel) {
+	public JTreeTable(ITreeTableModel treeTableModel) {
 		super();
 		model = treeTableModel;
 		// Create the tree. It will be used as a renderer and editor.
@@ -62,8 +61,8 @@ public class JTreeTable extends JTable {
 		setSelectionModel(selectionWrapper.getListSelectionModel());
 
 		// Install the tree editor renderer and editor.
-		setDefaultRenderer(TreeTableModel.class, tree);
-		setDefaultEditor(TreeTableModel.class, new TreeTableCellEditor());
+		setDefaultRenderer(ITreeTableModel.class, tree);
+		setDefaultEditor(ITreeTableModel.class, new TreeTableCellEditor());
 
 		// No grid.
 		setShowGrid(false);
@@ -103,7 +102,7 @@ public class JTreeTable extends JTable {
 	 * ensures the editor is never painted.
 	 */
 	public int getEditingRow() {
-		return (getColumnClass(editingColumn) == TreeTableModel.class) ? -1
+		return (getColumnClass(editingColumn) == ITreeTableModel.class) ? -1
 				: editingRow;
 	}
 
@@ -206,7 +205,7 @@ public class JTreeTable extends JTable {
 				setBackground(table.getSelectionBackground());
 			else
 				setBackground(table.getBackground());
-			if (value instanceof Task) {
+			if (value instanceof ITask) {
 				
 			}
 			visibleRow = row;
@@ -246,7 +245,7 @@ public class JTreeTable extends JTable {
 		public boolean isCellEditable(EventObject e) {
 			if (e instanceof MouseEvent) {
 				for (int counter = getColumnCount() - 1; counter >= 0; counter--) {
-					if (getColumnClass(counter) == TreeTableModel.class) {
+					if (getColumnClass(counter) == ITreeTableModel.class) {
 						MouseEvent me = (MouseEvent) e;
 						MouseEvent newME = new MouseEvent(tree, me.getID(), me
 								.getWhen(), me.getModifiers(), me.getX()

@@ -28,15 +28,15 @@ import javax.swing.event.ListSelectionListener;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.CustomField;
 import net.sf.memoranda.History;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.Task;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITask;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
@@ -336,13 +336,13 @@ public class TaskPanel extends JPanel {
 
 
 
-		CurrentDate.addDateListener(new DateListener() {
+		CurrentDate.addDateListener(new IDateListener() {
 			public void dateChange(CalendarDate d) {
 				newTaskB.setEnabled(d.inPeriod(CurrentProject.get().getStartDate(), CurrentProject.get().getEndDate()));
 			}
 		});
-		CurrentProject.addProjectListener(new ProjectListener() {
-			public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
+		CurrentProject.addProjectListener(new IProjectListener() {
+			public void projectChange(IProject p, INoteList nl, ITaskList tl, IResourcesList rl) {
 				newTaskB.setEnabled(
 						CurrentDate.get().inPeriod(p.getStartDate(), p.getEndDate()));
 			}
@@ -375,7 +375,7 @@ public class TaskPanel extends JPanel {
 					boolean hasSubTasks = CurrentProject.getTaskList().hasSubTasks(thisTaskId);
 					//ppSubTasks.setEnabled(hasSubTasks);
 					ppCalcTask.setEnabled(hasSubTasks);
-					Task t = CurrentProject.getTaskList().getTask(thisTaskId);
+					ITask t = CurrentProject.getTaskList().getTask(thisTaskId);
 					parentPanel.calendar.jnCalendar.renderer.setTask(t);
 					parentPanel.calendar.jnCalendar.updateUI();
 				}    
@@ -445,7 +445,7 @@ public class TaskPanel extends JPanel {
 	}
 
 	<T> void editTaskB_actionPerformed(ActionEvent e) {
-		Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+		ITask t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
 		TaskDialog dlg = new TaskDialog(App.getFrame(), Local.getString("Edit task"));
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();
@@ -531,7 +531,7 @@ public class TaskPanel extends JPanel {
 		/*System.out.println("***[Debug] TaskListImpl.createTask() called parameters/n"
         		+ "StartDate= "+sd.toString()+"\n"+ "EndDate= "+ed.toString()+"\n");*/
 		//XXX Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
-		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),null, customFields);
+		ITask newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),null, customFields);
 		//		CurrentProject.getTaskList().adjustParentTasks(newTask);
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
 		CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
@@ -548,7 +548,7 @@ public class TaskPanel extends JPanel {
 
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();
-		Task parent = CurrentProject.getTaskList().getTask(parentTaskId);
+		ITask parent = CurrentProject.getTaskList().getTask(parentTaskId);
 		CalendarDate todayD = CurrentDate.get();
 		if (todayD.after(parent.getStartDate()))
 			dlg.setStartDate(todayD);
@@ -576,7 +576,7 @@ public class TaskPanel extends JPanel {
 		//Create the CustomField objects from the inputs
 		ArrayList<CustomField<T>> customFields = new ArrayList<CustomField<T>>();
 
-		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId, customFields);
+		ITask newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId, customFields);
 		newTask.setProgress(((Integer)dlg.progress.getValue()).intValue());
 		//		CurrentProject.getTaskList().adjustParentTasks(newTask);
 
@@ -589,7 +589,7 @@ public class TaskPanel extends JPanel {
 	void calcTask_actionPerformed(ActionEvent e) {
 		TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
 		dlg.pack();
-		Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
+		ITask t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
 
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();
@@ -600,7 +600,7 @@ public class TaskPanel extends JPanel {
 			return;            
 		}
 
-		TaskList tl = CurrentProject.getTaskList();
+		ITaskList tl = CurrentProject.getTaskList();
 		if(dlg.calcEffortChB.isSelected()) {
 			t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
 		}
@@ -669,7 +669,7 @@ public class TaskPanel extends JPanel {
 			msg = Local.getString("Remove")+" "+taskTable.getSelectedRows().length +" "+Local.getString("tasks")+"?"
 					+ "\n"+Local.getString("Are you sure?");
 		else {        	
-			Task t = CurrentProject.getTaskList().getTask(thisTaskId);
+			ITask t = CurrentProject.getTaskList().getTask(thisTaskId);
 			// check if there are subtasks
 			if(CurrentProject.getTaskList().hasSubTasks(thisTaskId)) {
 				msg = Local.getString("Remove task")+"\n'" + t.getText() + Local.getString("' and all subtasks") +"\n"+Local.getString("Are you sure?");
@@ -688,14 +688,14 @@ public class TaskPanel extends JPanel {
 			return;
 		Vector toremove = new Vector();
 		for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
-			Task t =
+			ITask t =
 					CurrentProject.getTaskList().getTask(
 							taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
 			if (t != null)
 				toremove.add(t);
 		}
 		for (int i = 0; i < toremove.size(); i++) {
-			CurrentProject.getTaskList().removeTask((Task)toremove.get(i));
+			CurrentProject.getTaskList().removeTask((ITask)toremove.get(i));
 		}
 		taskTable.tableChanged();
 		CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
@@ -708,14 +708,14 @@ public class TaskPanel extends JPanel {
 		String msg;
 		Vector tocomplete = new Vector();
 		for (int i = 0; i < taskTable.getSelectedRows().length; i++) {
-			Task t =
+			ITask t =
 					CurrentProject.getTaskList().getTask(
 							taskTable.getModel().getValueAt(taskTable.getSelectedRows()[i], TaskTable.TASK_ID).toString());
 			if (t != null)
 				tocomplete.add(t);
 		}
 		for (int i = 0; i < tocomplete.size(); i++) {
-			Task t = (Task)tocomplete.get(i);
+			ITask t = (ITask)tocomplete.get(i);
 			t.setProgress(100);
 		}
 		taskTable.tableChanged();

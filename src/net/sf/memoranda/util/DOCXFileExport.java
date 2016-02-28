@@ -9,7 +9,7 @@ import net.sf.memoranda.util.Configuration;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 
-import net.sf.memoranda.Note;
+import net.sf.memoranda.INote;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 
@@ -78,7 +78,7 @@ public class DOCXFileExport {
     String charset = "";
     File f = null;
     HTMLDocument doc;
-    Note note = null;
+    INote note = null;
     boolean xhtml = false;
     boolean num = false;
     String templFile = null;
@@ -87,7 +87,7 @@ public class DOCXFileExport {
      */
     
     
-    public DOCXFileExport(File f, Document doc, Note note, String charset, boolean num, String templFile, boolean xhtml) {
+    public DOCXFileExport(File f, Document doc, INote note, String charset, boolean num, String templFile, boolean xhtml) {
         this.f = f;
         this.doc = (HTMLDocument)doc;
         this.note = note;
@@ -263,10 +263,8 @@ public class DOCXFileExport {
     public void ConvertInHTML() throws Exception{
 
     	BasicConfigurator.configure();
-    	ContentTypeManager ctm = new ContentTypeManager();
-    	
-    	        String tempinputfilepath = f.getAbsolutePath();
-    	        String inputfilepath = tempinputfilepath.replace("\\", "/");;
+    	String tempinputfilepath = f.getAbsolutePath();
+    	        String inputfilepath = tempinputfilepath.replace("\\", "/");
     	        System.out.println("Input File Path: " + inputfilepath);
     	        String tempbaseURL = "file:///" + f.getParent();
     	        String baseURL = tempbaseURL.replace("\\", "/");;

@@ -7,6 +7,7 @@ package net.sf.memoranda.ui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 import net.sf.memoranda.util.Configuration;
@@ -472,7 +473,11 @@ public class PreferencesDialog extends JDialog {
 		okB.setText(Local.getString("Ok"));
 		okB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				okB_actionPerformed(e);
+				try {
+					okB_actionPerformed(e);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		this.getRootPane().setDefaultButton(okB);
@@ -588,7 +593,7 @@ public class PreferencesDialog extends JDialog {
 		}
 	}
 
-	void apply() {
+	void apply() throws IOException {
 		if (this.firstdow.isSelected()) {
 			Configuration.put("FIRST_DAY_OF_WEEK", "mon");
 		} else {
@@ -730,7 +735,7 @@ public class PreferencesDialog extends JDialog {
 
 	}
 
-	void okB_actionPerformed(ActionEvent ex) {
+	void okB_actionPerformed(ActionEvent ex) throws IOException {
 		apply();
 		this.dispose();
 	}

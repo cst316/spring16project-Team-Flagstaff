@@ -47,8 +47,8 @@ import javax.swing.JCheckBox;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.CustomField;
-import net.sf.memoranda.DisplayField;
-import net.sf.memoranda.TaskTemplate;
+import net.sf.memoranda.IDisplayField;
+import net.sf.memoranda.ITaskTemplate;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.AllFilesFilter;
@@ -64,10 +64,10 @@ public class TaskDialog extends JDialog {
 	 * Default Serial ID
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	//@SuppressWarnings("rawtypes")
 	//TaskTemplateImpl taskTemp = new TaskTemplateImpl();
-	
+
 	JPanel mPanel = new JPanel(new BorderLayout());
 	JPanel areaPanel = new JPanel(new BorderLayout());
 	JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -127,12 +127,12 @@ public class TaskDialog extends JDialog {
 	JLabel jLabelProgress = new JLabel();
 	JSpinner progress = new JSpinner(new SpinnerNumberModel(0, 0, 100, 5));
 	JPanel pnlContainer = new JPanel(new GridBagLayout());
-	
+
 	// Added by mdgibso2
-    JButton attachment = new JButton();
-    JPanel attachmentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    public WorkPanel workPanel = new WorkPanel();
-	
+	JButton attachment = new JButton();
+	JPanel attachmentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	public WorkPanel workPanel = new WorkPanel();
+
 	//Forbid to set dates outside the bounds
 	CalendarDate startDateMin = CurrentProject.get().getStartDate();
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
@@ -363,82 +363,90 @@ public class TaskDialog extends JDialog {
 		jPanelEffort.add(jLabelEffort, null);
 		jPanelEffort.add(effortField, null);
 
-        jPanel2.add(jPanel4, null);
-        jPanel4.add(priorityCB, null);
-        jPanel2.add(jPanel3, null);
-        
-        jPanel3.add(setNotifB, null);
-        
-        jLabelProgress.setText(Local.getString("Progress"));
-        jPanelProgress.add(jLabelProgress, null);
-        jPanelProgress.add(progress, null);
-        jPanel2.add(jPanelProgress);
-        
-        priorityCB.setSelectedItem(Local.getString("Normal"));
-        //added by mdgibso2
-        attachment.setText(Local.getString("Attachment"));
-        attachmentPanel.add(attachment);
-        attachment.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(ActionEvent e) {
-        		attachmentB_actionPerformed(e);
-        	}
-        });
-        
-        // Container panel created to hold additions by Micheal and Galen so there wasn't a conflict
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.CENTER;
-        pnlCustom.setLayout(new GridBagLayout());
+		jPanel2.add(jPanel4, null);
+		jPanel4.add(priorityCB, null);
+		jPanel2.add(jPanel3, null);
+
+		jPanel3.add(setNotifB, null);
+
+		jLabelProgress.setText(Local.getString("Progress"));
+		jPanelProgress.add(jLabelProgress, null);
+		jPanelProgress.add(progress, null);
+		jPanel2.add(jPanelProgress);
+
+		priorityCB.setSelectedItem(Local.getString("Normal"));
+		//added by mdgibso2
+		attachment.setText(Local.getString("Attachment"));
+		attachmentPanel.add(attachment);
+		attachment.addActionListener(new java.awt.event.ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				attachmentB_actionPerformed(e);
+			}
+		});
+
+		// Container panel created to hold additions by Michael and Galen so there wasn't a conflict
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0; gbc.gridy = 0;
+		gbc.insets = new Insets(5, 0, 5, 5);
+		gbc.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+		pnlCustom.setLayout(new GridBagLayout());
 		// Add the items to the pnlCustom
 		addCustomFields();
 		areaPanel.add(this.pnlContainer, BorderLayout.SOUTH);
 		pnlContainer.add(this.attachmentPanel, gbc);
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.gridy=1;
 		pnlContainer.add(pnlCustom, gbc);
-		pnlCustom.setBorder(border8);
-		pnlCustom.setLayout(new GridBagLayout());
-        
-        getContentPane().add(pnlCustom, BorderLayout.SOUTH);
-        cancelB.setMaximumSize(new Dimension(100, 26));
-        cancelB.setMinimumSize(new Dimension(100, 26));
-        cancelB.setPreferredSize(new Dimension(100, 26));
-        cancelB.setText(Local.getString("Cancel"));
-        cancelB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                cancelB_actionPerformed(e);
-            }
-        });
-        okB.setMaximumSize(new Dimension(100, 26));
-        okB.setMinimumSize(new Dimension(100, 26));
-        okB.setPreferredSize(new Dimension(100, 26));
-        okB.setText(Local.getString("Ok"));
-        okB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                okB_actionPerformed(e);
-            }
-        });
-        
-        this.getRootPane().setDefaultButton(okB);
-        pnlCustom.add(buttonsPanel);
-        buttonsPanel.add(okB, null);
-        buttonsPanel.add(cancelB, null);
-        startCalFrame.cal.addSelectionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (ignoreStartChanged)
-                    return;
-                startDate.getModel().setValue(startCalFrame.cal.get().getCalendar().getTime());
-            }
-        });
-        
-        endCalFrame.cal.addSelectionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (ignoreEndChanged)
-                    return;
-                endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
-            }
-        });
-    }
+		pnlCustom.setBorder(border2);
+
+		cancelB.setMaximumSize(new Dimension(100, 26));
+		cancelB.setMinimumSize(new Dimension(100, 26));
+		cancelB.setPreferredSize(new Dimension(100, 26));
+		cancelB.setText(Local.getString("Cancel"));
+		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelB_actionPerformed(e);
+			}
+		});
+		okB.setMaximumSize(new Dimension(100, 26));
+		okB.setMinimumSize(new Dimension(100, 26));
+		okB.setPreferredSize(new Dimension(100, 26));
+		okB.setText(Local.getString("Ok"));
+		okB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				okB_actionPerformed(e);
+			}
+		});
+
+		this.getRootPane().setDefaultButton(okB);
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.weightx = 2;
+		gbc.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
+		gbc.gridy=2;
+		pnlContainer.add(buttonsPanel, gbc);
+		buttonsPanel.add(okB, null);
+		buttonsPanel.add(cancelB, null);
+		startCalFrame.cal.addSelectionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (ignoreStartChanged)
+					return;
+				startDate.getModel().setValue(startCalFrame.cal.get().getCalendar().getTime());
+			}
+		});
+
+		endCalFrame.cal.addSelectionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (ignoreEndChanged)
+					return;
+				endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
+			}
+		});
+	}
 
 
 	@SuppressWarnings({ "unchecked" })
@@ -447,22 +455,23 @@ public class TaskDialog extends JDialog {
 			CurrentProject.set_taskTemplate(TaskTemplateManager.getDefaultTemplate());
 		}
 		if(CurrentProject.get_taskTemplate().getFields()!=null){
-			TaskTemplate<T> temp = (TaskTemplate<T>) CurrentProject.get_taskTemplate();
+			ITaskTemplate<T> temp = (ITaskTemplate<T>) CurrentProject.get_taskTemplate();
 			ArrayList<CustomField<T>> fld = temp.getFields();
 			if(fld!=null){
 				pnlCustom.fillPanel(fld);
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the values from the controls for the custom fields
 	 * @return
 	 */
 	public <T> ArrayList<CustomField<T>> getCustomFieldValues(){
-		ArrayList<DisplayField> fields =  pnlCustom.getCustomPanels();
+		@SuppressWarnings("unchecked")
+		ArrayList<IDisplayField> fields =  pnlCustom.getCustomPanels();
 		ArrayList<CustomField<T>> custom = new ArrayList<CustomField<T>>();
-		for(DisplayField df:fields){
+		for(IDisplayField df:fields){
 			String name = df.getFieldName();
 			T data = df.getData();
 			CustomField<T> cf = new CustomField<T>(name, false, data);
@@ -470,7 +479,7 @@ public class TaskDialog extends JDialog {
 		}
 		return custom;
 	}
-	
+
 	/**
 	 * Set the values in the custom fields if they exist
 	 * @param customFields
@@ -483,10 +492,10 @@ public class TaskDialog extends JDialog {
 				}
 			}
 		}
-		
-		
+
+
 	}
-	
+
 	public void setStartDate(CalendarDate d) {
 		this.startDate.getModel().setValue(d.getDate());
 	}
@@ -536,109 +545,109 @@ public class TaskDialog extends JDialog {
 
 	}
 
-    void setEndDateB_actionPerformed(ActionEvent e) {
-        endCalFrame.setLocation(setEndDateB.getLocation());
-        endCalFrame.setSize(200, 200);
-        this.getLayeredPane().add(endCalFrame);
-        endCalFrame.show();
-    }
-    
-    void setNotifB_actionPerformed(ActionEvent e) {
-    	((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e, 
-			this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
-    }
-    
-    //added by mdgibso2
-    void attachmentB_actionPerformed(ActionEvent e) {
-    	UIManager.put("FileChooser.lookInLabelText", Local
-                .getString("Look in:"));
-        UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
-                "Up One Level"));
-        UIManager.put("FileChooser.newFolderToolTipText", Local.getString(
-                "Create New Folder"));
-        UIManager.put("FileChooser.listViewButtonToolTipText", Local
-                .getString("List"));
-        UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-                .getString("Details"));
-        UIManager.put("FileChooser.fileNameLabelText", Local.getString(
-                "File Name:"));
-        UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString(
-                "Files of Type:"));
-        UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-        UIManager.put("FileChooser.openButtonToolTipText", Local.getString(
-                "Open selected file"));
-        UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-        UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString(
-                "Cancel"));
+	void setEndDateB_actionPerformed(ActionEvent e) {
+		endCalFrame.setLocation(setEndDateB.getLocation());
+		endCalFrame.setSize(200, 200);
+		this.getLayeredPane().add(endCalFrame);
+		endCalFrame.show();
+	}
 
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileHidingEnabled(false);
+	void setNotifB_actionPerformed(ActionEvent e) {
+		((AppFrame)App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e, 
+				this.todoField.getText(), (Date)startDate.getModel().getValue(),(Date)endDate.getModel().getValue());
+	}
 
-        chooser.setDialogTitle(Local.getString("Import notes"));
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
-        chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
-        chooser.setPreferredSize(new Dimension(550, 375));
+	//added by mdgibso2
+	void attachmentB_actionPerformed(ActionEvent e) {
+		UIManager.put("FileChooser.lookInLabelText", Local
+				.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
+				"Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local.getString(
+				"Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local
+				.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+				.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString(
+				"File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString(
+				"Files of Type:"));
+		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
+		UIManager.put("FileChooser.openButtonToolTipText", Local.getString(
+				"Open selected file"));
+		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString(
+				"Cancel"));
 
-        File lastSel = null;
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileHidingEnabled(false);
 
-        try {
-            lastSel = (java.io.File) Context.get("LAST_SELECTED_NOTE_FILE");
-        }
-        catch (ClassCastException cce) {
-            lastSel = new File(System.getProperty("user.dir") + File.separator);
-        }
-        //---------------------------------------------------------------------
+		chooser.setDialogTitle(Local.getString("Import notes"));
+		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
+		chooser.setPreferredSize(new Dimension(550, 375));
 
-        if (lastSel != null)
-            chooser.setCurrentDirectory(lastSel);
-        if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
-            return;
-        
-        //java.io.File f = chooser.getSelectedFile();
-        Path copyFrom = chooser.getSelectedFile().toPath();
-        Path copyTo = (new File(System.getProperty("user.dir") + "/attachments")).toPath();
+		File lastSel = null;
 
-        try {
+		try {
+			lastSel = (java.io.File) Context.get("LAST_SELECTED_NOTE_FILE");
+		}
+		catch (ClassCastException cce) {
+			lastSel = new File(System.getProperty("user.dir") + File.separator);
+		}
+		//---------------------------------------------------------------------
+
+		if (lastSel != null)
+			chooser.setCurrentDirectory(lastSel);
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+			return;
+
+		//java.io.File f = chooser.getSelectedFile();
+		Path copyFrom = chooser.getSelectedFile().toPath();
+		Path copyTo = (new File(System.getProperty("user.dir") + "/attachments")).toPath();
+
+		try {
 			Files.copy(copyFrom, copyTo.resolve(copyFrom.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e1) {
 			System.out.println("File did not copy");
 			e1.printStackTrace();
 		}
-//        HashMap<String,String> notesName = new HashMap<String,String>();
-//        HashMap<String,String> notesContent = new HashMap<String,String>();
-//        Builder parser = new Builder();
-//        String id="", name="", content = "";
-//        try{
-//                Document document = parser.build(f);
-//                content = document.getRootElement().getFirstChildElement("body").getValue();
-//                content = content.substring(content.indexOf("\n", content.indexOf("-")));
-//                content = content.replace("<p>","").replace("</p>","\n");
-//                name = f.getName().substring(0,f.getName().lastIndexOf("."));	
-//                Element item;
-//                id=Util.generateId();
-//                System.out.println(id+" "+name+" "+content);
-//                notesName.put(id, name);
-//                notesContent.put(id, content);
-//                JEditorPane p = new JEditorPane();
-//                p.setContentType("text/html");
-//                
-//                for (Map.Entry<String,String> entry : notesName.entrySet()){
-//                        id = entry.getKey();
-//                        System.out.println(id+" "+name+" "+content);
-//                        p.setText(content);
-//                        HTMLDocument doc = (HTMLDocument)p.getDocument();
-//                        Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
-//                note.setTitle(name);
-//                        note.setId(Util.generateId());
-//                CurrentStorage.get().storeNote(note, doc);
-//                }
-//                workPanel.dailyItemsPanel.notesControlPane.refresh();
-//                
-//        }catch(Exception exc){
-//                exc.printStackTrace();
-//        }
-        
-    }
+		//        HashMap<String,String> notesName = new HashMap<String,String>();
+		//        HashMap<String,String> notesContent = new HashMap<String,String>();
+		//        Builder parser = new Builder();
+		//        String id="", name="", content = "";
+		//        try{
+		//                Document document = parser.build(f);
+		//                content = document.getRootElement().getFirstChildElement("body").getValue();
+		//                content = content.substring(content.indexOf("\n", content.indexOf("-")));
+		//                content = content.replace("<p>","").replace("</p>","\n");
+		//                name = f.getName().substring(0,f.getName().lastIndexOf("."));	
+		//                Element item;
+		//                id=Util.generateId();
+		//                System.out.println(id+" "+name+" "+content);
+		//                notesName.put(id, name);
+		//                notesContent.put(id, content);
+		//                JEditorPane p = new JEditorPane();
+		//                p.setContentType("text/html");
+		//                
+		//                for (Map.Entry<String,String> entry : notesName.entrySet()){
+		//                        id = entry.getKey();
+		//                        System.out.println(id+" "+name+" "+content);
+		//                        p.setText(content);
+		//                        HTMLDocument doc = (HTMLDocument)p.getDocument();
+		//                        Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+		//                note.setTitle(name);
+		//                        note.setId(Util.generateId());
+		//                CurrentStorage.get().storeNote(note, doc);
+		//                }
+		//                workPanel.dailyItemsPanel.notesControlPane.refresh();
+		//                
+		//        }catch(Exception exc){
+		//                exc.printStackTrace();
+		//        }
+
+	}
 }

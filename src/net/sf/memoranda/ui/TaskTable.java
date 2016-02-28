@@ -50,7 +50,7 @@ import javax.swing.tree.*;
 import net.sf.memoranda.*;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.ui.treetable.*;
 
 /**
@@ -101,15 +101,15 @@ public class TaskTable extends JTable {
         tree.setSelectionModel(selectionWrapper);
         setSelectionModel(selectionWrapper.getListSelectionModel());
 
-        CurrentDate.addDateListener(new DateListener() {
+        CurrentDate.addDateListener(new IDateListener() {
             public void dateChange(CalendarDate d) {
                 //updateUI();
                 tableChanged();
             }
         });
-        CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl,
-                    ResourcesList rl) {
+        CurrentProject.addProjectListener(new IProjectListener() {
+            public void projectChange(IProject p, INoteList nl, ITaskList tl,
+                    IResourcesList rl) {
             }
 
             public void projectWasChanged() {
@@ -142,13 +142,13 @@ public class TaskTable extends JTable {
 		
 		
 		tree.setCellRenderer(renderer);
-		setDefaultRenderer(TreeTableModel.class, tree);
+		setDefaultRenderer(ITreeTableModel.class, tree);
 		setDefaultRenderer(Integer.class, renderer);
 		setDefaultRenderer(TaskTable.class, renderer);
 		setDefaultRenderer(String.class, renderer);
 		setDefaultRenderer(java.util.Date.class, renderer);
 
-		setDefaultEditor(TreeTableModel.class, new TreeTableCellEditor());
+		setDefaultEditor(ITreeTableModel.class, new TreeTableCellEditor());
 		
 		// column name is repeated in 2 places, do something about it!
 		getColumn( "% " + Local.getString("done") ).setCellEditor(new TaskProgressEditor());
@@ -226,7 +226,7 @@ public class TaskTable extends JTable {
      * ensures the editor is never painted.
      */
     public int getEditingRow() {
-        return (getColumnClass(editingColumn) == TreeTableModel.class) ? -1
+        return (getColumnClass(editingColumn) == ITreeTableModel.class) ? -1
                 : editingRow;
     }
 
@@ -361,7 +361,7 @@ public class TaskTable extends JTable {
         public boolean isCellEditable(EventObject e) {
             if (e instanceof MouseEvent) {
                 for (int counter = getColumnCount() - 1; counter >= 0; counter--) {
-                    if (getColumnClass(counter) == TreeTableModel.class) {
+                    if (getColumnClass(counter) == ITreeTableModel.class) {
                         MouseEvent me = (MouseEvent) e;
                         MouseEvent newME = new MouseEvent(tree, me.getID(), me
                                 .getWhen(), me.getModifiers(), me.getX()

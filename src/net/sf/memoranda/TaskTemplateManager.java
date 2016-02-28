@@ -24,7 +24,7 @@ import nu.xom.Elements;
 public class TaskTemplateManager {
 	public static Document _doc=null;
 	static Element _root = null;
-	static ArrayList<TaskTemplateListener> _templateListeners=new ArrayList<TaskTemplateListener>();
+	static ArrayList<ITaskTemplateListener> _templateListeners=new ArrayList<ITaskTemplateListener>();
 	
 	 /* 
 	 * Hashtable of "task" XOM elements for mapping the names of the templates to the template id
@@ -67,11 +67,14 @@ public class TaskTemplateManager {
 	 * @param fields
 	 * @return
 	 */
-	public static <T> TaskTemplate<T> createTemplate(String id, String templateName, ArrayList<CustomField<T>> fields) {
+	public static <T> ITaskTemplate<T> createTemplate(String id, String templateName, ArrayList<CustomField<T>> fields) {
 		Element el = new Element("taskTemplate");
 		el.addAttribute(new Attribute("id", id));
 		el.addAttribute(new Attribute("name", templateName));
 		// Loop through the CustomFields and add the values to the XML element for the task template
+		if(fields==null) {
+			fields = new ArrayList<CustomField<T>>();
+		}
 		for(int x=0;x<fields.size();x++){
 			Element child = new Element("customField");
 			Element type = new Element("dataType");
@@ -83,7 +86,7 @@ public class TaskTemplateManager {
 			el.appendChild(child);
 		}
 		_root.appendChild(el);
-		TaskTemplate<T> tt = new TaskTemplateImpl<T>(id, templateName);
+		ITaskTemplate<T> tt = new TaskTemplateImpl<T>(id, templateName);
 		tt.setFields(fields);
 		_nameMap.put(templateName, id);
 		return tt;
@@ -96,8 +99,8 @@ public class TaskTemplateManager {
 	 * @param fields
 	 * @return TaskTemplate<T>
 	 */
-	public static <T> TaskTemplate<T> createTemplate(String templateName, ArrayList<CustomField<T>> fields) {
-		TaskTemplate<T> tt = createTemplate(Util.generateId(),templateName,fields);
+	public static <T> ITaskTemplate<T> createTemplate(String templateName, ArrayList<CustomField<T>> fields) {
+		ITaskTemplate<T> tt = createTemplate(Util.generateId(),templateName,fields);
 		return tt;
 	}
 
@@ -108,9 +111,9 @@ public class TaskTemplateManager {
 	 * @param templateName
 	 * @return TaskTemplate<T>
 	 */
-	public static <T> TaskTemplate<T> createTemplate(String templateName) {
+	public static <T> ITaskTemplate<T> createTemplate(String templateName) {
 		ArrayList<CustomField<T>> fields = new ArrayList<CustomField<T>>();
-		TaskTemplate<T> tt = createTemplate(Util.generateId(),templateName, fields);
+		ITaskTemplate<T> tt = createTemplate(Util.generateId(),templateName, fields);
 		return tt;
 	}	
 
@@ -131,8 +134,8 @@ public class TaskTemplateManager {
 	 * Returns the default object of type: TaskTemplate from XML storage
 	 * @return TaskTemplate
 	 */
-	public static <T> TaskTemplate<T> getDefaultTemplate(){
-		TaskTemplate<T> ttDefault=null;
+	public static <T> ITaskTemplate<T> getDefaultTemplate(){
+		ITaskTemplate<T> ttDefault=null;
 		ttDefault = getTemplate("__default");
 		if(ttDefault==null){
 			ArrayList<CustomField<T>> fields = new ArrayList<CustomField<T>>();
@@ -147,9 +150,15 @@ public class TaskTemplateManager {
 	 * @param String name
 	 * @return TaskTemplate 
 	 */
-	public static <T> TaskTemplate<T> getTemplateFromName(String name){
-		String id = _nameMap.get(name);
-		return getTemplate(id);
+	public static <T> ITaskTemplate<T> getTemplateFromName(String name){
+		if(_nameMap.containsKey(name)) {
+			String id = _nameMap.get(name);
+			return getTemplate(id);
+		}else {
+			// Returns null if the name cannot be found in the name map
+			return null;
+		}
+		
 	}
 
 	/**
@@ -168,19 +177,21 @@ public class TaskTemplateManager {
 	 * @return TaskTemplate 
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> TaskTemplate<T> getTemplate(String id){
-		TaskTemplate<T> tt = null;
+	public static <T> ITaskTemplate<T> getTemplate(String id){
+		ITaskTemplate<T> tt = null;
 		Element d = null;
+		Element c = null;
 		Elements elements = _root.getChildElements();
 		int size = elements.size();
 		int x =0;
 		while(x<size){
-			d = elements.get(x);
-			String eleId = d.getAttributeValue("id");
+			c = elements.get(x);
+			String eleId = c.getAttributeValue("id");
 			if(eleId.compareTo(id)!=0){	
 				x++;
 			}
 			else{
+				d=c;
 				x=size;
 			}
 		}
@@ -288,7 +299,7 @@ public class TaskTemplateManager {
 	 * if there are changes made to the task templates list in storage
 	 * @param listener
 	 */
-	public static void addTemplateListener(TaskTemplateListener listener){
+	public static void addTemplateListener(ITaskTemplateListener listener){
 		_templateListeners.add(listener);
 	}
 	
@@ -297,7 +308,7 @@ public class TaskTemplateManager {
 	 *  changes made to the task templates list in storage
 	 * @return
 	 */
-	public static ArrayList<TaskTemplateListener> getTemplateListeners(){
+	public static ArrayList<ITaskTemplateListener> getTemplateListeners(){
 		return _templateListeners;
 	}
 	/**

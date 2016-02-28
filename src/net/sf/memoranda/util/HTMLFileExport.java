@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 
-import net.sf.memoranda.Note;
+import net.sf.memoranda.INote;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 
@@ -34,14 +34,14 @@ public class HTMLFileExport {
     String charset = "";
     File f = null;
     HTMLDocument doc;
-    Note note = null;
+    INote note = null;
     boolean xhtml = false;
     boolean num = false;
     String templFile = null;
     /**
      * Constructor for HTMLFileExport.
      */
-    public HTMLFileExport(File f, Document doc, Note note, String charset, boolean num, String templFile, boolean xhtml) {
+    public HTMLFileExport(File f, Document doc, INote note, String charset, boolean num, String templFile, boolean xhtml) {
         this.f = f;
         this.doc = (HTMLDocument)doc;
         this.note = note;

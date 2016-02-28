@@ -14,12 +14,12 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
 import net.sf.memoranda.Resource;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.ui.table.TableSorter;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.MimeType;
@@ -43,15 +43,19 @@ public class ResourcesTable extends JTable {
         this.setFont(new Font("Dialog",0,11));
         initColumsWidth();
         //this.setModel(new ResourcesTableModel());
-        CurrentProject.addProjectListener(new ProjectListener() {
+
+        CurrentProject.addProjectListener(new IProjectListener() {
         	
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {                
+        	@Override
+            public void projectChange(IProject prj, INoteList nl, ITaskList tl, IResourcesList rl) {                
                
             }
             
+        	@Override
             public void projectWasChanged() {
                  tableChanged();
             }
+
         });
     }
 

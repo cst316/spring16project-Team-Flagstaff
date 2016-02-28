@@ -1,42 +1,45 @@
+package net.sf.memoranda.ui;
+
 /**
  * CustomFieldPanal.java
  * Added by @author ggoforth -> Galen Goforth 
  * ASURiteId: ghgofort
  * 
- * Added on 2/9/16, 12:59am
+ * <p>Added on 2/9/16, 12:59am
  */
-package net.sf.memoranda.ui;
+
+import net.sf.memoranda.CustomField;
+import net.sf.memoranda.IDisplayField;
+import net.sf.memoranda.DisplayFieldFactory;
+import net.sf.memoranda.date.CalendarDate;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.io.InvalidClassException;
+
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import net.sf.memoranda.CustomField;
-import net.sf.memoranda.DisplayField;
-import net.sf.memoranda.DisplayFieldFactory;
-import net.sf.memoranda.date.CalendarDate;
 
 /**
+ * Class CustomFieldsPanel.
+ * 
  * @author ggoforth
  * @param <T>
  *
  */
 public class CustomFieldsPanel extends JPanel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private ArrayList<DisplayField> customPanels=null;	
 
+
+private static final long serialVersionUID = 1L;
+private ArrayList<IDisplayField> customPanels = null; 
 	/**
 	 * Constructor to add all of our fields to the panel
 	 */
 	public CustomFieldsPanel() {
-		customPanels = new ArrayList<DisplayField>();
+		customPanels = new ArrayList<IDisplayField>();
 	}
 	/**
 	 * Add a field to the panel
@@ -45,24 +48,23 @@ public class CustomFieldsPanel extends JPanel {
 	 */
 	public <T> void addField(CustomField<T> customField, int xIndex, 
 			int yIndex) throws InvalidClassException{	
-		DisplayField newField = null;
-		GridBagConstraints cs = new GridBagConstraints();
-	    cs.anchor = GridBagConstraints.BOTH;
+		IDisplayField newField = null;
+	    GridBagConstraints cs = new GridBagConstraints();
 	    cs.insets = new Insets(3, 2, 3, 2);
 	    cs.gridx = xIndex;
 	    cs.gridy = yIndex;
-		if(customField.getData()!=null){
-			if(customField.getData().getClass() == CalendarDate.class){
-				newField = DisplayFieldFactory.createField("CalendarDate");
-				newField.createDataControl(customField.getData());
-			}else if(customField.getData().getClass()== Integer.class){
-				newField = DisplayFieldFactory.createField("Integer");
-				newField.createDataControl(customField.getData());
-			}else{
-				newField = DisplayFieldFactory.createField("String");
-				newField.createDataControl(customField.getData());
-			}
-		}else{
+	    if (customField.getData() != null) {
+	      if (customField.getData().getClass() == CalendarDate.class) {
+	        newField = DisplayFieldFactory.createField("CalendarDate");
+	        newField.createDataControl(customField.getData());
+	      } else if (customField.getData().getClass() == Integer.class) {
+	        newField = DisplayFieldFactory.createField("Integer");
+	        newField.createDataControl(customField.getData());
+	      } else {
+	        newField = DisplayFieldFactory.createField("String");
+	        newField.createDataControl(customField.getData());
+	      }
+	    } else {
 			throw new InvalidClassException(
 					"There is a field in the XML template that is not"
 					+ " a supported data type.\n"
@@ -73,12 +75,12 @@ public class CustomFieldsPanel extends JPanel {
 					+ "Parameter type= " +customField.getClass().
 					toGenericString());	
 		}
-		newField.setFieldName(customField.getFieldName());
-		customPanels.add(newField);
-		this.add((Component) newField, cs);
-		// Render the changes
-		this.revalidate();
-		this.repaint();
+	    newField.setFieldName(customField.getFieldName());
+	    customPanels.add(newField);
+	    this.add((Component) newField, cs);
+	    // Render the changes
+	    this.revalidate();
+	    this.repaint();
 	}
 	
 	/**
@@ -93,86 +95,101 @@ public class CustomFieldsPanel extends JPanel {
 		boolean isFound = false;
 		return isFound;
 	}
+  
+  /**
+   * Method CustomFieldsPanel.
+   * 
+   * @param layout
+   */
+  public CustomFieldsPanel(LayoutManager layout) {
+    super(layout);
+    customPanels = new ArrayList<IDisplayField>();
+  }
 
-	/**
-	 * @param layout
-	 */
-	public CustomFieldsPanel(LayoutManager layout) {
-		super(layout);
-		customPanels = new ArrayList<DisplayField>();
-	}
 
-	/**
-	 * @param isDoubleBuffered
-	 */
-	public CustomFieldsPanel(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		customPanels = new ArrayList<DisplayField>();
-	}
+  /**
+   * Method CustomFieldsPanel.
+   * 
+   * @param isDoubleBuffered
+   */
+  public CustomFieldsPanel(boolean isDoubleBuffered) {
+    super(isDoubleBuffered);
+    customPanels = new ArrayList<IDisplayField>();
+  }
 
-	/**
+  /**
 	 * @param layout
 	 * @param isDoubleBuffered
 	 */
 	public CustomFieldsPanel(LayoutManager layout, 
 			boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-		customPanels = new ArrayList<DisplayField>();
+		customPanels = new ArrayList<IDisplayField>();
 	}
 	
-	/**
-	 * Adds the custom fields to the panel from an array 
-	 * list of CustomField types
-	 * @param <T>
-	 * @param fld
-	 */
-	public <T> void fillPanel(ArrayList<CustomField<T>> fld){
-		this.removeAll();
-		int column = fld.size()/2;
-		for(int x=0;x<fld.size();x++){
-			try {
-				if(x<column){
-					addField(fld.get(x),0,x );
-				}else{
-					addField(fld.get(x),1,(x-(column+1)));
-				}
-			} catch (InvalidClassException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+/**
+ * Adds the custom fields to the panel from an array list of CustomField types.
+ * 
+ * @param <T>
+ * @param fld
+ */
+public <T> void fillPanel(ArrayList<CustomField<T>> fld) {
+  this.removeAll();
+  int column = fld.size() / 2;
+  for (int x = 0;x < fld.size();x++) {
+      try {
+      	/* switched the x and y parameters to the addField method.
+      	 * Changed from x-(column+1) to x-column -> adjustment for 0 
+      	 * beginning index.
+      	 * This was Task #75 from Taiga.io
+      	 *  Galen Goforth - ghgofort - 2/27/16
+      	 */
+      	
+        if (x < column) {
+        	addField(fld.get(x),0,x );
+        } else {
+          addField(fld.get(x),3,(x - (column)));
+        }
+      } catch (InvalidClassException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
-	/**
-	 * @return the customPanels
-	 */
-	public ArrayList<DisplayField> getCustomPanels() {
-		return customPanels;
-	}
-	/**
-	 * @param customPanels the customPanels to set
-	 */
-	public void setCustomPanels(ArrayList<DisplayField> customPanels) {
-		this.customPanels = customPanels;
-	}
-	
-	/**
-	 * Sets the data in the field with the name given
-	 * @param fieldName
-	 * @param data
-	 */
-	public <T> void setFieldData(String fieldName, T data){
-		if(customPanels!=null){
-			int x=0;
-			boolean isFound = false;
-			while(x<customPanels.size() && !isFound){
-				if(customPanels.get(x).getFieldName().
-						compareTo(fieldName)==0){
-					customPanels.get(x).createDataControl(data);
-					isFound=true;
-				}
-				x++;
+  /**
+   * Method getCustomPanels.
+   * 
+   * @return the customPanels
+   */
+  public ArrayList<IDisplayField> getCustomPanels() {
+    return customPanels;
+  }
+  
+  /**
+   * @param customPanels the customPanels to set.
+   */
+  public void setCustomPanels(ArrayList<IDisplayField> customPanels) {
+    this.customPanels = customPanels;
+  }
+  
+  /**
+   * Sets the data in the field with the name given.
+   * 
+   * @param fieldName
+   * @param data
+   */
+  public <T> void setFieldData(String fieldName, T data) {
+    if (customPanels != null) {
+      int x = 0;
+      boolean isFound = false;
+      while (x < customPanels.size() && !isFound) {
+    	  if(customPanels.get(x).getFieldName().
+					compareTo(fieldName)==0){
+				customPanels.get(x).createDataControl(data);
+				isFound=true;
 			}
-		}
-	}
-
+        x++;
+      }
+    }
+  }
 }

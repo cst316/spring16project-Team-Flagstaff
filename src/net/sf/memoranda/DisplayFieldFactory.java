@@ -11,7 +11,7 @@ import java.awt.GridBagLayout;
  * Class for implementing the 'factory design pattern' for implementations of polymorphic classes
  */
 public class DisplayFieldFactory {
-	public static DisplayField createField(String fieldType){
+	public static IDisplayField createField(String fieldType){
 		if(fieldType.compareTo("Integer")==0){
 			return new DisplayIntegerField(new GridBagLayout());
 		}else if(fieldType.compareTo("CalendarDate")==0){

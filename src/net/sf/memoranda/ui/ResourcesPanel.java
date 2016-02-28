@@ -194,7 +194,7 @@ public class ResourcesPanel extends JPanel {
         Point loc = App.getFrame().getLocation();
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
         dlg.setVisible(true);
-        if (dlg.CANCELLED)
+        if (dlg.cancelled)
             return;
         if (dlg.localFileRB.isSelected()) {
             String fpath = dlg.pathField.getText();

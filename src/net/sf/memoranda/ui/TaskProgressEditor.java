@@ -14,7 +14,7 @@ import javax.swing.table.*;
 public class TaskProgressEditor extends JPanel implements TableCellEditor{
 	
 	JTable table;
-	Task current;
+	ITask current;
 	boolean isSelected;
 	int row;
 	int column;
@@ -47,7 +47,7 @@ public class TaskProgressEditor extends JPanel implements TableCellEditor{
 	}
 	
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int r, int c) { 
-		current = (Task) value;
+		current = (ITask) value;
 		this.table = table;
 		this.isSelected = isSelected;
 		row = r; column = c;

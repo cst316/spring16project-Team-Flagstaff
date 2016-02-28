@@ -13,8 +13,8 @@ import javax.accessibility.Accessible;
  * @author ggoforth
  * Interface for Generic type display fields that have a label and a field.
  */
-public interface DisplayField extends Accessible{
-	
+public interface IDisplayField extends Accessible{
+
 	/**
 	 * Set the label text for the field name
 	 * @param name

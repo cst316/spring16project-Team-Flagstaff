@@ -1,3 +1,5 @@
+package net.sf.memoranda.ui;
+
 /**
  * BookmarksPanel.java
  * Created on 17.03.2003, 22:55:39 Alex
@@ -6,7 +8,6 @@
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
-package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
 
@@ -19,20 +20,21 @@ public class BookmarksPanel extends JPanel {
   JScrollPane scrollPane = new JScrollPane();
   public NotesList notesList = new NotesList(NotesList.BOOKMARKS);
 
+  /**
+   * Method BookmarksPanel.
+   */
   public BookmarksPanel() {
     try {
       jbInit();
-    }
-    catch(Exception ex) {
+    } catch (Exception ex) {
       new ExceptionDialog(ex);
     }
   }
+  
   void jbInit() throws Exception {
     this.setLayout(borderLayout1);
     this.add(scrollPane, BorderLayout.CENTER);
     scrollPane.getViewport().add(notesList, null);
-
-    
   }
 
 

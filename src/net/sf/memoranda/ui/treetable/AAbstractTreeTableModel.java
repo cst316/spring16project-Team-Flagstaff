@@ -15,6 +15,8 @@ package net.sf.memoranda.ui.treetable;
 
 import javax.swing.event.*;
 import javax.swing.tree.*;
+
+import org.mozilla.javascript.tools.debugger.downloaded.TreeTableModel;
  
 /**
  * @version 1.2 10/27/98
@@ -23,11 +25,11 @@ import javax.swing.tree.*;
  * @author Philip Milne
  */
 
-public abstract class AbstractTreeTableModel implements TreeTableModel {
+public abstract class AAbstractTreeTableModel implements TreeTableModel {
     protected Object root;     
     protected EventListenerList listenerList = new EventListenerList();
   
-    public AbstractTreeTableModel(Object root) {
+    public AAbstractTreeTableModel(Object root) {
         this.root = root; 
     }
 

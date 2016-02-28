@@ -18,8 +18,9 @@ import net.sf.memoranda.date.CalendarDate;
  *
  * @param <T> Generic Type
  */
-public class CustomField<T> implements CustomFieldInterface<T>{
-	
+
+public class CustomField<T> implements ICustomFieldInterface<T>{
+
 	private String fieldName;		
 	private int minValue;
 	private int maxValue;
