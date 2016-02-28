@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.sf.memoranda;
 
 import java.util.ArrayList;
@@ -24,3 +21,4 @@ public interface ITaskTemplate<T> {
 	public CustomField<T> getField(int index);
 	public void removeField(String fieldId);
 }
+

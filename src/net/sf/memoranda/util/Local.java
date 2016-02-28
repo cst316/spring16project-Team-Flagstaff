@@ -1,12 +1,11 @@
 package net.sf.memoranda.util;
 
+import java.io.*;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Locale;
-import java.io.*;
-
 import net.sf.memoranda.date.CalendarDate;
 
 /**

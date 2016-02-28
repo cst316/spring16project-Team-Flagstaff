@@ -850,6 +850,7 @@ public class AltHTMLWriter extends AbstractWriter {
      *         needs incrementing.
      */
     private boolean indentNext = false;
+    
     private boolean indentNeedsIncrementing(Element current, Element next) {
         if ((next.getParentElement() == current) && !inPre) {
             if (indentNext) {

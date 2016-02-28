@@ -9,11 +9,10 @@
 package net.sf.memoranda;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import java.util.Vector;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -142,8 +141,10 @@ public class History {
 
         public HistoryBackAction() {
             super(Local.getString("History back"), 
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/hist_back.png")));
-            putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, KeyEvent.ALT_MASK));
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.
+            		getResource("resources/icons/hist_back.png")));
+            putValue(Action.ACCELERATOR_KEY, KeyStroke.
+            		getKeyStroke(KeyEvent.VK_LEFT, KeyEvent.ALT_MASK));
             setEnabled(false);
         }
 
@@ -181,8 +182,10 @@ public class History {
 
         public HistoryForwardAction() {
             super(Local.getString("History forward"), 
-            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/hist_forward.png")));
-            putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.ALT_MASK));
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.
+            		getResource("resources/icons/hist_forward.png")));
+            putValue(Action.ACCELERATOR_KEY, KeyStroke.
+            		getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.ALT_MASK));
             setEnabled(false);
         }
 
@@ -206,7 +209,8 @@ public class History {
 
 		    putValue(
                     Action.SHORT_DESCRIPTION,
-                   // Local.getString("Forward to") + " " + ((HistoryItem) next).getDate().toString());
+                   // Local.getString("Forward to") + " " + 
+                    //((HistoryItem) next).getDate().toString());
 		   Local.getString("Forward to") + " " + sdf.format(date));
             }
             else {

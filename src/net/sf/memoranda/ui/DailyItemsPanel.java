@@ -50,6 +50,7 @@ import javax.swing.border.Border;
 
 /*$Id: DailyItemsPanel.java,v 1.22 2005/02/13 03:06:10 rawsushi Exp $*/
 public class DailyItemsPanel extends JPanel {
+
   BorderLayout borderLayout1 = new BorderLayout();
   JSplitPane splitPane = new JSplitPane();
   JPanel controlPanel = new JPanel(); /* Contains the calendar */
@@ -221,6 +222,7 @@ public class DailyItemsPanel extends JPanel {
     editorsPanel.add(eventsPanel, "EVENTS");
     editorsPanel.add(tasksPanel, "TASKS");
     editorsPanel.add(editorPanel, "NOTES");
+
     
     splitPane.add(mainPanel, JSplitPane.RIGHT);
     splitPane.add(controlPanel, JSplitPane.LEFT);
@@ -306,9 +308,7 @@ public class DailyItemsPanel extends JPanel {
     mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
     updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
     mainPanel.setBorder(null);
-  }
-
-   
+  }   
 
   void currentDateChanged(CalendarDate newdate) {
     Cursor cur = App.getFrame().getCursor();
@@ -316,6 +316,7 @@ public class DailyItemsPanel extends JPanel {
     if (!changedByHistory) {
       History.add(new HistoryItem(newdate, CurrentProject.get()));
     }
+
     if (!dateChangedByCalendar) {
       calendarIgnoreChange = true;
       calendar.set(newdate);

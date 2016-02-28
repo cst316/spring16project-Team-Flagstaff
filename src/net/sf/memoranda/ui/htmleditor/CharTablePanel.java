@@ -63,6 +63,7 @@ public class CharTablePanel extends JPanel {
         }
 
     }
+    
     private void jbInit() throws Exception {
         
 

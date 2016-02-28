@@ -15,6 +15,7 @@ public class PriorityQueue {
                 a = new Pair[size+2];
                 n = 0;
         }
+        
         public void insertar(Pair x){
                 ++n;
                 a[n]=x;

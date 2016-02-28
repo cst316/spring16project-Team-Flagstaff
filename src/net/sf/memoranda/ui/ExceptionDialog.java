@@ -1,9 +1,9 @@
 package net.sf.memoranda.ui;
 
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import javax.swing.*;
 import net.sf.memoranda.util.*;
 
 /*$Id: ExceptionDialog.java,v 1.2 2004/10/18 19:09:10 ivanrise Exp $*/

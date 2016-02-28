@@ -13,8 +13,10 @@ package net.sf.memoranda.ui.treetable;
  * you entered into with Sun.
  */
 
-import javax.swing.tree.*;
 import javax.swing.event.*;
+import javax.swing.tree.*;
+
+import org.mozilla.javascript.tools.debugger.downloaded.TreeTableModel;
  
 /**
  * @version 1.2 10/27/98
@@ -23,7 +25,7 @@ import javax.swing.event.*;
  * @author Philip Milne
  */
 
-public abstract class AAbstractTreeTableModel implements ITreeTableModel {
+public abstract class AAbstractTreeTableModel implements TreeTableModel {
     protected Object root;     
     protected EventListenerList listenerList = new EventListenerList();
   
@@ -178,7 +180,7 @@ public abstract class AAbstractTreeTableModel implements ITreeTableModel {
     *  and keyboard events in the Tree column to the underlying JTree. 
     */ 
     public boolean isCellEditable(Object node, int column) { 
-         return getColumnClass(column) == ITreeTableModel.class; 
+         return getColumnClass(column) == TreeTableModel.class; 
     }
 
     public void setValueAt(Object aValue, Object node, int column) {}

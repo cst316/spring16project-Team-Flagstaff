@@ -5,15 +5,19 @@
  * @author Alex V. Alishevskikh, alex@openmechanics.net Copyright (c) 2003
  *         Memoranda Team. http://memoranda.sf.net
  */
+
 package net.sf.memoranda;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Vector;
-import java.util.Map;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
+
+
 
 
 import net.sf.memoranda.date.CalendarDate;
@@ -176,8 +180,10 @@ public class EventsManager {
 			IEvent ev = (IEvent) reps.get(i);
 			
 			// --- ivanrise
-			// ignore this event if it's a 'only working days' event and today is weekend.
-			if(ev.getWorkingDays() && (date.getCalendar().get(Calendar.DAY_OF_WEEK) == 1 ||
+			// ignore this event if it's a 'only working days' event
+			//and today is weekend.
+			if(ev.getWorkingDays() && 
+					(date.getCalendar().get(Calendar.DAY_OF_WEEK) == 1 ||
 				date.getCalendar().get(Calendar.DAY_OF_WEEK) == 7)) continue;
 			// ---
 			/*

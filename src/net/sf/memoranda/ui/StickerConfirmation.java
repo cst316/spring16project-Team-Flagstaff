@@ -59,6 +59,7 @@ public class StickerConfirmation extends JDialog {
         public StickerConfirmation() {
                 this(null);
         }
+        
         void jbInit() throws Exception {
                 border1 =
                         BorderFactory.createCompoundBorder(

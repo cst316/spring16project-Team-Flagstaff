@@ -40,7 +40,8 @@ public class ProjectManager {
 //            _root.addNamespaceDeclaration("jnotes", NS_JNPROJECT);
 //            _root.appendChild(new Comment("This is JNotes 2 data file. Do not modify."));
             _doc = new Document(_root);
-            createProject("__default", Local.getString("Default project"), CalendarDate.today(), null);
+            createProject("__default", Local.getString("Default project"), 
+            		CalendarDate.today(), null);
         }
         else
             _root = _doc.getRootElement();
@@ -98,7 +99,9 @@ public class ProjectManager {
         return count;
     }
 
-    public static IProject createProject(String id, String title, CalendarDate startDate, CalendarDate endDate, String templateId) {
+    public static IProject createProject(String id, String title, 
+    		CalendarDate startDate, CalendarDate endDate, String templateId) {
+
         Element el = new Element("project");
         el.addAttribute(new Attribute("id", id));
         el.addAttribute(new Attribute("taskTemplateId", templateId));
@@ -111,12 +114,15 @@ public class ProjectManager {
         return prj;
     }
     
-    public static IProject createProject(String id, String title, CalendarDate startDate, CalendarDate endDate) {
+    public static IProject createProject(String id, String title, 
+    		CalendarDate startDate, CalendarDate endDate) {
         IProject prj = createProject(id, title, startDate, endDate, "__default");
         return prj;
     }
 
-    public static IProject createProject(String title, CalendarDate startDate, CalendarDate endDate, String templateId) {
+    public static IProject createProject(String title, CalendarDate startDate, 
+    		CalendarDate endDate, String templateId) {
+
         return createProject(Util.generateId(), title, startDate, endDate, templateId);
     }
     

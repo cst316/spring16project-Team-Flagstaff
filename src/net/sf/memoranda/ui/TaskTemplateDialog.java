@@ -57,15 +57,25 @@ public class TaskTemplateDialog<T> extends JDialog {
 	 * Declare class level variables to keep them accessible
 	 */
 	private GridBagLayout gridBagLayout;
+	
 	private JTextField txtFieldName, txtTemplateName;
+	
 	private JPanel pnlMain, pnlFields, pnlFieldInfo, pnlMidBtns, pnlButtons, pnlTemplateName;
+	
 	private JTable tblFields;
+	
 	private JLabel lblAddField, lblFieldName, lblType, lblMin, lblMax, lblMessage, lblTemplateName;
+	
 	private JComboBox<String> cbxType;
+	
 	private JCheckBox chkRequired;
+	
 	private GridBagConstraints gbc_pnlMain;
+	
 	private JSpinner spnMin, spnMax;
+	
 	private JButton btnAddField, btnEditField, btnRemoveField, btnOK, btnCancel;
+	
 	private JScrollPane scrollPane;
 
 	/**
