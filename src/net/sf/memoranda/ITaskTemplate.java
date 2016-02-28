@@ -22,7 +22,7 @@ public interface ITaskTemplate<T> {
 	 
 	public void addField(CustomField<T> field);
 	public CustomField<T> getField(int index);
-	public void removeField(String fieldId);
+	public void removeField(int index);
 	
 	public boolean saveTemplate(TaskTemplateImpl<T> taskTemp);
 }

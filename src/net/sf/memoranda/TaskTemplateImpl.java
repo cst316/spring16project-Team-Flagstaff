@@ -79,8 +79,15 @@ public class TaskTemplateImpl<T> implements ITaskTemplate<T> {
 		return field;
 	}
 	
+	/**
+	 * Removes the field at the specified index from
+	 * the list 
+	 * 
+	 * Changed the parameter type to int and did the same for the itnerface
+	 * bug fix 001 - ghgofort
+	 */
 	@Override
-	public void removeField(String index) {
+	public void removeField(int index) {
 		fields.remove(index);
 		
 	}

@@ -238,11 +238,22 @@ public class EventsManager {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Remove the Event from the Event list
+	 * 
+	 * @param date
+	 * @param hh
+	 * @param mm
+	 * 
+	 * Find-Bugs fix 004 User Story 76. changed if==null to if!=null 
+	 * 
+	 */
 	public static void removeEvent(CalendarDate date, int hh, int mm) {
 		Day d = getDay(date);
-		if (d == null)
+		if (d != null) {
 			d.getElement().removeChild(getEvent(date, hh, mm).getContent());
+		}
 	}
 
 	public static void removeEvent(IEvent ev) {

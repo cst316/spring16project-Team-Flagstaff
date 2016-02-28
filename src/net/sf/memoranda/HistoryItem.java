@@ -39,7 +39,7 @@ public class HistoryItem {
        return _project;
     }
     
-    public boolean equals(HistoryItem i) {
+    public boolean isEqual(HistoryItem i) {
        return i.getDate().equals(_date) && i.getProject().getID().equals(_project.getID());
     } 
 

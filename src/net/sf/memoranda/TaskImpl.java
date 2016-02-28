@@ -66,10 +66,19 @@ public class TaskImpl implements ITask, Comparable {
 
 	}
 
+	/**
+	 * Set the end date for the task
+	 * @param date
+	 * 
+	 * Find Bugs fix - Code Defect List id = 007
+	 * Code Review by ghgofort - 2/29/16
+	 */
 	public void setEndDate(CalendarDate date) {
-		if (date == null)
+		if (date == null) {
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		}else {
+			setAttr("endDate", date.toString());
+		}
 	}
 
 	public long getEffort() {

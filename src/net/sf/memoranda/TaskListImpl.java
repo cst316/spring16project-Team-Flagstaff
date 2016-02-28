@@ -59,8 +59,14 @@ public class TaskListImpl<T> implements ITaskList {
 		_root = new Element("tasklist");
 		_doc = new Document(_root);
 		_project = prj;
-		if(template==null)
-			_template = new TaskTemplateImpl<T>(template.getId(), template.getName());
+		/*
+		 * Find Bugs fix - Code Review Defect List ID=#006
+		 * Code Reviewed by ghgofort - 2/29/16
+		 * 
+		 * Null check removed since the class member will always be null due to 
+		 * this being a constructor and the class level object is declared as null.
+		 */
+		_template = new TaskTemplateImpl<T>(template.getId(), template.getName());
 	}
 
 	public IProject getProject() {
