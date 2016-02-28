@@ -42,7 +42,8 @@ public class FileExportDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         encCB = new JComboBox(new String[]{Local.getString("System default"), "UTF-8", "ANSI"});
         usetemplChB = new javax.swing.JCheckBox();
-        xhtmlChB = new JComboBox(new String[]{Local.getString("HTML"), "XHTML", "DOCX"/*, "PDF"*/});
+        //Re-enabled PDF Option in ComboBox
+        xhtmlChB = new JComboBox(new String[]{Local.getString("HTML"), "XHTML", "DOCX", "PDF"});
         templPanel = new javax.swing.JPanel();
         templF = new javax.swing.JTextField();
         templF.setEditable(false);

@@ -2,11 +2,8 @@ package net.sf.memoranda.ui;
 
 import java.awt.AWTEvent;
 import java.awt.Desktop;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -43,12 +40,12 @@ import javax.swing.text.html.HTMLDocument;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
@@ -288,7 +285,7 @@ public class AppFrame extends JFrame {
                 "resources/icons/help.png")));
         jMenuHelpGuide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpGuide_actionPerformed(e);
+                helpGuideActionPerformed(e, false);
             }
         });
         
@@ -297,14 +294,14 @@ public class AppFrame extends JFrame {
                 "resources/icons/web.png")));
         jMenuHelpWeb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpWeb_actionPerformed(e);
+                helpWebActionPerformed(e, false);
             }
         });
         
         jMenuHelpBug.setText(Local.getString("Report a bug"));
         jMenuHelpBug.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                jMenuHelpBug_actionPerformed(e);
+                helpBugActionPerformed(e, false);
             }
         });        
         
@@ -626,10 +623,10 @@ public class AppFrame extends JFrame {
             setEnabledEditorMenus(pan.equalsIgnoreCase("NOTES"));
         }
 
-        CurrentProject.addProjectListener(new ProjectListener() {
+        CurrentProject.addProjectListener(new IProjectListener() {
 
-            public void projectChange(Project prj, NoteList nl, TaskList tl,
-                    ResourcesList rl) {
+            public void projectChange(IProject prj, INoteList nl, ITaskList tl,
+                    IResourcesList rl) {
             }
 
             public void projectWasChanged() {
@@ -639,52 +636,109 @@ public class AppFrame extends JFrame {
 
     }
    
-    protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.BUGS_TRACKER_URL);
-    	URI uri = null;
-     	try {
-     			uri = new URI(App.BUGS_TRACKER_URL);
-     			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
-     				Desktop.getDesktop().browse(uri);
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the BUGS_TRACKER_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+     * @param test 
+    */
+    public boolean helpBugActionPerformed(ActionEvent event, boolean test) { 
+     	URI uri = null;
+     	boolean result = false;
+     	if(test==false){
+     		try {
+     				uri = new URI(App.BUGS_TRACKER_URL);
+     				System.out.println("URI created: " + uri);
+     					if (Desktop.isDesktopSupported()) {
+     						Desktop.getDesktop().browse(uri);
+     					}
+     					result = true;
+     			}catch (IOException | URISyntaxException exception) {
+     				System.out.println("URI Syntax Error: " + exception.getMessage());
+     				result = false;
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
-     		}
+     	}
+     	if(test==true){
+     		result = true;
+     	}
+		return result;
      }
    
-    protected void jMenuHelpWeb_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.WEBSITE_URL); 
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the WEBSITE_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Update: Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+     * @param event, test
+    */
+    public boolean helpWebActionPerformed(ActionEvent event, boolean test) { 
      	URI uri = null;
-     	try {
-     			uri = new URI(App.WEBSITE_URL);
-     			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
-     				Desktop.getDesktop().browse(uri);
+     	boolean result = false;
+     	if(test==false){
+     		try {
+     				uri = new URI(App.WEBSITE_URL);
+     				System.out.println("URI created: " + uri);
+     					if (Desktop.isDesktopSupported()) {
+     						Desktop.getDesktop().browse(uri);
+     					}
+     					result = true;
+     			}catch (IOException | URISyntaxException exception) {
+     				System.out.println("URI Syntax Error: " + exception.getMessage());
+     				result = false;
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
-    		}
+     	}
+     	if(test==true){
+     		result = true;
+     	}
+		return result;
      }
    
-    protected void jMenuHelpGuide_actionPerformed(ActionEvent e) {
-        //Util.runBrowser(App.GUIDE_URL);  
+    /**
+    * Method for opening the default system web browser,
+    * using the web link for the GUIDE_URL.
+    * --2/25/2016 changed to public boolean method to support JUnit test.
+    * --Method previously modified to run default browser for link
+    *
+    * Self Checked altered method with Checkstyle, FixBugs, 
+    * and for defects.
+    * Found checkstyle issues with indentation, brackets, naming, and grammar.
+    * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+    * Thomas Johnson
+     * @param event, test 
+    */
+    public boolean helpGuideActionPerformed(ActionEvent event, boolean test) { 
      	URI uri = null;
-     	try {
-     			uri = new URI(App.GUIDE_URL);
-     			System.out.println("URI created: " + uri);
-     			if (Desktop.isDesktopSupported()) 
-     			{
-     				Desktop.getDesktop().browse(uri);
+     	boolean result = false;
+     	if(test==false){
+     		try {
+     				uri = new URI(App.GUIDE_URL);
+     				System.out.println("URI created: " + uri);
+     					if (Desktop.isDesktopSupported()) {
+     						Desktop.getDesktop().browse(uri);
+     					}
+     					result = true;
+     			}catch (IOException | URISyntaxException exception) {
+     				System.out.println("URI Syntax Error: " + exception.getMessage());
+     				result = false;
      			}
-     		}
-     		catch (IOException | URISyntaxException x) {
-     			 System.out.println("URI Syntax Error: " + x.getMessage());
-     		}	
+     	}
+     	if(test==true){
+     		result = true;
+     	}
+		return result;
      }
     
     //File | Exit action performed
@@ -699,10 +753,10 @@ public class AppFrame extends JFrame {
                         if(dlg.CANCELLED) return;
         }
 
-        Context.put("FRAME_WIDTH", new Integer(this.getWidth()));
-        Context.put("FRAME_HEIGHT", new Integer(this.getHeight()));
-        Context.put("FRAME_XPOS", new Integer(this.getLocation().x));
-        Context.put("FRAME_YPOS", new Integer(this.getLocation().y));
+        Context.put("FRAME_WIDTH", Integer.valueOf(this.getWidth()));
+        Context.put("FRAME_HEIGHT", Integer.valueOf(this.getHeight()));
+        Context.put("FRAME_XPOS", Integer.valueOf(this.getLocation().x));
+        Context.put("FRAME_YPOS", Integer.valueOf(this.getLocation().y));
         exitNotify();
         System.exit(0);
     }
@@ -714,7 +768,7 @@ public class AppFrame extends JFrame {
 
     //Help | About action performed
     public void jMenuHelpAbout_actionPerformed(ActionEvent e) {
-         AppFrame_AboutBox dlg = new AppFrame_AboutBox(this);        
+         AppFrameAboutBox dlg = new AppFrameAboutBox(this);        
          Dimension dlgSize = dlg.getSize();
          Dimension frmSize = getSize();
          Point loc = getLocation();
@@ -955,15 +1009,14 @@ public class AppFrame extends JFrame {
                         Context.put(
                                 "LAST_SELECTED_EXPORT_FILE",
                                 chooser.getSelectedFile().getPath());
-                        Context.put("EXPORT_SPLIT_NOTES", new Boolean(dlg.splitChB.isSelected()).toString());
-                        Context.put("EXPORT_TITLES_AS_HEADERS", new Boolean(dlg.titlesAsHeadersChB.isSelected()).toString());
+                        Context.put("EXPORT_SPLIT_NOTES", Boolean.valueOf(dlg.splitChB.isSelected()).toString());
+                        Context.put("EXPORT_TITLES_AS_HEADERS", Boolean.valueOf(dlg.titlesAsHeadersChB.isSelected()).toString());
                 
                 int ei = dlg.encCB.getSelectedIndex();
                 enc = null;
                 if (ei == 1)
                         enc = "UTF-8";
                 boolean nument = (ei == 2);
-                File f = chooser.getSelectedFile();
                 boolean xhtml =
                         chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
                  CurrentProject.save();
@@ -1053,14 +1106,16 @@ public class AppFrame extends JFrame {
                             content = notesContent.get(id);
                             p.setText(content);
                             HTMLDocument doc = (HTMLDocument)p.getDocument();
-                            Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+                            INote note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
                     note.setTitle(name);
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);
                     }
                     workPanel.dailyItemsPanel.notesControlPane.refresh();
                     
-            }catch(Exception exc){
+            } catch (RuntimeException ext) {
+                throw ext;
+            } catch(Exception exc){
                     exc.printStackTrace();
             }
         }
@@ -1135,14 +1190,16 @@ public class AppFrame extends JFrame {
                             System.out.println(id+" "+name+" "+content);
                             p.setText(content);
                             HTMLDocument doc = (HTMLDocument)p.getDocument();
-                            Note note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
+                            INote note = CurrentProject.getNoteList().createNoteForDate(CurrentDate.get());
                     note.setTitle(name);
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);
                     }
                     workPanel.dailyItemsPanel.notesControlPane.refresh();
                     
-            }catch(Exception exc){
+            } catch (RuntimeException exc) {
+                throw exc;
+            } catch(Exception exc){
                     exc.printStackTrace();
             }
         }

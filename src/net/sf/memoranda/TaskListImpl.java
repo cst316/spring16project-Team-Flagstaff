@@ -31,9 +31,9 @@ import nu.xom.Nodes;
  * 
  */
 /*$Id: TaskListImpl.java,v 1.14 2006/07/03 11:59:19 alexeya Exp $*/
-public class TaskListImpl<T> implements TaskList {
+public class TaskListImpl<T> implements ITaskList {
 
-	private Project _project = null;
+	private IProject _project = null;
 	private Document _doc = null;
 	private Element _root = null;
 	private TaskTemplateImpl<?> _template = null;
@@ -47,7 +47,7 @@ public class TaskListImpl<T> implements TaskList {
 	/**
 	 * Constructor for TaskListImpl.
 	 */
-	public TaskListImpl(Document doc, Project prj, TaskTemplateImpl<T> template) {
+	public TaskListImpl(Document doc, IProject prj, TaskTemplateImpl<T> template) {
 		_doc = doc;
 		_root = _doc.getRootElement();
 		_project = prj;
@@ -55,7 +55,7 @@ public class TaskListImpl<T> implements TaskList {
 		_template = new TaskTemplateImpl<T>(template.getId(), template.getName());
 	}
 
-	public TaskListImpl(Project prj, TaskTemplateImpl<T> template) {            
+	public TaskListImpl(IProject prj, TaskTemplateImpl<T> template) {            
 		_root = new Element("tasklist");
 		_doc = new Document(_root);
 		_project = prj;
@@ -63,7 +63,7 @@ public class TaskListImpl<T> implements TaskList {
 			_template = new TaskTemplateImpl<T>(template.getId(), template.getName());
 	}
 
-	public Project getProject() {
+	public IProject getProject() {
 		return _project;
 	}
 
@@ -109,7 +109,8 @@ public class TaskListImpl<T> implements TaskList {
 		return filterActiveTasks(allTasks,date);
 	}
 
-	public <T> Task createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
+	@SuppressWarnings("hiding")
+	public <T> ITask createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
 			String description, String parentTaskId,ArrayList<CustomField<T>> customFields) {
 		System.out.println("***[Debug] TaskListImpl.createTask() reached...");
 		Element el = new Element("task");
@@ -133,8 +134,15 @@ public class TaskListImpl<T> implements TaskList {
 
 		for(CustomField<T> item:customFields){
 			Element cfld = new Element("customField");
-			cfld.addAttribute(new Attribute("minimumValue", String.valueOf(item.getMin())));
+			//cfld.addAttribute(new Attribute("minimumValue", String.valueOf(item.getMin())));
+			cfld.appendChild(item.dataToString());
+			cfld.addAttribute(new Attribute("dataType", item.getDataType()));
+			cfld.addAttribute(new Attribute("fieldName", item.getFieldName()));
+			el.appendChild(cfld);
 		}
+		
+		
+		
 
 		if (parentTaskId == null) {
 			_root.appendChild(el);
@@ -154,7 +162,7 @@ public class TaskListImpl<T> implements TaskList {
 	 * @see net.sf.memoranda.TaskList#removeTask(import net.sf.memoranda.Task)
 	 */
 
-	public void removeTask(Task task) {
+	public void removeTask(ITask task) {
 		String parentTaskId = task.getParentId();
 		if (parentTaskId == null) {
 			_root.removeChild(task.getContent());            
@@ -177,7 +185,7 @@ public class TaskListImpl<T> implements TaskList {
 		}
 	}
 
-	public Task getTask(String id) {
+	public ITask getTask(String id) {
 		Util.debug("Getting task " + id);          
 		return new TaskImpl(getTaskElement(id), this);          
 	}
@@ -201,7 +209,7 @@ public class TaskListImpl<T> implements TaskList {
 	}
 
 	/**
-	 * @see net.sf.memoranda.TaskList#getXMLContent()
+	 * @see net.sf.memoranda.ITaskList#getXMLContent()
 	 */	 
 	public Document getXMLContent() {
 		return _doc;
@@ -214,12 +222,12 @@ public class TaskListImpl<T> implements TaskList {
 	 * @param t
 	 * @return
 	 */
-	public long calculateTotalEffortFromSubTasks(Task t) {
+	public long calculateTotalEffortFromSubTasks(ITask t) {
 		long totalEffort = 0;
 		if (hasSubTasks(t.getID())) {
 			Collection subTasks = getAllSubTasks(t.getID());
 			for (Iterator iter = subTasks.iterator(); iter.hasNext();) {
-				Task e = (Task) iter.next();
+				ITask e = (ITask) iter.next();
 				totalEffort = totalEffort + calculateTotalEffortFromSubTasks(e);
 			}
 			t.setEffort(totalEffort);
@@ -236,12 +244,12 @@ public class TaskListImpl<T> implements TaskList {
 	 * @param t
 	 * @return
 	 */
-	public CalendarDate getEarliestStartDateFromSubTasks(Task t) {
+	public CalendarDate getEarliestStartDateFromSubTasks(ITask t) {
 		CalendarDate d = t.getStartDate();
 		if (hasSubTasks(t.getID())) {
 			Collection subTasks = getAllSubTasks(t.getID());
 			for (Iterator iter = subTasks.iterator(); iter.hasNext();) {
-				Task e = (Task) iter.next();
+				ITask e = (ITask) iter.next();
 				CalendarDate dd = getEarliestStartDateFromSubTasks(e);
 				if(dd.before(d)) {
 					d = dd;
@@ -261,12 +269,12 @@ public class TaskListImpl<T> implements TaskList {
 	 * @param t
 	 * @return
 	 */
-	public CalendarDate getLatestEndDateFromSubTasks(Task t) {
+	public CalendarDate getLatestEndDateFromSubTasks(ITask t) {
 		CalendarDate d = t.getEndDate();
 		if (hasSubTasks(t.getID())) {
 			Collection subTasks = getAllSubTasks(t.getID());
 			for (Iterator iter = subTasks.iterator(); iter.hasNext();) {
-				Task e = (Task) iter.next();
+				ITask e = (ITask) iter.next();
 				CalendarDate dd = getLatestEndDateFromSubTasks(e);
 				if(dd.after(d)) {
 					d = dd;
@@ -286,7 +294,7 @@ public class TaskListImpl<T> implements TaskList {
 	 * @param t
 	 * @return long[] of size 2. First long is expended effort in milliseconds, 2nd long is total effort in milliseconds
 	 */
-	public long[] calculateCompletionFromSubTasks(Task t) {
+	public long[] calculateCompletionFromSubTasks(ITask t) {
 		//        Util.debug("Task " + t.getText());
 
 		long[] res = new long[2];
@@ -295,7 +303,7 @@ public class TaskListImpl<T> implements TaskList {
 		if (hasSubTasks(t.getID())) {
 			Collection subTasks = getAllSubTasks(t.getID());
 			for (Iterator iter = subTasks.iterator(); iter.hasNext();) {
-				Task e = (Task) iter.next();
+				ITask e = (ITask) iter.next();
 				long[] subTaskCompletion = calculateCompletionFromSubTasks(e);
 				expendedEffort = expendedEffort + subTaskCompletion[0];
 				totalEffort = totalEffort + subTaskCompletion[1];
@@ -330,8 +338,8 @@ public class TaskListImpl<T> implements TaskList {
 	 */
 	@SuppressWarnings({ "hiding", "unchecked" })
 	@Override
-	public <T> TaskTemplate<T> getTaskTemplate() {
-		return (TaskTemplate<T>) _template;
+	public <T> ITaskTemplate<T> getTaskTemplate() {
+		return (ITaskTemplate<T>) _template;
 	}
 	/**
 	 * Sets the TaskTemplate that is used for the current TaskList
@@ -339,7 +347,7 @@ public class TaskListImpl<T> implements TaskList {
 	 */
 	@SuppressWarnings("hiding")
 	@Override
-	public <T> void setTaskTemplate(TaskTemplate<T> taskTemplate) {
+	public <T> void setTaskTemplate(ITaskTemplate<T> taskTemplate) {
 		_template = (TaskTemplateImpl<?>) taskTemplate;		
 	}    
 
@@ -373,7 +381,7 @@ public class TaskListImpl<T> implements TaskList {
 		Vector v = new Vector();
 
 		for (int i = 0; i < tasks.size(); i++) {
-			Task t = new TaskImpl(tasks.get(i), this);
+			ITask t = new TaskImpl(tasks.get(i), this);
 			v.add(t);
 		}
 		return v;
@@ -382,7 +390,7 @@ public class TaskListImpl<T> implements TaskList {
 	private Collection filterActiveTasks(Collection tasks,CalendarDate date) {
 		Vector v = new Vector();
 		for (Iterator iter = tasks.iterator(); iter.hasNext();) {
-			Task t = (Task) iter.next();
+			ITask t = (ITask) iter.next();
 			if(isActive(t,date)) {
 				v.add(t);
 			}
@@ -390,8 +398,8 @@ public class TaskListImpl<T> implements TaskList {
 		return v;
 	}
 
-	private boolean isActive(Task t,CalendarDate date) {
-		if ((t.getStatus(date) == Task.ACTIVE) || (t.getStatus(date) == Task.DEADLINE) || (t.getStatus(date) == Task.FAILED)) {
+	private boolean isActive(ITask t,CalendarDate date) {
+		if ((t.getStatus(date) == ITask.ACTIVE) || (t.getStatus(date) == ITask.DEADLINE) || (t.getStatus(date) == ITask.FAILED)) {
 			return true;
 		}
 		else {

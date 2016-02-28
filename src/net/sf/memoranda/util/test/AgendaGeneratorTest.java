@@ -11,10 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.Assert;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.Task;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.ITask;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.AgendaGenerator;
 import net.sf.memoranda.util.Local;
@@ -77,11 +74,11 @@ public class AgendaGeneratorTest {
 	 */
 	@Test
 	public void testGetPriorityString() {
-		int testNormal = Task.PRIORITY_NORMAL;
-		int testLowest = Task.PRIORITY_LOWEST;
-		int testLow = Task.PRIORITY_LOW;
-		int testHigh = Task.PRIORITY_HIGH;
-		int testHighest = Task.PRIORITY_HIGH;
+		int testNormal = ITask.PRIORITY_NORMAL;
+		int testLowest = ITask.PRIORITY_LOWEST;
+		int testLow = ITask.PRIORITY_LOW;
+		int testHigh = ITask.PRIORITY_HIGH;
+		int testHighest = ITask.PRIORITY_HIGH;
 		
 		assertTrue(AgendaGenerator.getPriorityString(testNormal).equals("<font color=\"green\">"+Local.getString("Normal")+"</font>") );
 		assertTrue(AgendaGenerator.getPriorityString(testLowest).equals("<font color=\"#666699\">"+Local.getString("Lowest")+"</font>") );

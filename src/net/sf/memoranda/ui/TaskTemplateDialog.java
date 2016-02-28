@@ -1,49 +1,45 @@
 /**
- * 
+ * Dialog for creating and editing task templates for individualized fields on tasks
+ * @author ggoforth - Galen Goforth
  */
 package net.sf.memoranda.ui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import net.sf.memoranda.CustomField;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.TaskTemplateImpl;
 import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
-
-import java.awt.Toolkit;
-import java.awt.Dimension;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.TableView.TableRow;
-import javax.swing.BorderFactory;
-import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
 
 /**
  * @author ggoforth
@@ -54,12 +50,13 @@ public class TaskTemplateDialog<T> extends JDialog {
 
 	private ArrayList<CustomField<T>> _customFields=null;
 	private String _id;
+	private boolean _isEdit;
+	private String _title;
 
 	/**
 	 * Declare class level variables to keep them accessible
 	 */
 	private GridBagLayout gridBagLayout;
-	private Border border1, border2, border3, border4, border5;
 	private JTextField txtFieldName, txtTemplateName;
 	private JPanel pnlMain, pnlFields, pnlFieldInfo, pnlMidBtns, pnlButtons, pnlTemplateName;
 	private JTable tblFields;
@@ -68,7 +65,8 @@ public class TaskTemplateDialog<T> extends JDialog {
 	private JCheckBox chkRequired;
 	private GridBagConstraints gbc_pnlMain;
 	private JSpinner spnMin, spnMax;
-	private JButton btnAddField, btnEditField, btnRemoveField;
+	private JButton btnAddField, btnEditField, btnRemoveField, btnOK, btnCancel;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Constructor for the TaskTemplateDialog class
@@ -81,10 +79,13 @@ public class TaskTemplateDialog<T> extends JDialog {
 		
 		// Initialize list of CustomField objects in order to avoid null reference
 		_customFields = new ArrayList<CustomField<T>>();
+		_id=id;
+		_title = title;
+		
 		setPreferredSize(new Dimension(600, 400));
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setTitle("Edit Template For Project Tasks");
+		setTitle(title);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TaskTemplateDialog.class.getResource("/net/sf/memoranda/ui/resources/icons/task_active.png")));
 		// Setup the GUI components 
 		try{
@@ -95,20 +96,15 @@ public class TaskTemplateDialog<T> extends JDialog {
 		}
 		if(id.compareTo("")!=0)
 		{
-			getExistingTemplate(id);
+			_isEdit = getExistingTemplate(id);
+		}
+		else{
+			_isEdit=false;
 		}
 		setFields();
 	}
 
 	void initDialog() throws Exception{
-		border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		border2 = BorderFactory.createEtchedBorder(Color.white, 
-				new Color(142, 142, 142));
-		border3 = new TitledBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0), 
-				Local.getString("Task Template"), TitledBorder.LEFT, TitledBorder.BELOW_TOP);
-		border4 = BorderFactory.createEmptyBorder(0, 5, 0, 5);
-		border5 = BorderFactory.createEtchedBorder(Color.white, 
-				new Color(178, 178, 178));
 
 		gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -131,7 +127,7 @@ public class TaskTemplateDialog<T> extends JDialog {
 		pnlMain.add(pnlFields);
 		pnlFields.setLayout(null);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 245, 287);
 		pnlFields.add(scrollPane);
 
@@ -231,8 +227,14 @@ public class TaskTemplateDialog<T> extends JDialog {
 
 		pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pnlButtons.setBounds(339, 327, 245, 33);
-		JButton btnCancel = new JButton("Cancel");
-		JButton btnOK = new JButton("Save");
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closeWindow();
+			}
+		});
+		btnOK = new JButton("Save");
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				storeTemplate();
@@ -257,20 +259,10 @@ public class TaskTemplateDialog<T> extends JDialog {
 		lblTemplateName.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblTemplateName.setBounds(0, -1, 129, 20);
 		pnlTemplateName.add(lblTemplateName);
-		/*topPanel.setBorder(new EmptyBorder(new Insets(0, 5, 0, 5)));
-	        topPanel.setBackground(Color.WHITE);        
-	        header.setFont(new java.awt.Font("Dialog", 0, 20));
-	        header.setForeground(new Color(0, 0, 124));
-	        header.setText(Local.getString("Task Template"));
-	        //header.setHorizontalAlignment(SwingConstants.CENTER);
+	}
 
-		 * Needs to be changed to a new icon for Task Template
-
-	        header.setIcon(new ImageIcon(net.sf.memoranda.ui.ProjectDialog.class.getResource(
-	            "resources/icons/project48.png")));
-	        topPanel.add(header);*/
-
-
+	protected void closeWindow() {
+		this.dispose();
 	}
 
 	/**
@@ -279,13 +271,55 @@ public class TaskTemplateDialog<T> extends JDialog {
 	 * value for the new project dialog.
 	 * Added by: Galen Goforth on 2/5/16
 	 */
+	@SuppressWarnings("unchecked")
 	protected void storeTemplate() {
 		boolean isValid = validateSave();
 		if(isValid){
-			TaskTemplateManager.createTemplate(txtTemplateName.getText(),_customFields);
-			CurrentStorage.get().storeTemplateManger();
+			if(_isEdit){
+				ArrayList<String> useTemplate = checkUse();
+				if(useTemplate.size()>0){
+					String strMessage = "This template is currently used by active projects:\n";
+					for(String s:useTemplate){
+						strMessage+=(s+"\n");
+					}
+					strMessage+="This could delete content in these templates or have other unwanted effects.\n \nAre you sure you want to save?";
+					if(JOptionPane.showConfirmDialog(this.getContentPane(), strMessage, 
+							"Template Still in Use", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION){
+						return;
+					}
+				}
+				_title = txtTemplateName.getText();
+				TaskTemplateImpl<T> tti = new TaskTemplateImpl<T>(_id,_title);
+				tti.setFields(_customFields);
+				TaskTemplateManager.saveTemplateChanges(tti);
+			}
+			else{
+				ArrayList<String> lstTitles = TaskTemplateManager.getTemplateTitles();
+				for(String s: lstTitles){
+					if(txtTemplateName.getText().compareTo(s)==0){
+						String strMessage = "The Template Title is already in use. Choose a different title to save.";
+						lblTemplateName.setForeground(Color.RED);
+						JOptionPane.showMessageDialog(this.getContentPane(), strMessage, "Error saving template", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}
+				TaskTemplateManager.createTemplate(txtTemplateName.getText(),_customFields);
+				CurrentStorage.get().storeTemplateManger();
+			}
 			this.dispose();
 		}
+	}
+
+	private ArrayList<String> checkUse() {
+		@SuppressWarnings("unchecked")
+		Vector<IProject> projects = ProjectManager.getActiveProjects();
+		ArrayList<String> useTemplate = new ArrayList<String>();
+		for(int x=0;x<projects.size();x++){
+			if(projects.get(x).getTaskTemplate().compareTo(_id)==0){
+				useTemplate.add(projects.get(x).getTitle());
+			}
+		}
+		return useTemplate;
 	}
 
 	/**
@@ -293,11 +327,15 @@ public class TaskTemplateDialog<T> extends JDialog {
 	 * @param e -> Event context
 	 */
 	protected void btnRemoveField_actionPerformed(ActionEvent e) {
-		((DefaultTableModel)tblFields.getModel()).removeRow(tblFields.getSelectedRow());
+		int x = tblFields.getSelectedRow();
+		if(x!=-1){
+			_customFields.remove(x);
+			setFields();
+		}
 	}
 
 	protected void btnEditField_actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
 
 	}
 	/**
@@ -317,9 +355,25 @@ public class TaskTemplateDialog<T> extends JDialog {
 			}
 			_customFields.add(field);
 		}
+		if(!txtTemplateName.getText().isEmpty()) {
+			_title = txtTemplateName.getText();
+		}
 		setFields();
+		clearControls();
 	}
 	
+	/**
+	 * Clears the controls after a new field is added or a previous field is edited
+	 */
+	private void clearControls() {
+		txtFieldName.setText("");
+		chkRequired.setSelected(false);
+		spnMin.setValue(0);
+		spnMax.setValue(0);
+		cbxType.setSelectedIndex(0);
+		lblTemplateName.setForeground(Color.black);
+	}
+
 	/**
 	 * Gets an existing TaskTemplate for editing and populates the GUI controls from template values
 	 * @param id
@@ -330,9 +384,10 @@ public class TaskTemplateDialog<T> extends JDialog {
 			@SuppressWarnings("unchecked")
 			TaskTemplateImpl<T> ttl = (TaskTemplateImpl<T>)TaskTemplateManager.getTemplate(id);
 			_customFields = ttl.getFields();
-			loadedSuccessfully = false;
-		}
-		catch(Exception ex){
+			_title = ttl.getName();
+			
+			loadedSuccessfully = true;
+		}catch(Exception ex){
 			Util.debug("***[Debug] There was an error loading the selected Template:\n"
 					+ ex.getLocalizedMessage().toString());
 		}
@@ -344,23 +399,24 @@ public class TaskTemplateDialog<T> extends JDialog {
 	 */
 	private void setFields() {
 		ArrayList<String> titles = new ArrayList<String>();
-		if(_customFields!=null){
-			
-		}
-		for(CustomField<T> c:_customFields){
-			titles.add(c.getFieldName());
-		}
 		Object[] columnNames = {"Field Title", "Data Type", "Required?"};
 		DefaultTableModel model = new DefaultTableModel(new Object[0][0], columnNames);
-		for (CustomField<T> fld : _customFields) {
-			Object[] o = new Object[3];
-			o[0] = fld.getFieldName();
-			o[1] = fld.getDataType();
-			o[2] = fld.isRequired();
-			model.addRow(o);
+		if(_customFields!=null){			
+			for(CustomField<T> c:_customFields){
+				titles.add(c.getFieldName());
+			}
+			for (CustomField<T> fld : _customFields) {
+				Object[] o = new Object[3];
+				o[0] = fld.getFieldName();
+				o[1] = fld.getDataType();
+				o[2] = fld.isRequired();
+				model.addRow(o);
+			}
 		}
 		tblFields.setModel(model);
-
+		if(!_title.isEmpty()){
+			txtTemplateName.setText(_title);
+		}
 	}
 	/**
 	 * Helper method for field validation before adding a new field to the template

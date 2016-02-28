@@ -1,9 +1,8 @@
-/**
- * 
- */
 package net.sf.memoranda.ui.test;
 
 import static org.junit.Assert.*;
+
+import java.io.File;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,12 +10,30 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.sf.memoranda.ui.ExportSticker;
+
 /**
- * @author Kevin
- *
+ * JUnit Test Class to test the functionality of the previously
+ * modified methods in ExportSticker.java to export Annotation
+ * Stickers as Text and HTMl file types.
+ * 
+ * Self Checked altered method with Checkstyle, FixBugs, 
+ * and for defects.
+ * Found Checkstyle issues with order, naming, and grammar.
+ * No Fixbugs found, issues resolved and re-checked - 2/25/2016
+ * Checked for code smells, none found.
+ * 
+ * @author Thomas Johnson
+ * Created 2/25/2016
  */
 public class ExportStickerTest {
 
+	File testFile = new File(System.getProperty("user.dir") + "testFile");
+	String testSticker = "<div style=" 
+			+ " \"background-color:#FFFF00;font-size:20;color:#0;\" " 
+				+ ">February 20, 2016 9:59 PM<br></div>";
+	ExportSticker testExportSticker = ExportSticker.getInstance();
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -46,131 +63,21 @@ public class ExportStickerTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.ui.test.ExportSticker#ExportSticker(java.lang.String)}.
+	 * Test method for {@link net.sf.memoranda.ui.
+	 * ExportSticker#exportText(java.io.File, java.lang.String)}.
 	 */
 	@Test
-	public void testExportSticker() {
-		//fail("Not yet implemented");
+	public final void testExportText() {
+		assertTrue(testExportSticker.exportText(testFile, testSticker, true));
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.ui.test.ExportSticker#remove1(java.lang.String)}.
+	 * Test method for {@link net.sf.memoranda.ui.
+	 * ExportSticker#exportHtml(java.io.File, java.lang.String)}.
 	 */
 	@Test
-	public void testRemove1() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link net.sf.memoranda.ui.test.ExportSticker#export(java.lang.String)}.
-	 */
-	@Test
-	public void testExport() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link net.sf.memoranda.ui.test.ExportSticker#getSticker()}.
-	 */
-	@Test
-	public void testGetSticker() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#Object()}.
-	 */
-	@Test
-	public void testObject() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#getClass()}.
-	 */
-	@Test
-	public void testGetClass() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#hashCode()}.
-	 */
-	@Test
-	public void testHashCode() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#equals(java.lang.Object)}.
-	 */
-	@Test
-	public void testEquals() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#clone()}.
-	 */
-	@Test
-	public void testClone() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#notify()}.
-	 */
-	@Test
-	public void testNotify() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#notifyAll()}.
-	 */
-	@Test
-	public void testNotifyAll() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait(long)}.
-	 */
-	@Test
-	public void testWaitLong() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait(long, int)}.
-	 */
-	@Test
-	public void testWaitLongInt() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait()}.
-	 */
-	@Test
-	public void testWait() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#finalize()}.
-	 */
-	@Test
-	public void testFinalize() {
-		//fail("Not yet implemented");
+	public final void testExportHtml() {
+		assertTrue(testExportSticker.exportHtml(testFile, testSticker, true));
 	}
 
 }

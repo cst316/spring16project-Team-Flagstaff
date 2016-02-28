@@ -9,7 +9,6 @@
 package net.sf.memoranda;
 
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.Vector;
 
 import java.util.ArrayList;
@@ -27,29 +26,19 @@ import nu.xom.Node;
  */
 /*$Id: TaskImpl.java,v 1.15 2005/12/01 08:12:26 alexeya Exp $*/
 @SuppressWarnings("rawtypes")
-public class TaskImpl implements Task, Comparable {
+public class TaskImpl implements ITask, Comparable {
 
 	private Element _element = null;
-	private TaskList _tl = null;
+	private ITaskList _tl = null;
 
-	private Hashtable customFieldLookup = new Hashtable();
 	/**
 	 * Constructor for DefaultTask.
 	 */
-	public TaskImpl(Element taskElement, TaskList tl) {
+	public TaskImpl(Element taskElement, ITaskList tl) {
 		_element = taskElement;
 		_tl = tl;
-		buildTree(_element);
 	}
 
-	private void buildTree(Element parent) {
-		Elements els = parent.getChildElements("customField");
-		for (int i = 0; i < els.size(); i++) {
-			Element el = els.get(i);
-			customFieldLookup.put(el.getAttribute("index").getValue(), el);
-		}
-
-	}
 
 	public Element getContent() {
 		return _element;
@@ -67,10 +56,10 @@ public class TaskImpl implements Task, Comparable {
 		String ed = _element.getAttribute("endDate").getValue();
 		if (ed != "")
 			return new CalendarDate(_element.getAttribute("endDate").getValue());
-		Task parent = this.getParentTask();
+		ITask parent = this.getParentTask();
 		if (parent != null)
 			return parent.getEndDate();
-		Project pr = this._tl.getProject();
+		IProject pr = this._tl.getProject();
 		if (pr.getEndDate() != null)
 			return pr.getEndDate();
 		return this.getStartDate();
@@ -107,7 +96,7 @@ public class TaskImpl implements Task, Comparable {
 	/* 
 	 * @see net.sf.memoranda.Task#getParentTask()
 	 */
-	public Task getParentTask() {
+	public ITask getParentTask() {
 		Node parentNode = _element.getParent();
 		if (parentNode instanceof Element) {
 			Element parent = (Element) parentNode;
@@ -118,7 +107,7 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	public String getParentId() {
-		Task parent = this.getParentTask();
+		ITask parent = this.getParentTask();
 		if (parent != null)
 			return parent.getID();
 		return null;
@@ -148,31 +137,31 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	/**s
-	 * @see net.sf.memoranda.Task#getStatus()
+	 * @see net.sf.memoranda.ITask#getStatus()
 	 */
 	public int getStatus(CalendarDate date) {
 		CalendarDate start = getStartDate();
 		CalendarDate end = getEndDate();
 		if (isFrozen())
-			return Task.FROZEN;
+			return ITask.FROZEN;
 		if (isCompleted())
-			return Task.COMPLETED;
+			return ITask.COMPLETED;
 
 		if (date.inPeriod(start, end)) {
 			if (date.equals(end))
-				return Task.DEADLINE;
+				return ITask.DEADLINE;
 			else
-				return Task.ACTIVE;
+				return ITask.ACTIVE;
 		}
 		else if(date.before(start)) {
-			return Task.SCHEDULED;
+			return ITask.SCHEDULED;
 		}
 
 		if(start.after(end)) {
-			return Task.ACTIVE;
+			return ITask.ACTIVE;
 		}
 
-		return Task.FAILED;
+		return ITask.FAILED;
 	}
 	/**
 	 * Method isDependsCompleted.
@@ -199,14 +188,14 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#getID()
+	 * @see net.sf.memoranda.ITask#getID()
 	 */
 	public String getID() {
 		return _element.getAttribute("id").getValue();
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#getText()
+	 * @see net.sf.memoranda.ITask#getText()
 	 */
 	public String getText() {
 		return _element.getFirstChildElement("text").getValue();
@@ -217,7 +206,7 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#setText()
+	 * @see net.sf.memoranda.ITask#setText()
 	 */
 	public void setText(String s) {
 		_element.getFirstChildElement("text").removeChildren();
@@ -225,14 +214,14 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#freeze()
+	 * @see net.sf.memoranda.ITask#freeze()
 	 */
 	public void freeze() {
 		setAttr("frozen", "yes");
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#unfreeze()
+	 * @see net.sf.memoranda.ITask#unfreeze()
 	 */
 	public void unfreeze() {
 		if (this.isFrozen())
@@ -240,31 +229,31 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#getDependsFrom()
+	 * @see net.sf.memoranda.ITask#getDependsFrom()
 	 */
 	public Collection getDependsFrom() {
 		Vector v = new Vector();
 		Elements deps = _element.getChildElements("dependsFrom");
 		for (int i = 0; i < deps.size(); i++) {
 			String id = deps.get(i).getAttribute("idRef").getValue();
-			Task t = _tl.getTask(id);
+			ITask t = _tl.getTask(id);
 			if (t != null)
 				v.add(t);
 		}
 		return v;
 	}
 	/**
-	 * @see net.sf.memoranda.Task#addDependsFrom(net.sf.memoranda.Task)
+	 * @see net.sf.memoranda.ITask#addDependsFrom(net.sf.memoranda.ITask)
 	 */
-	public void addDependsFrom(Task task) {
+	public void addDependsFrom(ITask task) {
 		Element dep = new Element("dependsFrom");
 		dep.addAttribute(new Attribute("idRef", task.getID()));
 		_element.appendChild(dep);
 	}
 	/**
-	 * @see net.sf.memoranda.Task#removeDependsFrom(net.sf.memoranda.Task)
+	 * @see net.sf.memoranda.ITask#removeDependsFrom(net.sf.memoranda.ITask)
 	 */
-	public void removeDependsFrom(Task task) {
+	public void removeDependsFrom(ITask task) {
 		Elements deps = _element.getChildElements("dependsFrom");
 		for (int i = 0; i < deps.size(); i++) {
 			String id = deps.get(i).getAttribute("idRef").getValue();
@@ -275,29 +264,29 @@ public class TaskImpl implements Task, Comparable {
 		}
 	}
 	/**
-	 * @see net.sf.memoranda.Task#getProgress()
+	 * @see net.sf.memoranda.ITask#getProgress()
 	 */
 	public int getProgress() {
 		return new Integer(_element.getAttribute("progress").getValue()).intValue();
 	}
 	/**
-	 * @see net.sf.memoranda.Task#setProgress(int)
+	 * @see net.sf.memoranda.ITask#setProgress(int)
 	 */
 	public void setProgress(int p) {
 		if ((p >= 0) && (p <= 100))
 			setAttr("progress", new Integer(p).toString());
 	}
 	/**
-	 * @see net.sf.memoranda.Task#getPriority()
+	 * @see net.sf.memoranda.ITask#getPriority()
 	 */
 	public int getPriority() {
 		Attribute pa = _element.getAttribute("priority");
 		if (pa == null)
-			return Task.PRIORITY_NORMAL;
+			return ITask.PRIORITY_NORMAL;
 		return new Integer(pa.getValue()).intValue();
 	}
 	/**
-	 * @see net.sf.memoranda.Task#setPriority(int)
+	 * @see net.sf.memoranda.ITask#setPriority(int)
 	 */
 	public void setPriority(int p) {
 		setAttr("priority", String.valueOf(p));
@@ -331,7 +320,7 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	/**
-	 * @see net.sf.memoranda.Task#getRate()
+	 * @see net.sf.memoranda.ITask#getRate()
 	 */
 
 	public long getRate() {
@@ -352,7 +341,7 @@ public class TaskImpl implements Task, Comparable {
 	 */
 
 	public int compareTo(Object o) {
-		Task task = (Task) o;
+		ITask task = (ITask) o;
 		if(getRate() > task.getRate())
 			return 1;
 		else if(getRate() < task.getRate())
@@ -362,12 +351,13 @@ public class TaskImpl implements Task, Comparable {
 	}
 
 	public boolean equals(Object o) {
-		return ((o instanceof Task) && (((Task)o).getID().equals(this.getID())));
+		return ((o instanceof ITask) && (((ITask)o).getID().equals(this.getID())));
 	}
 
 	/* 
 	 * @see net.sf.memoranda.Task#getSubTasks()
 	 */
+	@SuppressWarnings("unchecked")
 	public Collection getSubTasks() {
 		Elements subTasks = _element.getChildElements("task");
 		return convertToTaskObjects(subTasks);
@@ -376,7 +366,7 @@ public class TaskImpl implements Task, Comparable {
 	private Collection convertToTaskObjects(Elements tasks) {
 		Vector v = new Vector();
 		for (int i = 0; i < tasks.size(); i++) {
-			Task t = new TaskImpl(tasks.get(i), _tl);
+			ITask t = new TaskImpl(tasks.get(i), _tl);
 			v.add(t);
 		}
 		return v;
@@ -385,7 +375,7 @@ public class TaskImpl implements Task, Comparable {
 	/* 
 	 * @see net.sf.memoranda.Task#getSubTask(java.lang.String)
 	 */
-	public Task getSubTask(String id) {
+	public ITask getSubTask(String id) {
 		Elements subTasks = _element.getChildElements("task");
 		for (int i = 0; i < subTasks.size(); i++) {
 			if (subTasks.get(i).getAttribute("id").getValue().equals(id))
@@ -456,7 +446,7 @@ public class TaskImpl implements Task, Comparable {
 	 * @param String index 
 	 * 
 	 */
-	public <T extends Comparable<T>> void setField(CustomField<T> field, String name) {
+	public <T> void setField(CustomField<T> field, String name) {
 		Elements cfs = _element.getChildElements("customField");
 		if(cfs!=null){
 			for (int i = 0; i < cfs.size(); i++) {
@@ -487,7 +477,7 @@ public class TaskImpl implements Task, Comparable {
 	 * Adds a new CustomField<T> object to the task
 	 * @param CustomField<T>
 	 */
-	public <T extends Comparable<T>> void addField(CustomField<T> field) {
+	public <T> void addField(CustomField<T> field) {
 		Element e = new Element("customField");
 		Element fn = new Element("name");
 		fn.appendChild(field.getFieldName());
@@ -511,7 +501,7 @@ public class TaskImpl implements Task, Comparable {
 	 * than the parameter index by subtracting 1 from each.
 	 * @param String index of the field to be removed
 	 */
-	public <T extends Comparable<T>> void removeField(String name) {
+	public <T> void removeField(String name) {
 		Elements cfs = _element.getChildElements("customField");
 		int count = getFieldCount();
 		if(cfs!=null){
@@ -533,18 +523,26 @@ public class TaskImpl implements Task, Comparable {
 	 * Adds a new CustomField<T> object to the task
 	 * @return ArrayList<CustomField<T>>
 	 */
-	public <T extends Comparable<T>> ArrayList<CustomField<T>> getFieldArray() {
-		ArrayList<CustomField<T>> cFields = null;
+	@SuppressWarnings("unchecked")
+	public <T> ArrayList<CustomField<T>> getFieldArray() {
+		ArrayList<CustomField<T>> cFields = new ArrayList<CustomField<T>>();
 		Elements ele = _element.getChildElements("customField");
-		
-		return null;
+		for(int x=0;x<ele.size();x++){
+			CustomField<T> cf = new CustomField<T>(
+				(ele.get(x).getAttributeValue("fieldName")==null)?"":ele.get(x).getAttributeValue("fieldName"), // String -> field name
+				false, 																							// boolean -> Required field
+				(ele.get(x).getValue()==null)?(T)"":(T)ele.get(x).getValue()									// T -> field data
+			);
+			cFields.add(cf);
+		}
+		return cFields;
 	}
 
 	/**
 	 * Returns a count of the custom fields in this task object
 	 * @return int 
 	 */
-	public <T extends Comparable<T>> int getFieldCount() {
+	public <T> int getFieldCount() {
 		return _element.getChildElements("customField").size();
 	}
 

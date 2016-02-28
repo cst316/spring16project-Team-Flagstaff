@@ -29,26 +29,32 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
+import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.Project;
-import net.sf.memoranda.ProjectListener;
+import net.sf.memoranda.INoteList;
+import net.sf.memoranda.IProject;
+import net.sf.memoranda.IProjectListener;
 import net.sf.memoranda.ProjectManager;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
+import net.sf.memoranda.IResourcesList;
+import net.sf.memoranda.ITaskList;
+import net.sf.memoranda.TaskTemplateManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.date.IDateListener;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.*;
 
 /*$Id: ProjectsPanel.java,v 1.14 2005/01/04 09:59:22 pbielen Exp $*/
-public class ProjectsPanel extends JPanel implements ExpandablePanel {
+public class ProjectsPanel extends JPanel implements IExpandablePanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	BorderLayout borderLayout1 = new BorderLayout();
 	JToolBar topBar = new JToolBar();
 	JPanel toolbarPanel = new JPanel();
@@ -237,19 +243,19 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		projectsPPMenu.add(ppProperties);
 		projectsPPMenu.addSeparator();
 		projectsPPMenu.add(ppShowActiveOnlyChB);
-		CurrentProject.addProjectListener(new ProjectListener() {
+		CurrentProject.addProjectListener(new IProjectListener() {
 			public void projectChange(
-				Project p,
-				NoteList nl,
-				TaskList tl,
-				ResourcesList rl) {
+				IProject p,
+				INoteList nl,
+				ITaskList tl,
+				IResourcesList rl) {
 			}
 			public void projectWasChanged() {
 				curProjectTitle.setText(CurrentProject.get().getTitle());
 				prjTablePanel.updateUI();
 			}
 		});
-		CurrentDate.addDateListener(new DateListener() {
+		CurrentDate.addDateListener(new IDateListener() {
 			public void dateChange(CalendarDate d) {
 				prjTablePanel.updateUI();
 			}
@@ -350,7 +356,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 
 	void ppDeleteProject_actionPerformed(ActionEvent e) {
 		String msg;
-		Project prj;
+		IProject prj;
 		Vector toremove = new Vector();
 		if (prjTablePanel.projectsTable.getSelectedRows().length > 1)
 			msg =
@@ -384,7 +390,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 			i < prjTablePanel.projectsTable.getSelectedRows().length;
 			i++) {
 			prj =
-				(net.sf.memoranda.Project) prjTablePanel
+				(net.sf.memoranda.IProject) prjTablePanel
 					.projectsTable
 					.getModel()
 					.getValueAt(
@@ -402,7 +408,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 	}
 
 	void ppProperties_actionPerformed(ActionEvent e) {
-		Project prj = prjTablePanel.getSelectedProject();
+		IProject prj = prjTablePanel.getSelectedProject();
 		ProjectDialog dlg =
 			new ProjectDialog(null, Local.getString("Project properties"));
 		Dimension dlgSize = dlg.getSize();
@@ -417,11 +423,17 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		if (prj.getEndDate() != null) {
 			dlg.edButton.setEnabled(true);
             dlg.endDateChB.setForeground(Color.BLACK);
-
 			dlg.endDateChB.setSelected(true);
 			dlg.endDate.setEnabled(true);
 			dlg.endDate.getModel().setValue(
 				prj.getEndDate().getCalendar().getTime());
+		}
+		String taskTemplate = TaskTemplateManager.getTemplate(prj.getTaskTemplate()).getName();
+		ListModel<String> model = dlg.lstTemplateList.getModel();
+		for(int x=0;x<model.getSize();x++){
+			if(model.getElementAt(x).compareTo(taskTemplate)==0){
+				dlg.lstTemplateList.setSelectedIndex(x);
+			}
 		}
 		/*if (prj.getStatus() == Project.FROZEN)
 			dlg.freezeChB.setSelected(true);*/
@@ -437,6 +449,14 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 				new CalendarDate((Date) dlg.endDate.getModel().getValue()));
 		else
 			prj.setEndDate(null);
+		/*
+		 * Set the value for the task template to the 
+		 * value of the selected list item before saving
+		 */
+		String selectedVal = (String) dlg.lstTemplateList.getSelectedValue();
+		String selectedId = TaskTemplateManager.getIdFromName(selectedVal);
+		prj.setTaskTemplate(selectedId);
+
 		prjTablePanel.updateUI();
 		/*
 		 * if (dlg.freezeChB.isSelected()) prj.freeze(); else

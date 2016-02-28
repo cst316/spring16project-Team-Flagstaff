@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.FileStorage;
-import net.sf.memoranda.util.Storage;
+import net.sf.memoranda.util.IStorage;
 
 /**
  * @author Kevin Bryant - kjbryan1
@@ -24,7 +24,7 @@ import net.sf.memoranda.util.Storage;
  */
 public class CurrentStorageTest {
 	
-	private static Storage testStorage;
+	private static IStorage testStorage;
 	private static Vector testActionListeners;
 
 	/**
@@ -63,18 +63,18 @@ public class CurrentStorageTest {
 	 */
 	@Test
 	public void testGet() {
-		Storage temp = new FileStorage();
+		IStorage temp = new FileStorage();
 		assertTrue( temp == testStorage);
 		assertTrue( testStorage == CurrentStorage.get() );
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.util.test.CurrentStorage#set(net.sf.memoranda.util.test.Storage)}.
+	 * Test method for {@link net.sf.memoranda.util.test.CurrentStorage#set(net.sf.memoranda.util.test.IStorage)}.
 	 * Sets 'Storage' type
 	 */
 	@Test
 	public void testSet() {
-		Storage temp = testStorage;
+		IStorage temp = testStorage;
 		CurrentStorage.set(temp);
 		assertTrue(temp == testStorage);
 	}

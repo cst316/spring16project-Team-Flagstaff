@@ -1,6 +1,22 @@
 package net.sf.memoranda.ui;
 
+import net.sf.memoranda.CurrentNote;
+import net.sf.memoranda.History;
+import net.sf.memoranda.INote;
+import net.sf.memoranda.date.CurrentDate;
+import net.sf.memoranda.ui.htmleditor.HTMLEditor;
+import net.sf.memoranda.util.Configuration;
+import net.sf.memoranda.util.Context;
+import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.DOCXFileExport;
+import net.sf.memoranda.util.HTMLFileExport;
+import net.sf.memoranda.util.HTMLFileImport;
+import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.PDFFileExport;
+import net.sf.memoranda.util.Util;
+
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -8,11 +24,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
-import javax.swing.filechooser.FileFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 
 import javax.swing.AbstractAction;
@@ -27,602 +43,650 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
 
-import net.sf.memoranda.History;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.CurrentNote;
-import net.sf.memoranda.ui.htmleditor.HTMLEditor;
-import net.sf.memoranda.util.Util;
-import net.sf.memoranda.util.Context;
-import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.HTMLFileExport;
-import net.sf.memoranda.util.HTMLFileImport;
-import net.sf.memoranda.util.Local;
-import net.sf.memoranda.util.Configuration;
-
 /*$Id: EditorPanel.java,v 1.21 2006/06/28 22:58:31 alexeya Exp $*/
 public class EditorPanel extends JPanel {
-	BorderLayout borderLayout1 = new BorderLayout();
+  BorderLayout borderLayout1 = new BorderLayout();
 
-	JPanel jPanel1 = new JPanel();
+  JPanel panel = new JPanel();
 
-	public HTMLEditor editor = null;
+  public HTMLEditor editor = null;
 
-	JButton importB = new JButton();
+  JButton importB = new JButton();
 
-	JButton exportB = new JButton();
+  JButton exportB = new JButton();
 
-	JButton redoB = new JButton();
+  JButton redoB = new JButton();
 
-	JButton copyB = new JButton();
+  JButton copyB = new JButton();
 
-	JButton historyBackB = new JButton();
+  JButton historyBackB = new JButton();
 
-	JToolBar editorToolBar = new JToolBar();
+  JToolBar editorToolBar = new JToolBar();
 
-	JButton pasteB = new JButton();
+  JButton pasteB = new JButton();
 
-	JButton historyForwardB = new JButton();
+  JButton historyForwardB = new JButton();
 
-	JButton insDateB = new JButton();
+  JButton insDateB = new JButton();
 
-	JButton insTimeB = new JButton();
+  JButton insTimeB = new JButton();
 
-	// JButton printB = new JButton();
-	JButton undoB = new JButton();
+  // JButton printB = new JButton();
+  JButton undoB = new JButton();
 
-	JButton cutB = new JButton();
+  JButton cutB = new JButton();
 
-	BorderLayout borderLayout2 = new BorderLayout();
+  BorderLayout borderLayout2 = new BorderLayout();
 
-	JToolBar titleBar = new JToolBar();
+  JToolBar titleBar = new JToolBar();
 
-	JLabel titleLabel = new JLabel();
+  JLabel titleLabel = new JLabel();
 
-	public JTextField titleField = new JTextField();
+  public JTextField titleField = new JTextField();
 
-	JButton newB = new JButton();
+  JButton newB = new JButton();
 
-	JButton previewB = new JButton();
+  JButton previewB = new JButton();
 
-	DailyItemsPanel parentPanel = null;
+  DailyItemsPanel parentPanel = null;
 
-	public EditorPanel(DailyItemsPanel parent) {
-		try {
-			parentPanel = parent;
-			jbInit();
-		} catch (Exception ex) {
-			new ExceptionDialog(ex);
-		}
+  /**
+   * Method EditorPanel.
+   * 
+   * @param parent
+   */
+  public EditorPanel(DailyItemsPanel parent) {
+    try {
+      parentPanel = parent;
+      jbInit();
+    } catch (Exception ex) {
+      new ExceptionDialog(ex);
+    }
+  }
+
+  public Action insertTimeAction = new AbstractAction(Local
+      .getString("Insert current time"), new ImageIcon(
+      net.sf.memoranda.ui.AppFrame.class
+          .getResource("resources/icons/time.png"))) {
+    public void actionPerformed(ActionEvent event) {
+      insTimeB_actionPerformed(event);
+    }
+  };
+
+  public Action insertDateAction = new AbstractAction(Local
+      .getString("Insert current date"), new ImageIcon(
+      net.sf.memoranda.ui.AppFrame.class
+          .getResource("resources/icons/date.png"))) {
+    public void actionPerformed(ActionEvent event) {
+      insDateB_actionPerformed(event);
+    }
+  };
+
+  /*
+   * public Action printAction = new AbstractAction( "Print", new
+   * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/print.png"))) {
+   * public void actionPerformed(ActionEvent e) { doPrint(); } };
+   */
+
+  public Action newAction = new AbstractAction(Local.getString("New note"),
+      new ImageIcon(net.sf.memoranda.ui.AppFrame.class
+          .getResource("resources/icons/filenew.png"))) {
+    public void actionPerformed(ActionEvent event) {
+      newB_actionPerformed(event);
+    }
+  };
+
+  public Action exportAction = new AbstractAction(Local
+      .getString("Export note to file"), new ImageIcon(
+      net.sf.memoranda.ui.AppFrame.class
+          .getResource("resources/icons/export.png"))) {
+    public void actionPerformed(ActionEvent event) {
+      exportB_actionPerformed(event);
+    }
+  };
+
+  public Action importAction = new AbstractAction(Local
+      .getString("Insert file"), new ImageIcon(
+      net.sf.memoranda.ui.AppFrame.class
+          .getResource("resources/icons/import.png"))) {
+    public void actionPerformed(ActionEvent event) {
+      importB_actionPerformed(event);
+    }
+  };
+
+  public Action previewAction = new AbstractAction(Local
+      .getString("Preview note in browser"), new ImageIcon(
+      net.sf.memoranda.ui.AppFrame.class
+          .getResource("resources/icons/preview.png"))) {
+    public void actionPerformed(ActionEvent event) {
+      try {
+		previewB_actionPerformed(event);
+	} catch (IOException exception) {
+		exception.printStackTrace();
 	}
+    }
+  };
 
-	public Action insertTimeAction = new AbstractAction(Local
-			.getString("Insert current time"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/time.png"))) {
-		public void actionPerformed(ActionEvent e) {
-			insTimeB_actionPerformed(e);
-		}
-	};
+  void jbInit() throws Exception {
 
-	public Action insertDateAction = new AbstractAction(Local
-			.getString("Insert current date"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/date.png"))) {
-		public void actionPerformed(ActionEvent e) {
-			insDateB_actionPerformed(e);
-		}
-	};
+    if (!Configuration.get("DISABLE_L10N").equals("yes")) {
+      net.sf.memoranda.ui.htmleditor.util.Local.setMessages(Local.getMessages());
+    }
 
-	/*
-	 * public Action printAction = new AbstractAction( "Print", new
-	 * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/print.png"))) {
-	 * public void actionPerformed(ActionEvent e) { doPrint(); } };
-	 */
+    editor = new HTMLEditor();
 
-	public Action newAction = new AbstractAction(Local.getString("New note"),
-			new ImageIcon(net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/filenew.png"))) {
-		public void actionPerformed(ActionEvent e) {
-			newB_actionPerformed(e);
-		}
-	};
+    this.setLayout(borderLayout1);
 
-	public Action exportAction = new AbstractAction(Local
-			.getString("Export note to file"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/export.png"))) {
-		public void actionPerformed(ActionEvent e) {
-			exportB_actionPerformed(e);
-		}
-	};
+    newB.setAction(newAction);
+    newB.setMaximumSize(new Dimension(24, 24));
+    newB.setMinimumSize(new Dimension(24, 24));
+    newB.setPreferredSize(new Dimension(24, 24));
+    newB.setRequestFocusEnabled(false);
+    newB.setToolTipText(Local.getString("New note"));
+    newB.setBorderPainted(false);
+    newB.setFocusable(false);
+    newB.setText("");
 
-	public Action importAction = new AbstractAction(Local
-			.getString("Insert file"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/import.png"))) {
-		public void actionPerformed(ActionEvent e) {
-			importB_actionPerformed(e);
-		}
-	};
+    importB.setAction(importAction);
+    importB.setBorderPainted(false);
+    importB.setFocusable(false);
+    importB.setPreferredSize(new Dimension(24, 24));
+    importB.setRequestFocusEnabled(false);
+    importB.setToolTipText(Local.getString("Insert file"));
+    importB.setMinimumSize(new Dimension(24, 24));
+    importB.setMaximumSize(new Dimension(24, 24));
+    importB.setText("");
 
-	public Action previewAction = new AbstractAction(Local
-			.getString("Preview note in browser"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/preview.png"))) {
-		public void actionPerformed(ActionEvent e) {
-			previewB_actionPerformed(e);
-		}
-	};
+    exportB.setAction(exportAction);
+    exportB.setMaximumSize(new Dimension(24, 24));
+    exportB.setMinimumSize(new Dimension(24, 24));
+    exportB.setPreferredSize(new Dimension(24, 24));
+    exportB.setRequestFocusEnabled(false);
+    exportB.setToolTipText(Local.getString("Export note to file"));
+    exportB.setBorderPainted(false);
+    exportB.setFocusable(false);
+    exportB.setText("");
 
-	void jbInit() throws Exception {
+    redoB.setAction(editor.redoAction);
+    redoB.setMaximumSize(new Dimension(24, 24));
+    redoB.setMinimumSize(new Dimension(24, 24));
+    redoB.setPreferredSize(new Dimension(24, 24));
+    redoB.setRequestFocusEnabled(false);
+    redoB.setToolTipText(Local.getString("Redo"));
+    redoB.setBorderPainted(false);
+    redoB.setFocusable(false);
+    redoB.setText("");
 
-		if (!Configuration.get("DISABLE_L10N").equals("yes"))
-			net.sf.memoranda.ui.htmleditor.util.Local.setMessages(Local
-					.getMessages());
+    copyB.setAction(editor.copyAction);
+    copyB.setMaximumSize(new Dimension(24, 24));
+    copyB.setMinimumSize(new Dimension(24, 24));
+    copyB.setPreferredSize(new Dimension(24, 24));
+    copyB.setRequestFocusEnabled(false);
+    copyB.setToolTipText(Local.getString("Copy"));
+    copyB.setBorderPainted(false);
+    copyB.setFocusable(false);
+    copyB.setText("");
 
-		editor = new HTMLEditor();
+    historyBackB.setAction(History.historyBackAction);
+    historyBackB.setMaximumSize(new Dimension(24, 24));
+    historyBackB.setMinimumSize(new Dimension(24, 24));
+    historyBackB.setPreferredSize(new Dimension(24, 24));
+    historyBackB.setRequestFocusEnabled(false);
+    historyBackB.setToolTipText(Local.getString("History back"));
+    historyBackB.setBorderPainted(false);
+    historyBackB.setFocusable(false);
+    historyBackB.setText("");
 
-		this.setLayout(borderLayout1);
+    historyForwardB.setAction(History.historyForwardAction);
+    historyForwardB.setBorderPainted(false);
+    historyForwardB.setFocusable(false);
+    historyForwardB.setPreferredSize(new Dimension(24, 24));
+    historyForwardB.setRequestFocusEnabled(false);
+    historyForwardB.setToolTipText(Local.getString("History forward"));
+    historyForwardB.setMinimumSize(new Dimension(24, 24));
+    historyForwardB.setMaximumSize(new Dimension(24, 24));
+    historyForwardB.setText("");
 
-		newB.setAction(newAction);
-		newB.setMaximumSize(new Dimension(24, 24));
-		newB.setMinimumSize(new Dimension(24, 24));
-		newB.setPreferredSize(new Dimension(24, 24));
-		newB.setRequestFocusEnabled(false);
-		newB.setToolTipText(Local.getString("New note"));
-		newB.setBorderPainted(false);
-		newB.setFocusable(false);
-		newB.setText("");
+    pasteB.setAction(editor.pasteAction);
+    pasteB.setMaximumSize(new Dimension(24, 24));
+    pasteB.setMinimumSize(new Dimension(24, 24));
+    pasteB.setPreferredSize(new Dimension(24, 24));
+    pasteB.setRequestFocusEnabled(false);
+    pasteB.setToolTipText(Local.getString("paste"));
+    pasteB.setBorderPainted(false);
+    pasteB.setFocusable(false);
+    pasteB.setText("");
 
-		importB.setAction(importAction);
-		importB.setBorderPainted(false);
-		importB.setFocusable(false);
-		importB.setPreferredSize(new Dimension(24, 24));
-		importB.setRequestFocusEnabled(false);
-		importB.setToolTipText(Local.getString("Insert file"));
-		importB.setMinimumSize(new Dimension(24, 24));
-		importB.setMaximumSize(new Dimension(24, 24));
-		importB.setText("");
+    insDateB.setAction(insertDateAction);
+    insDateB.setBorderPainted(false);
+    insDateB.setFocusable(false);
+    insDateB.setPreferredSize(new Dimension(24, 24));
+    insDateB.setRequestFocusEnabled(false);
+    insDateB.setToolTipText(Local.getString("Insert current date"));
+    insDateB.setMinimumSize(new Dimension(24, 24));
+    insDateB.setMaximumSize(new Dimension(24, 24));
+    insDateB.setText("");
 
-		exportB.setAction(exportAction);
-		exportB.setMaximumSize(new Dimension(24, 24));
-		exportB.setMinimumSize(new Dimension(24, 24));
-		exportB.setPreferredSize(new Dimension(24, 24));
-		exportB.setRequestFocusEnabled(false);
-		exportB.setToolTipText(Local.getString("Export note to file"));
-		exportB.setBorderPainted(false);
-		exportB.setFocusable(false);
-		exportB.setText("");
+    insTimeB.setAction(insertTimeAction);
+    insTimeB.setMaximumSize(new Dimension(24, 24));
+    insTimeB.setMinimumSize(new Dimension(24, 24));
+    insTimeB.setPreferredSize(new Dimension(24, 24));
+    insTimeB.setRequestFocusEnabled(false);
+    insTimeB.setToolTipText(Local.getString("Insert current time"));
+    insTimeB.setBorderPainted(false);
+    insTimeB.setFocusable(false);
+    insTimeB.setText("");
 
-		redoB.setAction(editor.redoAction);
-		redoB.setMaximumSize(new Dimension(24, 24));
-		redoB.setMinimumSize(new Dimension(24, 24));
-		redoB.setPreferredSize(new Dimension(24, 24));
-		redoB.setRequestFocusEnabled(false);
-		redoB.setToolTipText(Local.getString("Redo"));
-		redoB.setBorderPainted(false);
-		redoB.setFocusable(false);
-		redoB.setText("");
+    undoB.setAction(editor.undoAction);
+    undoB.setBorderPainted(false);
+    undoB.setFocusable(false);
+    undoB.setPreferredSize(new Dimension(24, 24));
+    undoB.setRequestFocusEnabled(false);
+    undoB.setToolTipText(Local.getString("Undo"));
+    undoB.setMinimumSize(new Dimension(24, 24));
+    undoB.setMaximumSize(new Dimension(24, 24));
+    undoB.setText("");
 
-		copyB.setAction(editor.copyAction);
-		copyB.setMaximumSize(new Dimension(24, 24));
-		copyB.setMinimumSize(new Dimension(24, 24));
-		copyB.setPreferredSize(new Dimension(24, 24));
-		copyB.setRequestFocusEnabled(false);
-		copyB.setToolTipText(Local.getString("Copy"));
-		copyB.setBorderPainted(false);
-		copyB.setFocusable(false);
-		copyB.setText("");
+    cutB.setAction(editor.cutAction);
+    cutB.setBorderPainted(false);
+    cutB.setFocusable(false);
+    cutB.setPreferredSize(new Dimension(24, 24));
+    cutB.setRequestFocusEnabled(false);
+    cutB.setToolTipText(Local.getString("Cut"));
+    cutB.setMinimumSize(new Dimension(24, 24));
+    cutB.setMaximumSize(new Dimension(24, 24));
+    cutB.setText("");
 
-		historyBackB.setAction(History.historyBackAction);
-		historyBackB.setMaximumSize(new Dimension(24, 24));
-		historyBackB.setMinimumSize(new Dimension(24, 24));
-		historyBackB.setPreferredSize(new Dimension(24, 24));
-		historyBackB.setRequestFocusEnabled(false);
-		historyBackB.setToolTipText(Local.getString("History back"));
-		historyBackB.setBorderPainted(false);
-		historyBackB.setFocusable(false);
-		historyBackB.setText("");
+    previewB.setAction(previewAction);
+    previewB.setBorderPainted(false);
+    previewB.setFocusable(false);
+    previewB.setPreferredSize(new Dimension(24, 24));
+    previewB.setRequestFocusEnabled(false);
+    previewB.setToolTipText(previewAction.getValue(Action.NAME).toString());
+    previewB.setMinimumSize(new Dimension(24, 24));
+    previewB.setMaximumSize(new Dimension(24, 24));
+    previewB.setText("");
 
-		historyForwardB.setAction(History.historyForwardAction);
-		historyForwardB.setBorderPainted(false);
-		historyForwardB.setFocusable(false);
-		historyForwardB.setPreferredSize(new Dimension(24, 24));
-		historyForwardB.setRequestFocusEnabled(false);
-		historyForwardB.setToolTipText(Local.getString("History forward"));
-		historyForwardB.setMinimumSize(new Dimension(24, 24));
-		historyForwardB.setMaximumSize(new Dimension(24, 24));
-		historyForwardB.setText("");
+    /*
+     * printB.setAction(printAction); printB.setMaximumSize(new
+     * Dimension(24, 24)); printB.setMinimumSize(new Dimension(24, 24));
+     * printB.setPreferredSize(new Dimension(24, 24));
+     * printB.setRequestFocusEnabled(false);
+     * printB.setToolTipText(Local.getString("Print"));
+     * printB.setBorderPainted(false); printB.setFocusable(false);
+     * printB.setText("");
+     */
 
-		pasteB.setAction(editor.pasteAction);
-		pasteB.setMaximumSize(new Dimension(24, 24));
-		pasteB.setMinimumSize(new Dimension(24, 24));
-		pasteB.setPreferredSize(new Dimension(24, 24));
-		pasteB.setRequestFocusEnabled(false);
-		pasteB.setToolTipText(Local.getString("paste"));
-		pasteB.setBorderPainted(false);
-		pasteB.setFocusable(false);
-		pasteB.setText("");
+    panel.setLayout(borderLayout2);
+    titleLabel.setFont(new java.awt.Font("Dialog", 1, 10));
+    titleLabel.setText(Local.getString("Title") + "  ");
+    titleField.setText("");
+    editorToolBar.setFloatable(false);
+    editor.editToolbar.setFloatable(false);
+    titleBar.setFloatable(false);
+    this.add(panel, BorderLayout.CENTER);
+    editorToolBar.add(newB, null);
+    editorToolBar.addSeparator(new Dimension(8, 24));
+    editorToolBar.add(historyBackB, null);
+    editorToolBar.add(historyForwardB, null);
+    editorToolBar.addSeparator(new Dimension(8, 24));
+    editorToolBar.add(undoB, null);
+    editorToolBar.add(redoB, null);
+    editorToolBar.addSeparator(new Dimension(8, 24));
+    editorToolBar.add(cutB, null);
+    editorToolBar.add(copyB, null);
+    editorToolBar.add(pasteB, null);
+    editorToolBar.addSeparator(new Dimension(8, 24));
+    editorToolBar.add(insDateB, null);
+    editorToolBar.add(insTimeB, null);
+    editorToolBar.addSeparator(new Dimension(8, 24));
+    editorToolBar.add(importB, null);
+    editorToolBar.add(exportB, null);
+    editorToolBar.addSeparator(new Dimension(8, 24));
+    editorToolBar.add(previewB, null);
+    // editorToolBar.add(printB, null);
+    panel.add(editorToolBar, BorderLayout.NORTH);
+    panel.add(editor, BorderLayout.CENTER);
+    this.add(titleBar, BorderLayout.NORTH);
+    titleBar.add(titleLabel, null);
+    titleBar.add(titleField, null);
+    initCSS();
+    editor.editor.setAntiAlias(
+        Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes")
+    );
+    // editor.editor.enableInputMethods(false);
+    // editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
+    titleField.addKeyListener(new KeyListener() {
 
-		insDateB.setAction(insertDateAction);
-		insDateB.setBorderPainted(false);
-		insDateB.setFocusable(false);
-		insDateB.setPreferredSize(new Dimension(24, 24));
-		insDateB.setRequestFocusEnabled(false);
-		insDateB.setToolTipText(Local.getString("Insert current date"));
-		insDateB.setMinimumSize(new Dimension(24, 24));
-		insDateB.setMaximumSize(new Dimension(24, 24));
-		insDateB.setText("");
+      public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+          editor.editor.requestFocus();
+        }
+      }
 
-		insTimeB.setAction(insertTimeAction);
-		insTimeB.setMaximumSize(new Dimension(24, 24));
-		insTimeB.setMinimumSize(new Dimension(24, 24));
-		insTimeB.setPreferredSize(new Dimension(24, 24));
-		insTimeB.setRequestFocusEnabled(false);
-		insTimeB.setToolTipText(Local.getString("Insert current time"));
-		insTimeB.setBorderPainted(false);
-		insTimeB.setFocusable(false);
-		insTimeB.setText("");
+      public void keyReleased(KeyEvent arg0) {
+      }
 
-		undoB.setAction(editor.undoAction);
-		undoB.setBorderPainted(false);
-		undoB.setFocusable(false);
-		undoB.setPreferredSize(new Dimension(24, 24));
-		undoB.setRequestFocusEnabled(false);
-		undoB.setToolTipText(Local.getString("Undo"));
-		undoB.setMinimumSize(new Dimension(24, 24));
-		undoB.setMaximumSize(new Dimension(24, 24));
-		undoB.setText("");
+      public void keyTyped(KeyEvent arg0) {
+      }
+    });
+  }
 
-		cutB.setAction(editor.cutAction);
-		cutB.setBorderPainted(false);
-		cutB.setFocusable(false);
-		cutB.setPreferredSize(new Dimension(24, 24));
-		cutB.setRequestFocusEnabled(false);
-		cutB.setToolTipText(Local.getString("Cut"));
-		cutB.setMinimumSize(new Dimension(24, 24));
-		cutB.setMaximumSize(new Dimension(24, 24));
-		cutB.setText("");
+  /**
+   * Method initCSS.
+   * @throws IOException 
+   */
+  public void initCSS() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(
+        net.sf.memoranda.ui.EditorPanel.class
+            .getResourceAsStream("resources/css/default.css")));
+    String css = "";
+    try {
+      String line = br.readLine();
+      while (line != null) {
+        css = css + line + "\n";
+        line = br.readLine();
+      }
+      br.close();
+    } catch (IOException ex) {
+      br.close();
+      ex.printStackTrace();
+    } 
+    String normalFont = Configuration.get("NORMAL_FONT").toString();
+    String headerFont = Configuration.get("HEADER_FONT").toString();
+    String monoFont = Configuration.get("MONO_FONT").toString();
+    String baseFont = Configuration.get("BASE_FONT_SIZE").toString();
+    
+    css = css.replaceAll("%NORMAL_FONT%", normalFont.length() > 0 ? "\"" + normalFont + "\""
+        : "serif");
+    css = css.replaceAll("%HEADER_FONT%", headerFont.length() > 0 ? "\"" + headerFont + "\""
+        : "sans-serif");
+    css = css.replaceAll("%MONO_FONT%", monoFont.length() > 0 ? "\"" + monoFont + "\""
+        : "monospaced");
+    css = css.replaceAll("%BASE_FONT_SIZE%",
+        baseFont.length() > 0 ? baseFont : "16");    
+    editor.setStyleSheet(new StringReader(css));
+    String usercss = (String) Configuration.get("USER_CSS");
+    if (usercss.length() > 0) {
+      try {
+        // DEBUG
+        System.out.println("***[DEBUG] User css used: " + usercss);
+        editor.setStyleSheet(new InputStreamReader(
+            new java.io.FileInputStream(usercss)));
+      } catch (Exception ex) {
+        System.out.println("***[DEBUG] Failed to open: " + usercss);
+        ex.printStackTrace();
+      }
+    }
+  }
 
-		previewB.setAction(previewAction);
-		previewB.setBorderPainted(false);
-		previewB.setFocusable(false);
-		previewB.setPreferredSize(new Dimension(24, 24));
-		previewB.setRequestFocusEnabled(false);
-		previewB.setToolTipText(previewAction.getValue(Action.NAME).toString());
-		previewB.setMinimumSize(new Dimension(24, 24));
-		previewB.setMaximumSize(new Dimension(24, 24));
-		previewB.setText("");
+  void insDateB_actionPerformed(ActionEvent event) {
+    editor.editor.replaceSelection(CurrentDate.get().getFullDateString());
+  }
 
-		/*
-		 * printB.setAction(printAction); printB.setMaximumSize(new
-		 * Dimension(24, 24)); printB.setMinimumSize(new Dimension(24, 24));
-		 * printB.setPreferredSize(new Dimension(24, 24));
-		 * printB.setRequestFocusEnabled(false);
-		 * printB.setToolTipText(Local.getString("Print"));
-		 * printB.setBorderPainted(false); printB.setFocusable(false);
-		 * printB.setText("");
-		 */
+  void insTimeB_actionPerformed(ActionEvent event) {
+    java.util.Date date = new java.util.Date();
+    editor.editor.replaceSelection(DateFormat.getTimeInstance(
+        DateFormat.SHORT, Local.getCurrentLocale()).format(date));
+  }
 
-		jPanel1.setLayout(borderLayout2);
-		titleLabel.setFont(new java.awt.Font("Dialog", 1, 10));
-		titleLabel.setText(Local.getString("Title") + "  ");
-		titleField.setText("");
-		editorToolBar.setFloatable(false);
-		editor.editToolbar.setFloatable(false);
-		titleBar.setFloatable(false);
-		this.add(jPanel1, BorderLayout.CENTER);
-		editorToolBar.add(newB, null);
-		editorToolBar.addSeparator(new Dimension(8, 24));
-		editorToolBar.add(historyBackB, null);
-		editorToolBar.add(historyForwardB, null);
-		editorToolBar.addSeparator(new Dimension(8, 24));
-		editorToolBar.add(undoB, null);
-		editorToolBar.add(redoB, null);
-		editorToolBar.addSeparator(new Dimension(8, 24));
-		editorToolBar.add(cutB, null);
-		editorToolBar.add(copyB, null);
-		editorToolBar.add(pasteB, null);
-		editorToolBar.addSeparator(new Dimension(8, 24));
-		editorToolBar.add(insDateB, null);
-		editorToolBar.add(insTimeB, null);
-		editorToolBar.addSeparator(new Dimension(8, 24));
-		editorToolBar.add(importB, null);
-		editorToolBar.add(exportB, null);
-		editorToolBar.addSeparator(new Dimension(8, 24));
-		editorToolBar.add(previewB, null);
-		// editorToolBar.add(printB, null);
-		jPanel1.add(editorToolBar, BorderLayout.NORTH);
-		jPanel1.add(editor, BorderLayout.CENTER);
-		this.add(titleBar, BorderLayout.NORTH);
-		titleBar.add(titleLabel, null);
-		titleBar.add(titleField, null);
-		initCSS();
-		editor.editor.setAntiAlias(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
-		// editor.editor.enableInputMethods(false);
-		// editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
-		titleField.addKeyListener(new KeyListener() {
+  void exportB_actionPerformed(ActionEvent event) {
+    // Fix until Sun's JVM supports more locales...
+    UIManager.put("FileChooser.lookInLabelText", Local
+        .getString("Save in:"));
+    UIManager.put("FileChooser.upFolderToolTipText", Local
+        .getString("Up One Level"));
+    UIManager.put("FileChooser.newFolderToolTipText", Local
+        .getString("Create New Folder"));
+    UIManager.put("FileChooser.listViewButtonToolTipText", Local
+        .getString("List"));
+    UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+        .getString("Details"));
+    UIManager.put("FileChooser.fileNameLabelText", Local
+        .getString("File Name:"));
+    UIManager.put("FileChooser.filesOfTypeLabelText", Local
+        .getString("Files of Type:"));
+    UIManager.put("FileChooser.saveButtonText", Local.getString("Save"));
+    UIManager.put("FileChooser.saveButtonToolTipText", Local
+        .getString("Save selected file"));
+    UIManager
+        .put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+    UIManager.put("FileChooser.cancelButtonToolTipText", Local
+        .getString("Cancel"));
 
-			public void keyPressed(KeyEvent ke) {
-				if (ke.getKeyCode() == KeyEvent.VK_ENTER)
-					editor.editor.requestFocus();
-			}
+    //Re-enabled PDF File option as it is now available - Thomas J, 2/14/2016
+    JFileChooser chooser = new JFileChooser();
+    chooser.setFileHidingEnabled(false);
+    chooser.setDialogTitle(Local.getString("Export note"));
+    chooser.setAcceptAllFileFilterUsed(false);
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
+    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
+    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
+    String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
+    if (lastSel != null) {
+      chooser.setCurrentDirectory(new File(lastSel));
+    }
 
-			public void keyReleased(KeyEvent arg0) {
-			}
+    FileExportDialog dlg = new FileExportDialog(App.getFrame(), Local
+        .getString("Export note"), chooser);
+    String enc = (String) Context.get("EXPORT_FILE_ENCODING");
+    if (enc != null) {
+      dlg.encCB.setSelectedItem(enc);
+    }
+    
+    String typ = (String) Context.get("EXPORT_FILE_TYPE");
+    if (enc != null) {
+      dlg.xhtmlChB.setSelectedItem(typ);
+    }
+    
+    String templ = (String) Context.get("EXPORT_TEMPLATE");
+    if (templ != null) {
+      dlg.templF.setText(templ);
+    }
+    
+    String num = (String) Context.get("EXPORT_NUMENT");
+    if ((num != null) && (num.equalsIgnoreCase("YES"))) {
+      dlg.numentChB.setSelected(true);
+    }
+    Dimension dlgSize = new Dimension(550, 475);
+    dlg.setSize(dlgSize);
+    Dimension frmSize = App.getFrame().getSize();
+    Point loc = App.getFrame().getLocation();
+    dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x,
+        (frmSize.height - dlgSize.height) / 2 + loc.y);
+    dlg.setVisible(true);
+    if (dlg.CANCELLED) {
+      return;
+    }
 
-			public void keyTyped(KeyEvent arg0) {
-			}
-		});
+    Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile()
+        .getPath());
+    Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
+    Context.put("EXPORT_NUMENT", dlg.numentChB.isSelected() ? "YES" : "NO");
+    Context.put("EXPORT_FILE_TYPE", dlg.xhtmlChB.getSelectedItem());
+    String template = null;
+
+    if (dlg.usetemplChB.isSelected() && dlg.templF.getText().length() > 0) {
+      template = dlg.templF.getText();
+      Context.put("EXPORT_TEMPLATE", template);
+    }
+    /*
+     * if (chooser.getFileFilter().getDescription().equals("Rich Text
+     * Format")) new RTFFileExport(chooser.getSelectedFile(),
+     * editor.document); else
+     */
+       
+    /* Changed the if condition to use the int "ti" value as opposed to
+     *  the alpha representation of the "type", for ease of functions.
+     *  Re-enabled PDF Export - Thomas J, 2/14/2016 (Lines 512,519,526,533-539)
+     */
+    int ei = dlg.encCB.getSelectedIndex();
+    int ti = dlg.xhtmlChB.getSelectedIndex();
+    System.out.print("Type Selection: " + ti);
+    enc = null;
+    if (ei == 1 && ti == 0) {
+      enc = "UTF-8";
+      File file = chooser.getSelectedFile();
+      new HTMLFileExport(file, editor.document, CurrentNote.get(), enc,
+        dlg.numentChB.isSelected(), template, false);
+    }
+    if (ei == 1 && ti == 1) {
+      enc = "UTF-8";
+      File file = chooser.getSelectedFile();
+      new HTMLFileExport(file, editor.document, CurrentNote.get(), enc,
+        dlg.numentChB.isSelected(), template, true);
+    }
+    if (ei == 1 && ti == 2) {
+      enc = "UTF-8";
+      File file = chooser.getSelectedFile();
+      new DOCXFileExport(file, editor.document, CurrentNote.get(), enc,
+          dlg.numentChB.isSelected(), template, true);
+    }
+    if (ei == 1 && ti == 3) {
+      enc = "UTF-8";
+      File file = chooser.getSelectedFile();
+      new PDFFileExport(file, editor.document, CurrentNote.get(), enc,
+        dlg.numentChB.isSelected(), template, true);
+    }
+    //if (ei == 1 && ti == 4)
+    //{
+    //enc = "UTF-8";
+    //File f = chooser.getSelectedFile();
+    //new RTFFileExport(f, editor.document);
+    //}
+  }
+
+  String initialTitle = "";
+
+  /**
+   * Method setDocument.
+   * 
+   * @param note
+   */
+  public void setDocument(INote note) {
+    // Note note = CurrentProject.getNoteList().getActiveNote();
+    // try {
+    // this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
+    editor.document = (HTMLDocument) CurrentStorage.get().openNote(note);
+    editor.initEditor();
+    if (note != null) {
+      titleField.setText(note.getTitle());
+    } else {
+      titleField.setText("");
+    }
+    initialTitle = titleField.getText();
+    /*
+     * } catch (Exception ex) { new ExceptionDialog(ex); }
+     */
+    /*
+     * Document doc = CurrentStorage.get().openNote(note); try {
+     * this.editor.editor.setText(doc.getText(0, doc.getLength())); } catch
+     * (Exception ex){ ex.printStackTrace(); }
+     */
+    
+    // .setDocument(CurrentStorage.get().openNote(note));
+  }
+
+  public javax.swing.text.Document getDocument() {
+    return this.editor.document;
+  }
+
+  public boolean isDocumentChanged() {
+    return editor.isDocumentChanged()
+        || !titleField.getText().equals(initialTitle);
+  }
+
+  void importB_actionPerformed(ActionEvent event) {
+    // Fix until Sun's JVM supports more locales...
+    UIManager.put("FileChooser.lookInLabelText", Local
+        .getString("Look in:"));
+    UIManager.put("FileChooser.upFolderToolTipText", Local
+        .getString("Up One Level"));
+    UIManager.put("FileChooser.newFolderToolTipText", Local
+        .getString("Create New Folder"));
+    UIManager.put("FileChooser.listViewButtonToolTipText", Local
+        .getString("List"));
+    UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+        .getString("Details"));
+    UIManager.put("FileChooser.fileNameLabelText", Local
+        .getString("File Name:"));
+    UIManager.put("FileChooser.filesOfTypeLabelText", Local
+        .getString("Files of Type:"));
+    UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
+    UIManager.put("FileChooser.openButtonToolTipText", Local
+        .getString("Open selected file"));
+    UIManager
+        .put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+    UIManager.put("FileChooser.cancelButtonToolTipText", Local
+        .getString("Cancel"));
+
+    JFileChooser chooser = new JFileChooser();
+    chooser.setFileHidingEnabled(false);
+    chooser.setDialogTitle(Local.getString("Insert file"));
+    chooser.setAcceptAllFileFilterUsed(false);
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
+    chooser.setPreferredSize(new Dimension(550, 375));
+    String lastSel = (String) Context.get("LAST_SELECTED_IMPORT_FILE");
+    if (lastSel != null) {
+      chooser.setCurrentDirectory(new java.io.File(lastSel));
+    }
+    if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+      return;
+    }
+
+    Context.put("LAST_SELECTED_IMPORT_FILE", chooser.getSelectedFile()
+        .getPath());
+
+    File file = chooser.getSelectedFile();
+    new HTMLFileImport(file, editor);
+  }
+
+  void newB_actionPerformed(ActionEvent event) {
+    CurrentNote.set(null, true);
+    setDocument(null);
+    this.titleField.requestFocus();
+  }
+
+  /**
+   * Method for previewing an HTML Note object
+   * This method was modified on 2/26/2016 by Thomas Johnson
+   * so as to initiate a preview in the default system
+   * web browser of the Note, in stead of requiring a 
+   * browser executable to be located by the user.
+   *
+   * Self Checked altered method with Checkstyle, FixBugs, 
+   * and for defects.
+   * Found checkstyle issues with indentation, brackets, naming, and grammar.
+   * No Fixbugs found, issues resolved and re-checked - 2/20/2016
+   * Thomas Johnson
+    * @param event
+ * @throws IOException 
+   */
+  void previewB_actionPerformed(ActionEvent event) throws IOException {
+    File file = Util.getTempFile();
+    URI uri = null;
+    new HTMLFileExport(file, editor.document, CurrentNote.get(), "UTF-8",
+          false, null, false);
+      //Util.runBrowser("file:" + file.getAbsolutePath());
+    try {
+    		String filePath = "file:" + file.getAbsolutePath();
+    		filePath = filePath.replace("\\", "/");
+    		uri = new URI(filePath);
+    		System.out.println("URI created: " + uri);
+				if (Desktop.isDesktopSupported()) {
+					Desktop.getDesktop().browse(uri);
+				}
+	} catch (URISyntaxException exception) {
+		file = null;
+		System.out.println("URI Syntax Error: " + exception.getMessage());
+		exception.printStackTrace();
+	} catch (IOException IOExcept) {
+		file = null;
+		System.out.println("IO Error: " + IOExcept.getMessage());
+		IOExcept.printStackTrace();
 	}
-
-	public void initCSS() {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				net.sf.memoranda.ui.EditorPanel.class
-						.getResourceAsStream("resources/css/default.css")));
-		String css = "";
-		try {
-			String s = br.readLine();
-			while (s != null) {
-				css = css + s + "\n";
-				s = br.readLine();
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		String NORMAL_FONT = Configuration.get("NORMAL_FONT").toString();
-		String HEADER_FONT = Configuration.get("HEADER_FONT").toString();
-		String MONO_FONT = Configuration.get("MONO_FONT").toString();
-		String BASE_FONT_SIZE = Configuration.get("BASE_FONT_SIZE").toString();
-		css = css.replaceAll("%NORMAL_FONT%", NORMAL_FONT.length() > 0 ? "\""+NORMAL_FONT+"\""
-				: "serif");
-		css = css.replaceAll("%HEADER_FONT%", HEADER_FONT.length() > 0 ? "\""+HEADER_FONT+"\""
-				: "sans-serif");
-		css = css.replaceAll("%MONO_FONT%", MONO_FONT.length() > 0 ? "\""+MONO_FONT+"\""
-				: "monospaced");
-		css = css.replaceAll("%BASE_FONT_SIZE%",
-				BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");		
-		editor.setStyleSheet(new StringReader(css));
-		String usercss = (String) Configuration.get("USER_CSS");
-		if (usercss.length() > 0)
-			try {
-				// DEBUG
-				System.out.println("***[DEBUG] User css used: " + usercss);
-				editor.setStyleSheet(new InputStreamReader(
-						new java.io.FileInputStream(usercss)));
-			} catch (Exception ex) {
-				System.out.println("***[DEBUG] Failed to open: " + usercss);
-				ex.printStackTrace();
-			}
-
-	}
-
-	void insDateB_actionPerformed(ActionEvent e) {
-		editor.editor.replaceSelection(CurrentDate.get().getFullDateString());
-	}
-
-	void insTimeB_actionPerformed(ActionEvent e) {
-		java.util.Date d = new java.util.Date();
-		editor.editor.replaceSelection(DateFormat.getTimeInstance(
-				DateFormat.SHORT, Local.getCurrentLocale()).format(d));
-	}
-
-	void exportB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Save in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
-		UIManager.put("FileChooser.saveButtonText", Local.getString("Save"));
-		UIManager.put("FileChooser.saveButtonToolTipText", Local
-				.getString("Save selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
-
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileHidingEnabled(false);
-		chooser.setDialogTitle(Local.getString("Export note"));
-		chooser.setAcceptAllFileFilterUsed(false);
-		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
-		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-/*TJ*/	chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.DOCX));
-/*TJ*/	//chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.PDF));
-		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
-		if (lastSel != null)
-			chooser.setCurrentDirectory(new File(lastSel));
-
-		FileExportDialog dlg = new FileExportDialog(App.getFrame(), Local
-				.getString("Export note"), chooser);
-		String enc = (String) Context.get("EXPORT_FILE_ENCODING");
-		if (enc != null)
-			dlg.encCB.setSelectedItem(enc);
-		
-		String typ = (String) Context.get("EXPORT_FILE_TYPE");
-		if (enc != null)
-			dlg.xhtmlChB.setSelectedItem(typ);
-		
-		String templ = (String) Context.get("EXPORT_TEMPLATE");
-		if (templ != null)
-			dlg.templF.setText(templ);
-		
-/*TJ*/	int ti = dlg.xhtmlChB.getSelectedIndex();
-/*TJ*/	String type = "";
-/*TJ*/	if (ti == 0)
-/*TJ*/		type = "HTML";
-/*TJ*/	if (ti == 1)
-/*TJ*/		type = "XHTML";
-/*TJ*/	if (ti == 2)
-/*TJ*/		type = "DOCX";
-/*TJ*/	//if (ti == 3)
-/*TJ*/		//type = "PDF";
-		
-		String num = (String) Context.get("EXPORT_NUMENT");
-		if ((num != null) && (num.equalsIgnoreCase("YES")))
-			dlg.numentChB.setSelected(true);
-		Dimension dlgSize = new Dimension(550, 475);
-		dlg.setSize(dlgSize);
-		Dimension frmSize = App.getFrame().getSize();
-		Point loc = App.getFrame().getLocation();
-		dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x,
-				(frmSize.height - dlgSize.height) / 2 + loc.y);
-		dlg.setVisible(true);
-		if (dlg.CANCELLED)
-			return;
-
-		Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile()
-				.getPath());
-		Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
-		Context.put("EXPORT_NUMENT", dlg.numentChB.isSelected() ? "YES" : "NO");
-/*TJ*/	Context.put("EXPORT_FILE_TYPE", dlg.xhtmlChB.getSelectedItem());
-		String template = null;
-		//if(type)
-		if (dlg.usetemplChB.isSelected() && dlg.templF.getText().length() > 0) {
-			template = dlg.templF.getText();
-			Context.put("EXPORT_TEMPLATE", template);
-		}
-		/*
-		 * if (chooser.getFileFilter().getDescription().equals("Rich Text
-		 * Format")) new RTFFileExport(chooser.getSelectedFile(),
-		 * editor.document); else
-		 */
-		int ei = dlg.encCB.getSelectedIndex();
-		enc = null;
-/*TJ*/		if (ei == 1 && type.equals("HTML"))
-/*TJ*/		{
-/*TJ*/			enc = "UTF-8";
-/*TJ*/			File f = chooser.getSelectedFile();
-/*TJ*/			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/				dlg.numentChB.isSelected(), template, false);
-/*TJ*/		}
-/*TJ*/		if (ei == 1 && type.equals("XHTML"))
-/*TJ*/		{
-/*TJ*/			enc = "UTF-8";
-/*TJ*/			File f = chooser.getSelectedFile();
-/*TJ*/			new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/				dlg.numentChB.isSelected(), template, true);
-/*TJ*/		}
-/*TJ*/		if (type.equals("DOCX"))
-/*TJ*/	{
-/*TJ*/		enc = "UTF-8";
-/*TJ*/			File f = chooser.getSelectedFile();
-/*TJ*/		new DOCXFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/			dlg.numentChB.isSelected(), template, false);
-/*TJ*/	}
-/*TJ*/	//if (type.equals("PDF"))
-/*TJ*/	//{
-/*TJ*/		//enc = "UTF-8";
-/*TJ*/		//File f = chooser.getSelectedFile();
-/*TJ*/		//new PDFFileExport(f, editor.document, CurrentNote.get(), enc,
-/*TJ*/			//dlg.numentChB.isSelected(), template, false);
-/*TJ*/	//}
-/*TJ*/}
-
-	String initialTitle = "";
-
-	public void setDocument(Note note) {
-		// Note note = CurrentProject.getNoteList().getActiveNote();
-		// try {
-		// this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
-		editor.document = (HTMLDocument) CurrentStorage.get().openNote(note);
-		editor.initEditor();
-		if (note != null)
-			titleField.setText(note.getTitle());
-		else
-			titleField.setText("");
-		initialTitle = titleField.getText();
-		/*
-		 * } catch (Exception ex) { new ExceptionDialog(ex); }
-		 */
-		/*
-		 * Document doc = CurrentStorage.get().openNote(note); try {
-		 * this.editor.editor.setText(doc.getText(0, doc.getLength())); } catch
-		 * (Exception ex){ ex.printStackTrace(); }
-		 */
-		// .setDocument(CurrentStorage.get().openNote(note));
-	}
-
-	public javax.swing.text.Document getDocument() {
-		return this.editor.document;
-	}
-
-	public boolean isDocumentChanged() {
-		return editor.isDocumentChanged()
-				|| !titleField.getText().equals(initialTitle);
-	}
-
-	void importB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Look in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
-		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-		UIManager.put("FileChooser.openButtonToolTipText", Local
-				.getString("Open selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
-
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileHidingEnabled(false);
-		chooser.setDialogTitle(Local.getString("Insert file"));
-		chooser.setAcceptAllFileFilterUsed(false);
-		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-		chooser.setPreferredSize(new Dimension(550, 375));
-		String lastSel = (String) Context.get("LAST_SELECTED_IMPORT_FILE");
-		if (lastSel != null)
-			chooser.setCurrentDirectory(new java.io.File(lastSel));
-		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
-			return;
-
-		Context.put("LAST_SELECTED_IMPORT_FILE", chooser.getSelectedFile()
-				.getPath());
-
-		File f = chooser.getSelectedFile();
-		new HTMLFileImport(f, editor);
-	}
-
-	void newB_actionPerformed(ActionEvent e) {
-		CurrentNote.set(null, true);
-		setDocument(null);
-		this.titleField.requestFocus();
-	}
-
-	void previewB_actionPerformed(ActionEvent e) {
-		File f;
-		try {
-			f = Util.getTempFile();
-			new HTMLFileExport(f, editor.document, CurrentNote.get(), "UTF-8",
-					false, null, false);
-			Util.runBrowser("file:" + f.getAbsolutePath());
-		} catch (IOException ioe) {
-			new ExceptionDialog(ioe, "Cannot create temporary file", null);
-		}
-	}
+  }
 }

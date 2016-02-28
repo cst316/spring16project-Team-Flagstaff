@@ -156,7 +156,7 @@ public class ResourceTypePanel extends JPanel {
             new ImageIcon(
                 net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png")));
         dlg.setVisible(true);
-        if (dlg.CANCELLED)
+        if (dlg.cancelled)
             return;
         String typeId = Util.generateId();
         MimeType mt = MimeTypesList.addMimeType(typeId);
@@ -221,7 +221,7 @@ public class ResourceTypePanel extends JPanel {
             appList.getFindPath(mt.getAppId()) + "/" + appList.getExec(mt.getAppId()));
         dlg.appPanel.argumentsField.setText(appList.getCommandLinePattern(mt.getAppId()));
         dlg.setVisible(true);
-        if (dlg.CANCELLED)
+        if (dlg.cancelled)
             return;
         String typeId = mt.getMimeTypeId();
         MimeTypesList.removeMimeType(typeId);

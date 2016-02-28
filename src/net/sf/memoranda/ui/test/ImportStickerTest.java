@@ -1,9 +1,12 @@
-/**
- * 
- */
 package net.sf.memoranda.ui.test;
 
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JLabel;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,17 +14,44 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.sf.memoranda.ui.ExportSticker;
+import net.sf.memoranda.ui.ImportSticker;
+
 /**
- * @author Kevin
- *
+ * JUnit Test Class to test the functionality of the previously
+ * modified methods in ImportSticker.java to import Annotation
+ * Stickers from previously exported HTML files.
+ * 
+ * Self Checked altered method with Checkstyle, FixBugs, 
+ * and for defects.
+ * Found Checkstyle issues with order, naming, and grammar.
+ * No Fixbugs found, issues resolved and re-checked - 2/25/2016
+ * Checked for code smells, none found.
+ * 
+ * @author Thomas Johnson
+ * Created 2/25/2016
  */
 public class ImportStickerTest {
 
+	static File testFile = new File(System.getProperty("user.dir") + "testFile.html");
+	static String testSticker = "<div style=" 
+			+ " \"background-color:#FFFF00;font-size:20;color:#0;\" " 
+				+ ">February 20, 2016 9:59 PM<br></div>";
+	ImportSticker testImportSticker = ImportSticker.getInstance();
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		try {
+			FileWriter fileWriter = new FileWriter(testFile);
+			fileWriter.write(testSticker);
+			fileWriter.flush();
+			fileWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -46,115 +76,13 @@ public class ImportStickerTest {
 	}
 
 	/**
-	 * Test method for {@link net.sf.memoranda.ui.test.ImportSticker#ImportSticker(java.lang.String)}.
+	 * Test method for {@link net.sf.memoranda.ui.
+	 * ImportSticker#htmlAnnotationImport(java.io.File)}.
 	 */
 	@Test
-	public void testImportSticker() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link net.sf.memoranda.ui.test.ImportSticker#import_file()}.
-	 */
-	@Test
-	public void testImport_file() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#Object()}.
-	 */
-	@Test
-	public void testObject() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#getClass()}.
-	 */
-	@Test
-	public void testGetClass() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#hashCode()}.
-	 */
-	@Test
-	public void testHashCode() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#equals(java.lang.Object)}.
-	 */
-	@Test
-	public void testEquals() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#clone()}.
-	 */
-	@Test
-	public void testClone() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#notify()}.
-	 */
-	@Test
-	public void testNotify() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#notifyAll()}.
-	 */
-	@Test
-	public void testNotifyAll() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait(long)}.
-	 */
-	@Test
-	public void testWaitLong() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait(long, int)}.
-	 */
-	@Test
-	public void testWaitLongInt() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#wait()}.
-	 */
-	@Test
-	public void testWait() {
-		//fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.lang.Object#finalize()}.
-	 */
-	@Test
-	public void testFinalize() {
-		//fail("Not yet implemented");
+	public final void testHtmlAnnotationImport() {
+		assertEquals(testImportSticker.htmlAnnotationImport
+				(testFile).replaceAll("[\n\r]", ""), testSticker);
 	}
 
 }
