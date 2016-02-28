@@ -133,9 +133,9 @@ public class MimeType {
           try {
             icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(ip));
           }
-          catch (Exception e) {
-        	  System.out.println(e.toString());
-        	  e.printStackTrace();
+          catch (Exception ex) {
+        	  System.out.println(ex.toString());
+        	  ex.printStackTrace();
         	  icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
           }
         }
@@ -151,9 +151,9 @@ public class MimeType {
         	  try {
         		  icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(ip));
         	  }
-        	  catch (Exception e) {
-        		  System.out.println(e.toString());
-        		  e.printStackTrace();
+        	  catch (Exception ex) {
+        		  System.out.println(ex.toString());
+        		  ex.printStackTrace();
         		  icon = new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
         	  }
           }

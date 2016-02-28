@@ -227,7 +227,7 @@ public class HTMLEditor extends JPanel {
 		new HTMLEditorAction(
 			Local.getString("Insert horizontal rule"),
 			new ImageIcon(cl.getResource("resources/icons/hr.png"))) {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			/*
 			 * String elName =
 			 * document.getParagraphElement(editor.getCaretPosition()).getName();
@@ -1040,7 +1040,7 @@ public class HTMLEditor extends JPanel {
 				KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK));
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			try {
 				undo.undo();
 			} catch (CannotUndoException e) {
@@ -1078,7 +1078,7 @@ public class HTMLEditor extends JPanel {
 					KeyEvent.CTRL_MASK + KeyEvent.SHIFT_MASK));
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			try {
 				undo.redo();
 			} catch (CannotRedoException e) {
@@ -1184,8 +1184,8 @@ public class HTMLEditor extends JPanel {
 		new StyledEditorKit.UnderlineAction().actionPerformed(e);
 	}
 
-	void editor_caretUpdate(CaretEvent e) {
-		currentCaret = e.getDot();
+	void editor_caretUpdate(CaretEvent event) {
+		currentCaret = event.getDot();
 		/*
 		 * currentParaElement =
 		 * document.getParagraphElement(editor.getCaretPosition());
@@ -1375,7 +1375,7 @@ public class HTMLEditor extends JPanel {
 			super("ParaBreakAction");
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 
 			Element elem =
 				document.getParagraphElement(editor.getCaretPosition());
@@ -1440,7 +1440,7 @@ public class HTMLEditor extends JPanel {
 								"<p></p>",
 								listParentTag,
 								HTML.Tag.P);
-						pAction.actionPerformed(e);
+						pAction.actionPerformed(event);
 					}
 				}
 			} else if (
@@ -1458,7 +1458,7 @@ public class HTMLEditor extends JPanel {
 						parentTag,
 						HTML.Tag.P);
 				System.out.println("PRE");
-				pAction.actionPerformed(e);
+				pAction.actionPerformed(event);
 			} else if (elName.equals("P-IMPLIED")) {
 				/*
 				 * HTML.Tag sParentTag =
@@ -1541,7 +1541,7 @@ public class HTMLEditor extends JPanel {
 				Action.ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.CTRL_MASK));
 		}
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			String trTag = "<tr>";
 			Element tr =
 				document
@@ -1593,7 +1593,7 @@ public class HTMLEditor extends JPanel {
 					KeyEvent.VK_ENTER,
 					KeyEvent.CTRL_MASK + KeyEvent.SHIFT_MASK));
 		}
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			String tdTag = "<td><p></p></td>";
 			Element td =
 				document
@@ -1668,7 +1668,7 @@ public class HTMLEditor extends JPanel {
 		}
 	}
 
-	public void imageActionB_actionPerformed(ActionEvent e) {
+	public void imageActionB_actionPerformed(ActionEvent event) {
 		/*
 		 * JFileChooser chooser = new JFileChooser();
 		 * chooser.setFileHidingEnabled(false); chooser.setDialogTitle("Choose
@@ -1797,7 +1797,7 @@ public class HTMLEditor extends JPanel {
 		}
 	}
 
-	public void tableActionB_actionPerformed(ActionEvent e) {
+	public void tableActionB_actionPerformed(ActionEvent event) {
 		TableDialog dlg = new TableDialog(null);
 		//dlg.setLocation(tableActionB.getLocationOnScreen());
 		Dimension dlgSize = dlg.getPreferredSize();
@@ -1900,7 +1900,7 @@ public class HTMLEditor extends JPanel {
 		}
 	}
 
-	public void linkActionB_actionPerformed(ActionEvent e) {
+	public void linkActionB_actionPerformed(ActionEvent event) {
 		LinkDialog dlg = new LinkDialog(null);
 		//dlg.setLocation(linkActionB.getLocationOnScreen());
 		Dimension dlgSize = dlg.getPreferredSize();
@@ -2395,7 +2395,7 @@ public class HTMLEditor extends JPanel {
 		}
 	}
 
-	void blockCB_actionPerformed(ActionEvent e) {
+	void blockCB_actionPerformed(ActionEvent event) {
 		if (blockCBEventsLock)
 			return;
 		int sel = blockCB.getSelectedIndex();
@@ -2677,7 +2677,7 @@ public class HTMLEditor extends JPanel {
 			return null;
 	}
 
-	void inlineCB_actionPerformed(ActionEvent e) {
+	void inlineCB_actionPerformed(ActionEvent event) {
 		if (inlineCBEventsLock)
 			return;
 		int sel = inlineCB.getSelectedIndex();

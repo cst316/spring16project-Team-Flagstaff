@@ -347,7 +347,7 @@ public class ImageDialog extends JDialog implements WindowListener {
     public void windowDeactivated(WindowEvent e) {
     }
 
-    void browseB_actionPerformed(ActionEvent e) {
+    void browseB_actionPerformed(ActionEvent event) {
         // Fix until Sun's JVM supports more locales...
         UIManager.put("FileChooser.lookInLabelText", Local
                 .getString("Look in:"));

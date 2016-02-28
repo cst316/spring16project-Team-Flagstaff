@@ -36,10 +36,10 @@ public class Configuration {
         config.load(Configuration.class.getResourceAsStream("resources/memoranda.default.properties"));
         saveConfig();      
       }
-      catch (Exception e) {
-    	System.out.println(e.toString());
-		e.printStackTrace();
-        new ExceptionDialog(e, "Failed to load default configuration from resources.", "");
+      catch (Exception ex) {
+    	System.out.println(ex.toString());
+		ex.printStackTrace();
+        new ExceptionDialog(ex, "Failed to load default configuration from resources.", "");
         config = null;
       }
     }
