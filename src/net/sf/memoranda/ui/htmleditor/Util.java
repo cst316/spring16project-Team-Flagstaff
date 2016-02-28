@@ -52,8 +52,9 @@ public class Util {
                 colorVal = new Integer(Integer.parseInt(colorVal, 16)).toString();
                 return Color.decode(colorVal.toLowerCase());
             }
-            catch (Exception ex) {
-		    ex.printStackTrace();
+            catch (Exception e) {
+            	System.out.println(e.toString());
+    			e.printStackTrace();
 	    }
         }
         else return defaultColor;

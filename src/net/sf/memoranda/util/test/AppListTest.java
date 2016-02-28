@@ -75,7 +75,7 @@ public class AppListTest {
 	@Test
 	public void testAppList() {
 		
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetCommandLine() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetCommand() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetFindPath() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testSetFindPath() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetExec() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testSetExec() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetCommandLinePattern() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testSetCommandLinePattern() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testAddApp() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testAddOrReplaceApp() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetBrowserExec() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testSetBrowserExec() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class AppListTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

@@ -27,8 +27,9 @@ public class RTFFileExport {
         try {            
             kit.write(new FileOutputStream(f), (DefaultStyledDocument)doc, 0, doc.getLength());
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (Exception e) {
+        	System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 

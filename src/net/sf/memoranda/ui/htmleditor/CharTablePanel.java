@@ -59,7 +59,8 @@ public class CharTablePanel extends JPanel {
             jbInit();
         }
         catch (Exception e) {
-            e.printStackTrace();
+        	System.out.println(e.toString());
+			e.printStackTrace();
         }
 
     }

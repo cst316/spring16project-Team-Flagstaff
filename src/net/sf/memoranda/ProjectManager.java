@@ -71,6 +71,8 @@ public class ProjectManager {
 			i = ((Elements)_root.getChildElements("project")).size();
 		}
 		catch (NullPointerException e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
 			i = 1;
 		}
 		return i;

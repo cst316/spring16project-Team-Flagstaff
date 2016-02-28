@@ -77,9 +77,11 @@ public class FileStorage implements IStorage {
             fw.flush();
             fw.close();
         }
-        catch (IOException ex) {
+        catch (IOException e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             new ExceptionDialog(
-                ex,
+                e,
                 "Failed to write a document to " + filePath,
                 "");
         }
@@ -94,9 +96,11 @@ public class FileStorage implements IStorage {
         try {
             return openDocument(new FileInputStream(filePath));
         }
-        catch (Exception ex) {
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             new ExceptionDialog(
-                ex,
+                e,
                 "Failed to read a document from " + filePath,
                 "");
         }
@@ -131,9 +135,11 @@ public class FileStorage implements IStorage {
             //editorKit.write(new FileOutputStream(filename), doc, 0, doc.getLength());
             //editorKit.write(fw, doc, 0, doc.getLength());
         }
-        catch (Exception ex) {
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             new ExceptionDialog(
-                ex,
+                e,
                 "Failed to write a document to " + filename,
                 "");
         }
@@ -184,7 +190,9 @@ public class FileStorage implements IStorage {
                 doc,
                 0);
         }
-        catch (Exception ex) {
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             //ex.printStackTrace();
             // Do nothing - we've got a new empty document!
         }
@@ -390,6 +398,8 @@ public class FileStorage implements IStorage {
                             "resources/default.mimetypes"));
             }
             catch (Exception e) {
+            	System.out.println(e.toString());
+    			e.printStackTrace();
                 new ExceptionDialog(
                     e,
                     "Failed to read default mimetypes config from resources",
@@ -452,7 +462,9 @@ public class FileStorage implements IStorage {
                 "[DEBUG] Open context: " + JN_DOCPATH + ".context");
             Context.context.load(new FileInputStream(JN_DOCPATH + ".context"));
         }
-        catch (Exception ex) {
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             /*DEBUG*/
             System.out.println("Context created.");
         }
@@ -467,9 +479,11 @@ public class FileStorage implements IStorage {
                 "[DEBUG] Save context: " + JN_DOCPATH + ".context");
             Context.context.save(new FileOutputStream(JN_DOCPATH + ".context"));
         }
-        catch (Exception ex) {
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
             new ExceptionDialog(
-                ex,
+                e,
                 "Failed to store context to " + JN_DOCPATH + ".context",
                 "");
         }
@@ -502,14 +516,14 @@ public class FileStorage implements IStorage {
                 "[DEBUG] Save Templates: " + JN_DOCPATH + ".templates");
             saveDocument(TaskTemplateManager._doc, JN_DOCPATH + ".templates");
         }
-        catch (Exception ex) {
-        	/*DEBUG*/
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
         	System.out.println("[DEBUG] Error Saving Task Template");
             new ExceptionDialog(
-                ex,
-                "Failed to store Task Temlpates to " + JN_DOCPATH + ".templates",
+                e,
+                "Failed to store context to " + JN_DOCPATH + ".templates",
                 "");
         }
 	}
-
 }
