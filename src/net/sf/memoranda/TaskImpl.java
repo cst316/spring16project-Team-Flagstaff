@@ -82,6 +82,8 @@ public class TaskImpl implements ITask, Comparable {
 				return Long.parseLong(attr.getValue());
 			}
 			catch (NumberFormatException e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
 				return 0;
 			}
 		}

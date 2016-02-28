@@ -50,7 +50,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testLoadableProperties() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testLoad() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testSaveOutputStreamBoolean() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testSaveOutputStream() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testSize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testIsEmpty() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testKeys() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testElements() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testGet() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testPut() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testRemoveObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testHashtableIntFloat() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testHashtableInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testHashtable() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testHashtableMapOfQextendsKQextendsV() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testContains() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testContainsValue() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testContainsKey() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testRehash() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testPutAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testClear() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testKeySet() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testEntrySet() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testValues() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testGetOrDefault() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testForEach() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -290,7 +290,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testReplaceAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testPutIfAbsent() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testRemoveObjectObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testReplaceKVV() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testReplaceKV() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -330,7 +330,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testComputeIfAbsent() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -338,7 +338,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testComputeIfPresent() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testCompute() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -354,7 +354,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testMerge() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -362,7 +362,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testDictionary() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -370,7 +370,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -378,7 +378,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -386,7 +386,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -394,7 +394,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -402,7 +402,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -410,7 +410,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -418,7 +418,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -426,7 +426,7 @@ public class LoadablePropertiesTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

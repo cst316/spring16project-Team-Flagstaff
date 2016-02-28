@@ -66,6 +66,8 @@ public class CustomField<T> implements ICustomFieldInterface<T>{
 			else if(this.data.getClass()==CalendarDate.class)r= this.data.toString();
 			else r = this.data.toString();
 		}catch(IllegalFormatException | ClassCastException e){
+			System.out.println(e.toString());
+			e.printStackTrace();
 			System.out.print(
 					"[Debug] IllegalFormatException \n[Debug]"+e.getLocalizedMessage());
 		}

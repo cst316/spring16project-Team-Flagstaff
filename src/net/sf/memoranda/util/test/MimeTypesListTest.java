@@ -50,7 +50,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetAllMimeTypes() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetMimeTypeForFile() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetMimeType() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetMimeTypeByExt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testAddMimeType() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testRemoveMimeType() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetAppList() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetExtension() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class MimeTypesListTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

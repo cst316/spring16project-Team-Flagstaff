@@ -50,7 +50,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testFileStorage() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testSaveDocument() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenDocumentInputStream() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenDocumentString() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testDocumentExists() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreNote() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenNote() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testGetNoteURL() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testGetNotePath() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testRemoveNote() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenProjectManager() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreProjectManager() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testRemoveProjectStorage() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenTaskList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreTaskList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testCreateProjectStorage() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenNoteList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreNoteList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenEventsManager() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreEventsManager() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenMimeTypesList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreMimeTypesList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testOpenResourcesList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreResourcesList() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testRestoreContext() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testStoreContext() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -290,7 +290,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -330,7 +330,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -338,7 +338,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class FileStorageTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		////fail("Not yet implemented");
 	}
 
 }

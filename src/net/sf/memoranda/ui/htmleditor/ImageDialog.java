@@ -73,8 +73,9 @@ public class ImageDialog extends JDialog implements WindowListener {
             jbInit();
             pack();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
         }
         super.addWindowListener(this);
     }
@@ -323,8 +324,9 @@ public class ImageDialog extends JDialog implements WindowListener {
                 header.setIcon(getPreviewIcon(new java.io.File(
                         new java.net.URL(fileField.getText()).getPath())));
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
         }
     }
 
@@ -345,7 +347,7 @@ public class ImageDialog extends JDialog implements WindowListener {
     public void windowDeactivated(WindowEvent e) {
     }
 
-    void browseB_actionPerformed(ActionEvent e) {
+    void browseB_actionPerformed(ActionEvent event) {
         // Fix until Sun's JVM supports more locales...
         UIManager.put("FileChooser.lookInLabelText", Local
                 .getString("Look in:"));
@@ -392,7 +394,9 @@ public class ImageDialog extends JDialog implements WindowListener {
                         .put("LAST_SELECTED_IMG_FILE", chooser
                                 .getSelectedFile());
             }
-            catch (Exception ex) {
+            catch (Exception e) {
+            	System.out.println(e.toString());
+    			e.printStackTrace();
                 fileField.setText(chooser.getSelectedFile().getPath());
             }
             try {
@@ -402,8 +406,9 @@ public class ImageDialog extends JDialog implements WindowListener {
                 heightField
                         .setText(new Integer(img.getIconHeight()).toString());
             }
-            catch (Exception ex) {
-                ex.printStackTrace();
+            catch (Exception e) {
+            	System.out.println(e.toString());
+    			e.printStackTrace();
             }
         }
     }

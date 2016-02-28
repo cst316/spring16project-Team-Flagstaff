@@ -80,8 +80,10 @@ public class HTMLFileExport {
                     fw.flush();
                     fw.close();                    
                 }
-                catch (Exception ex) {
-                    new ExceptionDialog(ex, "Cannot export file "+f.getPath(), null);
+                catch (Exception e) {
+                	System.out.println(e.toString());
+        			e.printStackTrace();
+                    new ExceptionDialog(e, "Cannot export file "+f.getPath(), null);
                 }
         }
 	 
@@ -99,8 +101,10 @@ public class HTMLFileExport {
 				}
 				fr.close();
 			}
-			catch (Exception ex) {
-				new ExceptionDialog(ex, "Cannot read template file from "+templF, null);
+			catch (Exception e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
+				new ExceptionDialog(e, "Cannot read template file from "+templF, null);
 			}	
 			if (text.length() > 0)
 				return text;
@@ -142,8 +146,10 @@ public class HTMLFileExport {
             sw.flush();
             sw.close();
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex);
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e);
         }
         text = sw.toString();
         text = Pattern
@@ -173,8 +179,10 @@ public class HTMLFileExport {
             parser.parse(source);
             return sw.toString();
         }
-        catch (Exception ex) {
-           new ExceptionDialog(ex);
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e);
         }
         return null;
     }

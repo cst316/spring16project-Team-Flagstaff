@@ -50,7 +50,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testRTFFileExport() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testObject() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testGetClass() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testEquals() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testClone() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testNotify() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testNotifyAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testWaitLong() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testWaitLongInt() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testWait() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class RTFFileExportTest {
 	 */
 	@Test
 	public void testFinalize() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

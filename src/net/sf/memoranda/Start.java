@@ -54,6 +54,8 @@ public class Start {
                 System.exit(0);
                 
             } catch (Exception e) {
+            	System.out.println(e.toString());
+    			e.printStackTrace();
                 // If socket is not opened (app is not started), continue
                 // e.printStackTrace();
             }

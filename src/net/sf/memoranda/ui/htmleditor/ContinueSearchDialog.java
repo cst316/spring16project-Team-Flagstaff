@@ -35,8 +35,9 @@ public class ContinueSearchDialog extends JPanel {
       thread = t;
       jbInit();      
     }
-    catch(Exception ex) {
-      ex.printStackTrace();
+    catch(Exception e) {
+    	System.out.println(e.toString());
+		e.printStackTrace();
     }
   }
 

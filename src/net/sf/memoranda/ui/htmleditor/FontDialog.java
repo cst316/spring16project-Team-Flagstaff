@@ -61,8 +61,9 @@ public class FontDialog extends JDialog {
             jbInit();
             pack();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
         }
     }
 

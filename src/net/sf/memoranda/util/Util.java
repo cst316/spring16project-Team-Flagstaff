@@ -102,8 +102,10 @@ public class Util {
             /*DEBUG*/
             Runtime.getRuntime().exec(commandLine);
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to run an external web-browser application with commandline<br><code>"
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e, "Failed to run an external web-browser application with commandline<br><code>"
                     +commandLine+"</code>", "Check the application path and command line parameters " +
                     		"(File-&gt;Preferences-&gt;Resource types).");
         }
@@ -142,6 +144,8 @@ public class Util {
         	return (long) millisDouble;
     	}
     	catch (NumberFormatException e) {
+    		System.out.println(e.toString());
+			e.printStackTrace();
     		return 0;
     	}
     }

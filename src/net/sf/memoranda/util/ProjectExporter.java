@@ -73,8 +73,10 @@ public class ProjectExporter {
             else
                 fw = new FileWriter(output);
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to write to " + output, "");
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e, "Failed to write to " + output, "");
             return;
         }
         write(fw, "<html>\n<head>\n" + charsetString + "<title>"
@@ -90,8 +92,10 @@ public class ProjectExporter {
             fw.flush();
             fw.close();
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to write to " + output, "");
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e, "Failed to write to " + output, "");
         }
     }
 
@@ -124,8 +128,10 @@ public class ProjectExporter {
             sw.flush();
             sw.close();
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex);
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e);
         }
         text = sw.toString();
         if (_xhtml)
@@ -210,8 +216,10 @@ public class ProjectExporter {
                     fw.flush();
                     fw.close();
                 }
-                catch (Exception ex) {
-                    new ExceptionDialog(ex, "Failed to write to " + output, "");
+                catch (Exception e) {
+                	System.out.println(e.toString());
+        			e.printStackTrace();
+                    new ExceptionDialog(e, "Failed to write to " + output, "");
                 }
             }
             else
@@ -223,8 +231,10 @@ public class ProjectExporter {
         try {
             w.write(s);
         }
-        catch (Exception ex) {
-            new ExceptionDialog(ex, "Failed to write to " + output, "");
+        catch (Exception e) {
+        	System.out.println(e.toString());
+			e.printStackTrace();
+            new ExceptionDialog(e, "Failed to write to " + output, "");
         }
     }
 }
