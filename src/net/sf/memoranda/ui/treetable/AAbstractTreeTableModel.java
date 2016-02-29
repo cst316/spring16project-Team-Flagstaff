@@ -13,8 +13,8 @@ package net.sf.memoranda.ui.treetable;
  * you entered into with Sun.
  */
 
-import javax.swing.tree.*;
 import javax.swing.event.*;
+import javax.swing.tree.*;
  
 /**
  * @version 1.2 10/27/98

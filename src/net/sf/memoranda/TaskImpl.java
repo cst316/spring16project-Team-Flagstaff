@@ -8,11 +8,10 @@
  */
 package net.sf.memoranda;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Vector;
 
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
@@ -322,8 +321,10 @@ public class TaskImpl implements ITask, Comparable {
 	private long calcTaskRate(CalendarDate d) {
 		Calendar endDateCal = getEndDate().getCalendar();
 		Calendar dateCal = d.getCalendar();
-		int numOfDays = (endDateCal.get(Calendar.YEAR)*365 + endDateCal.get(Calendar.DAY_OF_YEAR)) - 
-				(dateCal.get(Calendar.YEAR)*365 + dateCal.get(Calendar.DAY_OF_YEAR));
+		int numOfDays = (endDateCal.get(Calendar.YEAR)*365 
+				+ endDateCal.get(Calendar.DAY_OF_YEAR)) - 
+				(dateCal.get(Calendar.YEAR)*365 
+				+ dateCal.get(Calendar.DAY_OF_YEAR));
 		if (numOfDays < 0) return -1; //Something wrong ?
 		return (100-getProgress()) / (numOfDays+1) * (getPriority()+1);
 	}
@@ -414,11 +415,15 @@ public class TaskImpl implements ITask, Comparable {
 		Elements cflds = _element.getChildElements("customField");
 		if(cflds!=null){
 			for (int i = 0; i < cflds.size(); i++) {
-				if (cflds.get(i).getFirstChildElement("name").getValue().equals(name)){
+				if (cflds.get(i).getFirstChildElement("name").
+						getValue().equals(name)){
 					Element e = cflds.get(i);
-					String fname="", min="", max="", req="", data="", type="";
+					String fname="", min="", max="",
+							req="", data="", type="";
 					CustomField cf=null;
-					boolean isReq =(req.compareToIgnoreCase("true")==0)? true:false;
+					boolean isReq =
+							(req.compareToIgnoreCase("true")==0)? 
+									true:false;
 					if(e.getFirstChildElement("name").getValue()!=null)
 						fname = e.getFirstChildElement("name").getValue();
 					if(e.getAttributeValue("minValue")!=null)
@@ -459,7 +464,8 @@ public class TaskImpl implements ITask, Comparable {
 		Elements cfs = _element.getChildElements("customField");
 		if(cfs!=null){
 			for (int i = 0; i < cfs.size(); i++) {
-				if (cfs.get(i).getFirstChildElement("name").getValue().equals(name)){
+				if (cfs.get(i).getFirstChildElement("name").
+						getValue().equals(name)){
 					Element e = cfs.get(i);
 					e.removeChildren();
 					Element fn = new Element("name");
@@ -468,9 +474,12 @@ public class TaskImpl implements ITask, Comparable {
 					e.appendChild(fn);
 					fn = new Element("data");
 					fn.appendChild(field.dataToString());
-					fn.addAttribute(new Attribute("minValue",Integer.toString(field.getMin())));
-					fn.addAttribute(new Attribute("maxValue",Integer.toString(field.getMax())));
-					fn.addAttribute(new Attribute("isRequired",Boolean.toString(field.isRequired())));
+					fn.addAttribute(new Attribute("minValue",Integer.
+							toString(field.getMin())));
+					fn.addAttribute(new Attribute("maxValue",Integer.
+							toString(field.getMax())));
+					fn.addAttribute(new Attribute("isRequired",Boolean.
+							toString(field.isRequired())));
 					e.appendChild(fn);
 					fn = new Element("dataType");
 					fn.appendChild(field.getDataType());
@@ -486,6 +495,7 @@ public class TaskImpl implements ITask, Comparable {
 	 * Adds a new CustomField<T> object to the task
 	 * @param CustomField<T>
 	 */
+	@Override
 	public <T> void addField(CustomField<T> field) {
 		Element e = new Element("customField");
 		Element fn = new Element("name");
@@ -494,9 +504,12 @@ public class TaskImpl implements ITask, Comparable {
 		e.appendChild(fn);
 		fn = new Element("data");
 		fn.appendChild(field.dataToString());
-		fn.addAttribute(new Attribute("minValue",Integer.toString(field.getMin())));
-		fn.addAttribute(new Attribute("maxValue",Integer.toString(field.getMax())));
-		fn.addAttribute(new Attribute("isRequired",Boolean.toString(field.isRequired())));
+		fn.addAttribute(new Attribute("minValue",Integer.
+				toString(field.getMin())));
+		fn.addAttribute(new Attribute("maxValue",Integer.
+				toString(field.getMax())));
+		fn.addAttribute(new Attribute("isRequired",Boolean.
+				toString(field.isRequired())));
 		e.appendChild(fn);
 		fn = new Element("dataType");
 		fn.appendChild(field.getDataType());
@@ -506,7 +519,8 @@ public class TaskImpl implements ITask, Comparable {
 
 	/**
 	 * Removes a CustomField<T> object from the Task
-	 * Also re-indexes all CustomField<T> objects that have a higher index
+	 * Also re-indexes all CustomField<T> objects that 
+	 * have a higher index
 	 * than the parameter index by subtracting 1 from each.
 	 * @param String index of the field to be removed
 	 */
@@ -515,7 +529,8 @@ public class TaskImpl implements ITask, Comparable {
 		int count = getFieldCount();
 		if(cfs!=null){
 			for (int i = 0; i < cfs.size(); i++) {
-				if (cfs.get(i).getFirstChildElement("name").getValue().equals(name)){
+				if (cfs.get(i).getFirstChildElement("name").
+						getValue().equals(name)){
 					Element e = cfs.get(i);
 					e.removeChildren();
 					e.detach();
@@ -538,9 +553,11 @@ public class TaskImpl implements ITask, Comparable {
 		Elements ele = _element.getChildElements("customField");
 		for(int x=0;x<ele.size();x++){
 			CustomField<T> cf = new CustomField<T>(
-				(ele.get(x).getAttributeValue("fieldName")==null)?"":ele.get(x).getAttributeValue("fieldName"), // String -> field name
-				false, 																							// boolean -> Required field
-				(ele.get(x).getValue()==null)?(T)"":(T)ele.get(x).getValue()									// T -> field data
+				(ele.get(x).getAttributeValue("fieldName")==null)?"":ele.
+						get(x).getAttributeValue("fieldName"), // String -> field name
+				false, 										   // boolean -> Required field
+				(ele.get(x).getValue()==null)?(T)"":(T)ele.
+						get(x).getValue()					   // T -> field data
 			);
 			cFields.add(cf);
 		}

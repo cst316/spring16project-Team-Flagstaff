@@ -107,7 +107,8 @@ public class TaskListImpl<T> implements ITaskList {
 	}
 
 	/**
-	 * All methods to obtain list of tasks are consolidated under getAllSubTasks and getActiveSubTasks.
+	 * All methods to obtain list of tasks are consolidated 
+	 * under getAllSubTasks and getActiveSubTasks.
 	 * If a root task is required, just send a null taskId
 	 */
 	public Collection getActiveSubTasks(String taskId,CalendarDate date) {
@@ -116,12 +117,17 @@ public class TaskListImpl<T> implements ITaskList {
 	}
 
 	@SuppressWarnings("hiding")
-	public <T> ITask createTask(CalendarDate startDate, CalendarDate endDate, String text, int priority, long effort, 
-			String description, String parentTaskId,ArrayList<CustomField<T>> customFields) {
+	@Override
+	public <T> ITask createTask(CalendarDate startDate, 
+			CalendarDate endDate, String text, int priority, long effort, 
+			String description, String parentTaskId,
+			ArrayList<CustomField<T>> customFields) {
+
 		System.out.println("***[Debug] TaskListImpl.createTask() reached...");
 		Element el = new Element("task");
 		el.addAttribute(new Attribute("startDate", startDate.toString()));
-		el.addAttribute(new Attribute("endDate", endDate != null? endDate.toString():""));
+		el.addAttribute(new Attribute("endDate", 
+				endDate != null? endDate.toString():""));
 		String id = Util.generateId();
 		el.addAttribute(new Attribute("id", id));
 		el.addAttribute(new Attribute("progress", "0"));
@@ -140,10 +146,13 @@ public class TaskListImpl<T> implements ITaskList {
 
 		for(CustomField<T> item:customFields){
 			Element cfld = new Element("customField");
-			//cfld.addAttribute(new Attribute("minimumValue", String.valueOf(item.getMin())));
+			//cfld.addAttribute(new Attribute("minimumValue", 
+			//String.valueOf(item.getMin())));
 			cfld.appendChild(item.dataToString());
-			cfld.addAttribute(new Attribute("dataType", item.getDataType()));
-			cfld.addAttribute(new Attribute("fieldName", item.getFieldName()));
+			cfld.addAttribute(new Attribute("dataType",
+					item.getDataType()));
+			cfld.addAttribute(new Attribute("fieldName", 
+					item.getFieldName()));
 			el.appendChild(cfld);
 		}
 		
@@ -222,7 +231,8 @@ public class TaskListImpl<T> implements ITaskList {
 	}
 
 	/**
-	 * Recursively calculate total effort based on subtasks for every node in the task tree
+	 * Recursively calculate total effort based on 
+	 * subtasks for every node in the task tree
 	 * The values are saved as they are calculated as well
 	 * 
 	 * @param t
@@ -234,7 +244,8 @@ public class TaskListImpl<T> implements ITaskList {
 			Collection subTasks = getAllSubTasks(t.getID());
 			for (Iterator iter = subTasks.iterator(); iter.hasNext();) {
 				ITask e = (ITask) iter.next();
-				totalEffort = totalEffort + calculateTotalEffortFromSubTasks(e);
+				totalEffort = totalEffort 
+						+ calculateTotalEffortFromSubTasks(e);
 			}
 			t.setEffort(totalEffort);
 			return totalEffort;            
@@ -245,7 +256,8 @@ public class TaskListImpl<T> implements ITaskList {
 	}
 
 	/**
-	 * Looks through the entire sub task tree and corrects any inconsistencies in start dates
+	 * Looks through the entire sub task tree and corrects
+	 *  any inconsistencies in start dates
 	 * 
 	 * @param t
 	 * @return
@@ -270,7 +282,8 @@ public class TaskListImpl<T> implements ITaskList {
 	}
 
 	/**
-	 * Looks through the entire sub task tree and corrects any inconsistencies in start dates
+	 * Looks through the entire sub task tree and corrects 
+	 * any inconsistencies in start dates
 	 * 
 	 * @param t
 	 * @return
@@ -295,10 +308,12 @@ public class TaskListImpl<T> implements ITaskList {
 	}
 
 	/**
-	 * Looks through the entire sub task tree and calculates progress on all parent task nodes
+	 * Looks through the entire sub task tree and calculates progress 
+	 * on all parent task nodes
 	 * 
 	 * @param t
-	 * @return long[] of size 2. First long is expended effort in milliseconds, 2nd long is total effort in milliseconds
+	 * @return long[] of size 2. First long is expended effort in 
+	 * milliseconds, 2nd long is total effort in milliseconds
 	 */
 	public long[] calculateCompletionFromSubTasks(ITask t) {
 		//        Util.debug("Task " + t.getText());
@@ -315,7 +330,8 @@ public class TaskListImpl<T> implements ITaskList {
 				totalEffort = totalEffort + subTaskCompletion[1];
 			}
 
-			int thisProgress = (int) Math.round((((double)expendedEffort / (double)totalEffort) * 100));
+			int thisProgress = (int) Math.round((((double)expendedEffort /
+					(double)totalEffort) * 100));
 			t.setProgress(thisProgress);
 
 			//            Util.debug("Expended Effort: "+ expendedEffort);
@@ -328,7 +344,8 @@ public class TaskListImpl<T> implements ITaskList {
 		}
 		else {
 			long eff = t.getEffort();
-			// if effort was not filled in, it is assumed to be "1 hr" for the purpose of calculation
+			// if effort was not filled in, it is assumed to be
+			//"1 hr" for the purpose of calculation
 			if (eff == 0) {
 				eff = 1;
 			}
@@ -338,7 +355,8 @@ public class TaskListImpl<T> implements ITaskList {
 		}
 	}
 	/**
-	 * Returns the TaskTemplate that is associated with the current TaskList
+	 * Returns the TaskTemplate that is associated with 
+	 * the current TaskList
 	 * Added by Galen Goforth. ghgofort@asu.edu
 	 * @return TaskTemplate<T> current template
 	 */
@@ -368,12 +386,14 @@ public class TaskListImpl<T> implements ITaskList {
             return el;            
         }
         else {
-            Util.debug("Task " + id + " cannot be found in project " + _project.getTitle());
+            Util.debug("Task " + id + " cannot be found in project " 
+            + _project.getTitle());
             return null;
         } */
 		Element el = (Element)elements.get(id);
 		if (el == null) {
-			Util.debug("Task " + id + " cannot be found in project " + _project.getTitle());
+			Util.debug("Task " + id + " cannot be found in project " 
+		+ _project.getTitle());
 		}
 		return el;
 	}
@@ -404,8 +424,12 @@ public class TaskListImpl<T> implements ITaskList {
 		return v;
 	}
 
+
 	private boolean isActive(ITask t,CalendarDate date) {
-		if ((t.getStatus(date) == ITask.ACTIVE) || (t.getStatus(date) == ITask.DEADLINE) || (t.getStatus(date) == ITask.FAILED)) {
+		if ((t.getStatus(date) == ITask.ACTIVE) || 
+				(t.getStatus(date) == ITask.DEADLINE) || 
+				(t.getStatus(date) == ITask.FAILED)) {
+
 			return true;
 		}
 		else {

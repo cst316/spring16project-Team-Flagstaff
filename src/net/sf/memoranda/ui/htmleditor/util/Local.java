@@ -7,6 +7,7 @@
  * Copyright (c) 2003 OpenMechanics.org
  */
 package net.sf.memoranda.ui.htmleditor.util;
+
 import java.util.Hashtable;
 
 /**

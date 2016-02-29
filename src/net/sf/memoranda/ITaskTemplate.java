@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.sf.memoranda;
 
 import java.util.ArrayList;
@@ -23,6 +20,5 @@ public interface ITaskTemplate<T> {
 	public void addField(CustomField<T> field);
 	public CustomField<T> getField(int index);
 	public void removeField(int index);
-	
-	public boolean saveTemplate(TaskTemplateImpl<T> taskTemp);
 }
+

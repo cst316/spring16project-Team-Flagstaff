@@ -5,10 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import net.sf.memoranda.date.CalendarDate;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import net.sf.memoranda.date.CalendarDate;
 
 public class CalendarDateTest {
 	

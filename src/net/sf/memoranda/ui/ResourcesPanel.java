@@ -7,8 +7,9 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.*;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -31,7 +32,7 @@ import net.sf.memoranda.util.MimeType;
 import net.sf.memoranda.util.MimeTypesList;
 import net.sf.memoranda.util.Util;
 
-import java.io.*;
+
 
 /*$Id: ResourcesPanel.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
 public class ResourcesPanel extends JPanel {

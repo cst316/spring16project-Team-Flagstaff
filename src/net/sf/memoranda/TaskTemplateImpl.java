@@ -91,23 +91,6 @@ public class TaskTemplateImpl<T> implements ITaskTemplate<T> {
 		fields.remove(index);
 		
 	}
-	
-	@Override
-	public boolean saveTemplate(TaskTemplateImpl<T> taskTemp){
-		boolean success = false;
-		//********Save to XML storage using TaskTemplateManager********
-		TaskTemplateManager.removeTemplate(id);
-		TaskTemplateManager.createTemplate(id);
-		try{
-			
-			success=true;
-			
-		}catch(Exception e){
-			System.out.println(e.toString());
-			e.printStackTrace();
-		}
-		return success;
-	}
 
 	@Override
 	public String getName() {

@@ -1,5 +1,6 @@
 /**
  * CalendarDate.java
+
  * Created on 11.02.2003, 18:02:02 Alex
  * Package: net.sf.memoranda
  *
@@ -123,7 +124,8 @@ public class CalendarDate {
     public boolean equals(Object object) {
         if (object.getClass().isInstance(CalendarDate.class)) {
             CalendarDate d2 = (CalendarDate) object;
-            return ((d2.getDay() == getDay()) && (d2.getMonth() == getMonth()) && (d2.getYear() == getYear()));
+            return ((d2.getDay() == getDay()) && (d2.getMonth() == 
+            		getMonth()) && (d2.getYear() == getYear()));
         }
         else if (object.getClass().isInstance(Calendar.class)) {
             Calendar cal = (Calendar) object;
@@ -138,7 +140,8 @@ public class CalendarDate {
 
     public boolean equals(CalendarDate date) {
         if (date == null) return false;
-        return ((date.getDay() == getDay()) && (date.getMonth() == getMonth()) && (date.getYear() == getYear()));
+        return ((date.getDay() == getDay()) && (date.getMonth() == 
+        		getMonth()) && (date.getYear() == getYear()));
     }
 
     public boolean before(CalendarDate date) {
@@ -152,7 +155,8 @@ public class CalendarDate {
     }
 
     public boolean inPeriod(CalendarDate startDate, CalendarDate endDate) {
-        return (after(startDate) && before(endDate)) || equals(startDate) || equals(endDate);
+        return (after(startDate) && before(endDate)) || 
+        		equals(startDate) || equals(endDate);
     }
 
     public String toString() {

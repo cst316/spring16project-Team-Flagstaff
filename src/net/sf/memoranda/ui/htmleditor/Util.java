@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 public class Util {
     
     public static Hashtable HTMLColors;
+    
     static {
         HTMLColors = new Hashtable();
         HTMLColors.put("red", Color.red);

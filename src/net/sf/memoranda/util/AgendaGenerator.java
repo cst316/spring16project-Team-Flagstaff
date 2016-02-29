@@ -6,13 +6,12 @@ package net.sf.memoranda.util;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-import java.util.Collections;
-
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.IEvent;
 import net.sf.memoranda.EventsManager;
@@ -46,17 +45,18 @@ public class AgendaGenerator {
 					+ "<style>\n"
 					+ "    body, td {font: 12pt sans-serif}\n"
 					+ "    h1 {font:20pt sans-serif; "
-					+ "	background-color:#E0E0E0; margin-top:0}\n"
+					+ "background-color:#E0E0E0; margin-top:0}\n"
 					+ "    h2 {font:16pt sans-serif; margin-bottom:0}\n"
 					+ "    li {margin-bottom:5px}\n"
 					+ " a {color:black; text-decoration:none}\n"             
 					+ "</style></head>\n"
 					+ "<body><table width=\"100%\" height=\"100%\" "
-					+ "	border=\"0\" cellpadding=\"4\" cellspacing=\"4\">\n"
+					+ "border=\"0\" cellpadding=\"4\" cellspacing=\"4\">\n"
 					+ "<tr>\n";
 	static String footer = "</td></tr></table></body></html>";
 
-	public static String generateTasksInfo(IProject proj, CalendarDate date, Collection expandedTasks) {    	    	
+	public static String generateTasksInfo(
+			IProject proj, CalendarDate date, Collection expandedTasks) {    	    	
 		ITaskList tl;
 		if (proj.getID().equals(CurrentProject.get().getID())) {
 			tl = CurrentProject.getTaskList();        	
@@ -64,19 +64,23 @@ public class AgendaGenerator {
 		else {
 			tl = CurrentStorage.get().openTaskList(proj);        	
 		}
-		String string = "";
+
+		String progressString = "";
 		int progress = getProgress(tl);
 		if (progress > -1) {
-			string += "<br>" + Local.getString("Total progress") + ": " + progress + "%";        	
+			progressString += "<br>" + Local.getString("Total progress") + ": " + progress + "%"; 
 		}
-		string += "</td></tr></table>\n";
+		progressString += "</td></tr></table>\n";
 
 		Vector tasks = (Vector) tl.getActiveSubTasks(null,date);        
 		if (tasks.size() == 0) {
-			string += "<p>" + Local.getString("No actual tasks") + ".</p>\n";        	
+			progressString += "<p>" + Local.getString("No actual tasks") + ".</p>\n";        	
 		}else {
-			string += Local.getString("Actual tasks") + ":<br>\n<ul>\n";            
+			progressString += Local.getString("Actual tasks") + ":<br>\n<ul>\n";            
 
+			//            TaskSorter.sort(tasks, date, TaskSorter.BY_IMP_RATE); 
+			// 								TODO: configurable method
+			
 			Collections.sort(tasks);
 			for (Iterator index = tasks.iterator(); index.hasNext();) {
 				ITask tsk = (ITask) index.next();
@@ -96,16 +100,16 @@ public class AgendaGenerator {
 					continue;
 				}
 
-				string = string + renderTask(proj, date, tl, tsk, 0,expandedTasks);
+				progressString = progressString + renderTask(proj, date, tl, tsk, 0,expandedTasks);
 				if(expandedTasks.contains(tsk.getID())) {
-					string = string + expandRecursively(proj,date,tl,tsk,expandedTasks,1);
+					progressString = progressString + expandRecursively(proj,date,tl,tsk,expandedTasks,1);
 				}        		
 			}
-			string += "\n</ul>\n";
+			progressString += "\n</ul>\n";
 		}
 
 		//        Util.debug("html for project " + p.getTitle() + " is\n" + s); 
-		return string;
+		return progressString;
 	}
 
 	/**
@@ -455,6 +459,7 @@ public class AgendaGenerator {
 		return ret;
 	}
 	private static String addEditHyperLink(String txt, String id) {
+		
 		String ret="";
 		int first=txt.indexOf(">");
 		int last=txt.lastIndexOf("<");

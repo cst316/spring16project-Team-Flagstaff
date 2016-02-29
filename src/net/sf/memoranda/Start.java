@@ -48,7 +48,8 @@ public class Start {
     public static void main(String[] args) {
         if (checkIfAlreadyStartet) {
             try {
-                // Try to open a socket. If socket opened successfully (app is already started), take no action and exit.
+                // Try to open a socket. If socket opened successfully 
+            	//(app is already started), take no action and exit.
                 Socket socket = new Socket("127.0.0.1", DEFAULT_PORT);
                 socket.close();
                 System.exit(0);

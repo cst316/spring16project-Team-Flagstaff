@@ -157,7 +157,8 @@ public class Util {
 
 			public void actionPerformed(ActionEvent arg0) {
 				for (Iterator i = tempFiles.iterator(); i.hasNext();) 
-					((File)i.next()).delete();				}
+					((File)i.next()).delete();			
+				}
 			});
     }
     

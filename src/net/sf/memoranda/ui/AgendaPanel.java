@@ -40,7 +40,12 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
+
+import javax.swing.JOptionPane;
 import javax.swing.event.HyperlinkListener;
+
+import javax.swing.event.HyperlinkListener;
+
 
 /*$Id: AgendaPanel.java,v 1.11 2005/02/15 16:58:02 rawsushi Exp $*/
 /**
@@ -553,8 +558,8 @@ public class AgendaPanel extends JPanel {
     refresh(CurrentDate.get());
     JOptionPane.showMessageDialog(null,
         Local.getString("Your Sticker has been successfully imported from: " + file.getAbsolutePath()));
-
   }
+
 
   // void toggleShowActiveOnly_actionPerformed(ActionEvent e) {
   // Context.put(
@@ -603,3 +608,4 @@ public class AgendaPanel extends JPanel {
   //
   // }
 }
+
