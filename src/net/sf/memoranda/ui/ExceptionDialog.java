@@ -1,14 +1,18 @@
 package net.sf.memoranda.ui;
 
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import javax.swing.*;
 import net.sf.memoranda.util.*;
 
 /*$Id: ExceptionDialog.java,v 1.2 2004/10/18 19:09:10 ivanrise Exp $*/
 public class ExceptionDialog extends JDialog {
-  JPanel panel1 = new JPanel();
+  /**
+	 * Default Serial ID added
+	 */
+	private static final long serialVersionUID = 1L;
+	JPanel panel1 = new JPanel();
   BorderLayout borderLayout1 = new BorderLayout();
   private JPanel jPanel1 = new JPanel();
   private JLabel jLabel1 = new JLabel();
@@ -60,8 +64,12 @@ public class ExceptionDialog extends JDialog {
       this(exc, "", "");
   }
 
+  /*
+   * Find Bugs fix - Code Review Defect id = 008
+   * Code Review: ghgofort - 2/29/16
+   */
   public ExceptionDialog() {
-    this(null, "", "");
+    this(new Exception(), "", "");
   }
 
   private void jbInit() throws Exception {    

@@ -1,13 +1,14 @@
 package net.sf.memoranda.ui;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
-
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicFileChooserUI;
 
 import net.sf.memoranda.util.Local;
-import javax.swing.*;
-import java.awt.*;
+
+
 
 /*$Id: ProjectExportDialog.java,v 1.3 2004/04/05 10:05:44 alexeya Exp $*/
 public class ProjectExportDialog extends JDialog {

@@ -88,8 +88,6 @@ public interface ITask {
 	long getRate();
 	
 	<T> CustomField<T> getField(String index);
-	<T> void setField(CustomField<T> field, String index);
-	<T> void addField(CustomField<T> field);
 	<T> void removeField(String index);
 	<T> ArrayList<CustomField<T>> getFieldArray();
 	<T> int getFieldCount();

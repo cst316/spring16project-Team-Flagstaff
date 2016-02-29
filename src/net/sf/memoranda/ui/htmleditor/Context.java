@@ -1,4 +1,5 @@
 package net.sf.memoranda.ui.htmleditor;
+
 import java.util.Hashtable;
 
 /**

@@ -7,6 +7,7 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda.util;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

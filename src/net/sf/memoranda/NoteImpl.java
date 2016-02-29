@@ -39,9 +39,12 @@ public class NoteImpl implements INote, Comparable {
 
      //   return new CalendarDate(day.getAttribute("date").getValue());
 		
-		return new CalendarDate(new Integer(day.getAttribute("day").getValue()).intValue(), 
-								new Integer(month.getAttribute("month").getValue()).intValue(),
-								new Integer(year.getAttribute("year").getValue()).intValue());
+		return new CalendarDate(new Integer(day.getAttribute("day").
+										getValue()).intValue(), 
+								new Integer(month.getAttribute("month").
+										getValue()).intValue(),
+								new Integer(year.getAttribute("year").
+										getValue()).intValue());
 
     }
     

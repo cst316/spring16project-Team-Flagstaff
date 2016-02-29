@@ -33,6 +33,7 @@ public class EventsTable extends JTable {
     public static final int EVENT_ID = 101;
 
     Vector events = new Vector();
+    
     /**
      * Constructor for EventsTable.
      */

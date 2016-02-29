@@ -1073,9 +1073,7 @@ public class AltHTMLWriter extends AbstractWriter {
                         try {
                             fweight = new Integer(weightValue).intValue();
                         }
-                        catch (Exception e) {
-                        	System.out.println(e.toString());
-                			e.printStackTrace();
+                        catch (Exception ex) {
                             fweight = -1;
                         }
                         if ((weightValue.toLowerCase().equals("bold")) || (fweight > 400))
@@ -1965,9 +1963,7 @@ public class AltHTMLWriter extends AbstractWriter {
                         rc = DefaultRegionContainment.sharedInstance();
                     }
                 }
-                catch (RuntimeException e) {
-                	System.out.println(e.toString());
-        			e.printStackTrace();
+                catch (RuntimeException re) {
                     // Something wrong with attributes.
                     rc = null;
                 }
@@ -2256,9 +2252,7 @@ public class AltHTMLWriter extends AbstractWriter {
                 }
                 retValue[numCoords++] = intValue * scale;
             }
-            catch (NumberFormatException e) {
-            	System.out.println(e.toString());
-    			e.printStackTrace();
+            catch (NumberFormatException nfe) {
                 return null;
             }
         }

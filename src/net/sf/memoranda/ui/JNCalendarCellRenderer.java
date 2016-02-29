@@ -7,19 +7,19 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda.ui;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Calendar;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.ITask;
 import net.sf.memoranda.date.CalendarDate;
+
 /**
  *
  */
