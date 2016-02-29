@@ -495,7 +495,6 @@ public class TaskImpl implements ITask, Comparable {
 	 * Adds a new CustomField<T> object to the task
 	 * @param CustomField<T>
 	 */
-	@Override
 	public <T> void addField(CustomField<T> field) {
 		Element e = new Element("customField");
 		Element fn = new Element("name");
